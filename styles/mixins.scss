@@ -1,0 +1,11 @@
+@mixin flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+@mixin position-fixed {
+	position: fixed;
+	top: 0;
+	text-align: center;
+}

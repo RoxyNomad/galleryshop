@@ -1,0 +1,91 @@
+@import './variables';
+@import './mixins';
+
+.background {
+		background-color: $dark-grey;
+		margin: 0;
+		padding: 0;
+		width: 100vw;
+		height: 100vh;
+		z-index: -10;
+		@include flex-center;
+}
+
+.header {
+	@include position-fixed;
+	background-color: $dark-grey;
+	width: 100vw;
+	height: 10vh;
+}
+
+.search {
+	background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+	color: $black;
+	font-size: 3vh;
+	font-family: $playfair;
+	width: 12vw;
+	border: 0.1vh solid $pearl-gold;
+	border-radius: 4vh;
+	padding: 0 1vw;
+	&:focus {
+    outline: 0.2vh solid $pearl-gold;  // Entfernt die Standard-Fokus-Linie
+  }
+}
+.nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 75vw;
+	margin: 0 auto;
+	padding: 1vh;
+}
+
+.navLinks {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 47vw;
+	border: 0.1vh solid $pearl-gold;
+	border-radius: 4vh;
+}
+
+.navLinkFirst, .navLink, .navLinkLast {
+	color: $champagne-beige;
+	font-size: 3vh;
+	font-family: $cinzel;
+	text-decoration: none;
+	margin: 0;
+	padding: 0 1vw;
+}
+
+.navLinkFirst:hover {
+	border-top-left-radius: 4vh;
+	border-bottom-left-radius: 4vh;
+}
+
+.navLinkFirst:hover, .navLink:hover, .navLinkLast:hover {
+	color: $black;
+	background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+}
+
+.navLinkLast:hover {
+	border-top-right-radius: 4vh;
+	border-bottom-right-radius: 4vh;
+}
+
+.navButtons {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 12vw;
+}
+
+.navButton {
+	color: $champagne-beige;
+	font-size: 3vh;
+	text-decoration: none;
+	margin: 0;
+	background-color: rgba(0, 0, 0, 0.2);
+	border: 0.1vh solid $pearl-gold;
+	border-radius: 4vh;
+}
