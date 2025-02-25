@@ -1,19 +1,20 @@
 import type { AppProps } from 'next/app';
+import { useState } from 'react'; // useState importieren
+import { Layout } from './layout';
 import styles from '../styles/global.module.scss';
 import Link from 'next/link';
-import { useState } from 'react'; // useState importieren
+import Image from 'next/image';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  // State für den Suchbegriff
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchTerm, setSearchTerm] = useState<string>(''); // State für den Suchbegriff
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State für das Dropdown-Menü
 
-  // Funktion, die den Wert des Eingabefeldes aktualisiert
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => { 
     setSearchTerm(event.target.value);
-  };
+  }; // Funktion, die den Suchbegriff aktualisiert
 
   return (
-    <div>
+    <Layout>
       {/* Hintergrund */}
       <div className={styles.background} />
 
@@ -24,38 +25,59 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             type="text" 
             value={searchTerm} 
             onChange={handleInputChange} 
-            placeholder="&#x1F50D; Search" 
+            placeholder="Search"
             aria-label="Search" 
             className={styles.search} 
           />
           <div className={styles.navLinks}>
-            <Link href="/" className={styles.navLinkFirst}>
+            <Link href="/" className={styles.navLink1}>
               Home
             </Link>
-            <Link href="/neuheiten" className={styles.navLink}>
+            <Link href="/neuheiten" className={styles.navLink2}>
               Neuheiten
             </Link>
-            <Link href="/fotografien" className={styles.navLink}>
-              Fotografien
-            </Link>
-            <Link href="/künstler" className={styles.navLink}>
+            
+            {/* Fotografien mit Dropdown */}
+            <div 
+              className={styles.navItem} 
+              onMouseEnter={() => setIsDropdownOpen(true)}
+              onMouseLeave={() => setIsDropdownOpen(false)}
+            >
+              <Link href="/fotografien" className={styles.navLink3}>Fotografien</Link>
+              {isDropdownOpen && (
+                <div className={styles.dropdownMenu}>
+                  <Link href="/fotografien/landschaft" className={styles.dropdownItem}>Landschaft</Link>
+                  <Link href="/fotografien/portraits" className={styles.dropdownItem}>Porträts</Link>
+                  <Link href="/fotografien/street" className={styles.dropdownItem}>Street Photography</Link>
+                  <Link href="/fotografien" className={styles.dropdownItem}>Alle Fotografien</Link>
+                </div>
+              )}
+            </div>
+
+            <Link href="/künstler" className={styles.navLink4}>
               Künstler
             </Link>
-            <Link href="/art-finder" className={styles.navLinkLast}>
+            <Link href="/art-finder" className={styles.navLink5}>
               Art Finder
             </Link>
           </div>
 
           <div className={styles.navButtons}>
-            <button className={styles.navButton} aria-label="Benutzerprofil">&#x1F464;</button>
-            <button className={styles.navButton} aria-label="Wunschliste">&#x2661;</button>
-            <button className={styles.navButton} aria-label="Warenkorb">&#x1F6D2;</button>
+            <button className={styles.navButton} aria-label="Benutzerprofil">
+              <Image src='/icons/login-icon.png' alt='Login Icon' className={styles.buttonImage} width={18} height={18} />
+            </button>
+            <button className={styles.navButton} aria-label="Wunschliste">
+              <Image src='/icons/heart-icon.png' alt='Login Icon' className={styles.buttonImage} width={18} height={18} />
+            </button>
+            <button className={styles.navButton} aria-label="Warenkorb">
+              <Image src='/icons/shopping-cart-icon.png' alt='Login Icon' className={styles.buttonImage} width={18} height={18} />
+            </button>
           </div>
         </nav>
       </header>
 
       {/* Seiteninhalt */}
       <Component {...pageProps} />
-    </div>
+    </Layout>
   );
 }

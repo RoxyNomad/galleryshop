@@ -12,6 +12,10 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        cinzel: 'var(--font-Cinzel)',
+        playfairDisplay: 'var(--font-PlayfairDisplay)'
+      },
     },
   },
   plugins: [],

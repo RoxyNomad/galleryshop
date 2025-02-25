@@ -1,0 +1,40 @@
+@import './variables.scss';
+@import './mixins.scss';
+
+.heroSection {
+	@include flex-center;
+	flex-direction: column;
+
+	.headline {
+		font-family: $cinzel;
+		font-size: 5vh;
+		color: $champagne-beige;
+		margin-top: 45vh;
+	}
+	
+	.ctaButton {
+		background-color: $black-20;
+		margin-top: 2vh;
+		border: 0.1vh solid $pearl-gold;
+		border-radius: 4vh;
+		padding: 0 1vw;
+	
+		&:hover {
+			background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+
+			.ctaLink {
+				color: $black;
+			}
+		}
+
+		.ctaLink {
+			color: $champagne-beige;
+			font-size: 3vh;
+			font-family: $playfair;
+			text-decoration: none;
+		}
+	}
+}
+
+
+

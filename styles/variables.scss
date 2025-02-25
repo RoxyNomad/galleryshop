@@ -1,10 +1,11 @@
 $dark-grey: #333333;
 $champagne-beige: #F7E7CE;
 $black: #000000;
+$black-20: rgba(0, 0, 0, 0.2);
 $bright-gold: #F4A300;
 $pearl-gold: #E6BE8A;
 $dark-gold: #B8860B;
 $bronze-gold: #CD7F32;
 
-$cinzel: 'Cinzel', sans-serif;
-$playfair: 'Playfair Display', sans-serif;
+$cinzel: var(--font-cinzel), sans-serif;
+$playfair: var(--font-playfairdisplay), sans-serif;

@@ -2,90 +2,188 @@
 @import './mixins';
 
 .background {
-		background-color: $dark-grey;
-		margin: 0;
-		padding: 0;
-		width: 100vw;
-		height: 100vh;
-		z-index: -10;
-		@include flex-center;
+	background-color: $dark-grey;
+	margin: 0;
+	padding: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: -10;
+	@include position-fixed;
 }
 
 .header {
 	@include position-fixed;
 	background-color: $dark-grey;
 	width: 100vw;
-	height: 10vh;
+	height: 9vh;
+	top: 0;
+	z-index: 10;
+
+	.search {
+		position: absolute;
+		left: 10%;
+		background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+		color: $black;
+		font-size: 3vh;
+		font-family: $playfair;
+		width: 12vw;
+		border: 0.1vh solid $pearl-gold;
+		border-radius: 4vh;
+		padding: 0 1vw;
+		
+		&:focus {
+			outline: 0.2vh solid $pearl-gold;  // Entfernt die Standard-Fokus-Linie
+		}
+	}
+	
+	.nav {
+		position: relative;
+		width: 100vw;
+		margin: 1.5vh 0;
+		top: 1vh;
+		
+		
+		.navLinks {
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 50vw;
+			height: 4vh;
+			border: 0.1vh solid $pearl-gold;
+			border-radius: 4vh;
+			background-color: $black-20;
+			
+			.navLink1, .navLink2, .navLink3, .navLink4, .navLink5 {
+				position: absolute;
+				color: $champagne-beige;
+				font-size: 3vh;
+				font-family: $cinzel;
+				text-decoration: none;
+				padding-top: 0.1vh;
+				
+				&:hover {
+					color: $black;
+					background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+				}
+			}
+			
+			.navLink1 {
+				left: 0;
+				width: 8vw;
+
+				&:hover {
+					border-top-left-radius: 4vh;
+					border-bottom-left-radius: 4vh;
+				}
+			}
+			
+			.navLink2 {
+				left: 8vw;
+				width: 11vw;
+			}
+
+			.navLink3 {
+				left: 50%;
+				transform: translateX(-50%);
+				width: 12vw;
+			}
+
+			.navLink4 {
+				right: 10.5vw;
+				width: 8.5vw;
+			}
+
+			.navLink5 {
+				right: 0;
+				width: 10.5vw;
+
+				&:hover {
+					border-top-right-radius: 4vh;
+					border-bottom-right-radius: 4vh;
+				}
+			}
+
+			.dropdownMenu {
+				position: absolute;
+				top: 4vh;
+				background-color: $black-20;
+				border: 0.1vh solid $pearl-gold;
+				border-radius: 1vh;
+				width: 15vw;
+				display: flex;
+				flex-direction: column;
+				left: 50%;
+				transform: translateX(-50%);
+				
+				.dropdownItem {
+					color: $champagne-beige;
+					font-size: 2vh;
+					font-family: $cinzel;
+					text-decoration: none;
+					margin: 0;
+					padding: 0 1vw;
+					
+					&:hover {
+						color: $black;
+						background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+					}
+
+					&:first-child {
+						border-top-left-radius: 1vh;
+						border-top-right-radius: 1vh;
+					}
+
+					&:last-child {
+						border-bottom-left-radius: 1vh;
+						border-bottom-right-radius: 1vh;
+					}
+				}
+			}
+		}
+	}
+	
+	.navButtons {
+		position:absolute;
+		right: 10%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 12vw;
+		
+		.navButton {
+			margin: 0;
+			background-color: $black-20;
+			border: 0.1vh solid $pearl-gold;
+			border-radius: 4vh;
+			padding: 1vh;
+			height: 4vh;
+			
+			&:hover {
+				background: radial-gradient(circle, $dark-gold 40%, $pearl-gold);
+				cursor: pointer;
+				
+				.buttonImage {
+					filter: none;
+				} 
+			}
+			
+			.buttonImage {
+				filter: invert(85%) sepia(50%) saturate(200%) hue-rotate(20deg);
+			}
+		}
+	}
 }
 
-.search {
-	background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
-	color: $black;
-	font-size: 3vh;
-	font-family: $playfair;
-	width: 12vw;
-	border: 0.1vh solid $pearl-gold;
-	border-radius: 4vh;
-	padding: 0 1vw;
-	&:focus {
-    outline: 0.2vh solid $pearl-gold;  // Entfernt die Standard-Fokus-Linie
-  }
-}
-.nav {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 75vw;
-	margin: 0 auto;
-	padding: 1vh;
-}
 
-.navLinks {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 47vw;
-	border: 0.1vh solid $pearl-gold;
-	border-radius: 4vh;
-}
 
-.navLinkFirst, .navLink, .navLinkLast {
-	color: $champagne-beige;
-	font-size: 3vh;
-	font-family: $cinzel;
-	text-decoration: none;
-	margin: 0;
-	padding: 0 1vw;
-}
 
-.navLinkFirst:hover {
-	border-top-left-radius: 4vh;
-	border-bottom-left-radius: 4vh;
-}
 
-.navLinkFirst:hover, .navLink:hover, .navLinkLast:hover {
-	color: $black;
-	background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
-}
 
-.navLinkLast:hover {
-	border-top-right-radius: 4vh;
-	border-bottom-right-radius: 4vh;
-}
 
-.navButtons {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 12vw;
-}
 
-.navButton {
-	color: $champagne-beige;
-	font-size: 3vh;
-	text-decoration: none;
-	margin: 0;
-	background-color: rgba(0, 0, 0, 0.2);
-	border: 0.1vh solid $pearl-gold;
-	border-radius: 4vh;
-}
+
+
+
+
+
+
