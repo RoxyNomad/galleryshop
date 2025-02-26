@@ -1,0 +1,168 @@
+@import './variables.scss';
+@import './mixins.scss';
+
+.selectionBar {
+	position: relative;
+	background-color: $black;
+	width: 100vw;
+	height: 10vh;
+	margin-top: 9vh;
+
+	.displaySelectionButtonStandart, 
+	.displaySelectionButtonFullscreen {
+		background-color: $black;
+		color: $champagne-beige;
+		font-size: 2vh;
+		font-family: $playfair;
+		text-decoration: none;
+		margin: 0;	
+	}
+
+	.displaySelection {
+		background-color: $black;
+		border: 0.1vh solid $pearl-gold;
+		border-radius: 1vh;
+		display: flex;
+		position: absolute;
+		top: 49%;
+		transform: translateY(-50%);
+		left: 5%;
+	
+		// Einheitliche Button-Styling-Basis
+		.displaySelectionButtonStandart,
+		.displaySelectionButtonFullscreen {
+			flex: 1;
+			border: none;
+			cursor: pointer;
+			font-weight: bold;
+		}
+	
+		// Standardanzeige aktiv
+		.displaySelectionButtonFullscreen {
+			background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+			color: $black;
+			border-top-right-radius: 1vh;
+			border-bottom-right-radius: 1vh;
+		}
+	
+		// Vollbildanzeige (inaktiv, aber hoverbar)
+		.displaySelectionButtonStandart {
+			border-top-left-radius: 1vh;
+			border-bottom-left-radius: 1vh;
+			background: $black;
+			color: $champagne-beige;
+	
+			&:hover {
+				background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+				color: $black;
+			}
+		}
+	
+		// Standard-Button ändern, wenn der Fullscreen-Button gehovt wird
+		&:has(.displaySelectionButtonStandart:hover) .displaySelectionButtonFullscreen {
+			background: $black;
+			color: $champagne-beige;
+		}
+	}
+}
+
+.fullscreenContainer {
+	@include flex-center;
+	flex-direction: row;
+	width: 100vw;
+
+	.prevButton, .nextButton {
+		position: absolute;
+		top: 59%;
+		transform: translateY(-41%);
+		background-color: $black-20;
+		color: $champagne-beige;
+		font-size: 2vh;
+		font-family: $playfair;
+		text-decoration: none;
+		border: 0.1vh solid $pearl-gold;
+		border-radius: 1vh;
+		padding: 1vh;
+		cursor: pointer;
+
+		&:first-child {
+			left: 5%;
+		}
+		&:last-child {
+			right: 5%;
+		}
+
+		&:hover {
+			background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+			color: $black;
+		}
+	}
+
+}
+
+.pictureContainer {
+	position: relative;
+	margin: 0 auto;
+	width: 80vw;
+	height: 80vh;
+
+	.top {
+		position: absolute;
+		background: linear-gradient($warmoffwhite, $warmoffwhite2);
+		width: 80vw;
+		height: 20vh;
+		clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%);
+	}
+	.left {
+		position: absolute;
+		top: 0;
+		background: linear-gradient(to right, $warmoffwhite, $warmoffwhite2);
+		width: 20vw;
+		height: 80vh;
+		clip-path: polygon(0% 0%, 100% 25%, 100% 100%, 0% 100%);
+	}
+	.middle {
+		position: absolute;
+		top: 20vh;
+		left: 20vw;
+		background: $warmoffwhite;
+		width: 40vw;
+		height: 40vh;
+		@include flex-center;
+		flex-direction: column;
+	}
+
+	.fullscreenImage {
+		width: 30vw;
+		height: 30vh;
+		border: 0.1vh solid $pearl-gold;
+		border-radius: 1vh;
+		margin-top: 7vh;
+	}
+	
+	.imageCaption {
+		font-family: $playfair;
+		text-align: center;
+		font-size: 3vh;
+		margin-top: 0;
+		color: $black;
+	}
+
+	.right {
+		position: absolute;
+		top: 0;
+		right: 0;
+		background: linear-gradient(to left, $warmoffwhite, $warmoffwhite2);
+		width: 20vw;
+		height: 80vh;
+		clip-path: polygon(0% 25%, 100% 0%, 100% 100%, 0% 100%);
+	}
+	.bottom {
+		position: absolute;
+		top: 60vh;
+		background: $darkwalnut;
+		width: 80vw;
+		height: 20vh;
+		clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
+	}
+}
