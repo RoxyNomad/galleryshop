@@ -167,6 +167,34 @@
 	}
 }
 
+/* Das Container-Wrapper für das Formular */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, $dark-gold 40%, $pearl-gold);
+	color: $black;
+	padding: 1vw;
+  border-radius: 1vh;
+  z-index: 1000; /* Stellt sicher, dass das Fenster immer oben ist */
+  width: 30vw; /* Maximale Breite des Formulars */
+  box-sizing: border-box;
+	@include flex-center;
+	flex-direction: column;
+}
+
+/* Hintergrund der Modalbox (der das Formular umgibt) */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999; /* Hintergrund bleibt unter dem Modal */
+}
+
 
 
 

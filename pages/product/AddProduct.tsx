@@ -11,18 +11,16 @@ const supabase = createClient(
 
 interface Product {
   name: string;
-  description: string;
+  artist: string;
   price: string;
-  stock_quantity: string;
   image_url: string;
 }
 
 export default function AddProduct() {
   const [product, setProduct] = useState<Product>({
     name: "",
-    description: "",
+    artist: "",
     price: "",
-    stock_quantity: "",
     image_url: "",
   });
 
@@ -46,10 +44,9 @@ export default function AddProduct() {
   return (
     <form onSubmit={handleSubmit}>
       <input type="text" name="name" placeholder="Produktname" value={product.name} onChange={handleInputChange} required />
-      <textarea name="description" placeholder="Beschreibung" value={product.description} onChange={handleInputChange} />
+      <textarea name="description" placeholder="Beschreibung" value={product.artist} onChange={handleInputChange} />
       <input type="number" name="price" placeholder="Preis" value={product.price} onChange={handleInputChange} required />
-      <input type="number" name="stock_quantity" placeholder="Lagerbestand" value={product.stock_quantity} onChange={handleInputChange} required />
-
+    
       <ImageUploader onUpload={handleImageUpload} />
       {product.image_url && <Image src={product.image_url} alt="Produktbild" width={200} height={200} />}
       {product.image_url && <Image src={product.image_url} alt="Produktbild" width={200} height={200} />}
