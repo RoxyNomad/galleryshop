@@ -1,11 +1,11 @@
 import { useState } from 'react'; // useState importieren
 import { AppProps } from 'next/app';
 import { Layout } from './layout';
-import styles from '../styles/global.module.scss';
+import styles from '@/styles/global.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
-import LoginForm from '../components/LoginForm'; // LoginForm importieren
-import RegisterForm from '../components/RegisterForm'; // RegisterForm importieren
+import LoginForm from '@/components/LoginForm'; // LoginForm importieren
+import RegisterForm from '@/components/RegisterForm'; // RegisterForm importieren
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [searchTerm, setSearchTerm] = useState<string>(''); // State für den Suchbegriff

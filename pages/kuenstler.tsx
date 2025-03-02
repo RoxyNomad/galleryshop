@@ -1,4 +1,4 @@
-import styles from '../styles/künstler.module.scss';
+import styles from '@/styles/künstler.module.scss';
 
 const Künstler = () => {
 		return (

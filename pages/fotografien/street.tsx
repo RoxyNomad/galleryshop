@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import styles from '../../styles/fotografien.module.scss';
+import styles from '@/styles/fotografien.module.scss';
 import Image from 'next/image';
 import { picturesData } from './data';
-import { useSort } from '../../hooks/useSort';
+import { useSort } from '@/hooks/useSort';
 import Link from 'next/link';
 
 const Street = () => {

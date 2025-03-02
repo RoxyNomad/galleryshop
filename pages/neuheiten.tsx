@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from '../styles/neuheiten.module.scss';
+import styles from '@/styles/neuheiten.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 

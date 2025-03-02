@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from '../styles/neuheiten-vollbildanzeige.module.scss';
+import styles from '@/styles/fotografien-vollbildanzeige.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
 
