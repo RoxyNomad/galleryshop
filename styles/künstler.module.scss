@@ -1,0 +1,19 @@
+@import 'variables';
+@import 'mixins';
+
+.artistContainer {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(14vw, 1fr));
+	grid-gap: 2vw;
+	padding-top: 5vh;
+	width:90vw;
+	height: 70vh;
+	margin: 9vh auto;
+	
+	.artist {
+		width: 15vw;
+		height: 40vh;
+		border: 0.1vh solid $pearl-gold;
+		border-radius: 1vh;
+	}
+}

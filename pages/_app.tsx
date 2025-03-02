@@ -54,11 +54,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               )}
             </div>
 
-            <Link href="/künstler" className={styles.navLink4}>
+            <Link href="/kuenstler" className={styles.navLink4}>
               Künstler
-            </Link>
-            <Link href="/art-finder" className={styles.navLink5}>
-              Art Finder
             </Link>
           </div>
 

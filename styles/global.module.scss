@@ -21,7 +21,7 @@
 
 	.search {
 		position: absolute;
-		left: 10%;
+		left: 12%;
 		background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
 		color: $black;
 		font-size: 3vh;
@@ -47,7 +47,7 @@
 			position: absolute;
 			left: 50%;
 			transform: translateX(-50%);
-			width: 50vw;
+			width: 45vw;
 			height: 4vh;
 			border: 0.1vh solid $pearl-gold;
 			border-radius: 4vh;
@@ -78,24 +78,18 @@
 			}
 			
 			.navLink2 {
-				left: 8vw;
+				left: 18%;
 				width: 11vw;
 			}
 
 			.navLink3 {
-				left: 50%;
-				transform: translateX(-50%);
-				width: 12vw;
+				right: 24%;
+				width: 15vw;
 			}
 
 			.navLink4 {
-				right: 10.5vw;
-				width: 8.5vw;
-			}
-
-			.navLink5 {
 				right: 0;
-				width: 10.5vw;
+				width: 11vw;
 
 				&:hover {
 					border-top-right-radius: 4vh;
@@ -112,8 +106,7 @@
 				width: 15vw;
 				display: flex;
 				flex-direction: column;
-				left: 50%;
-				transform: translateX(-50%);
+				right: 24%;
 				
 				.dropdownItem {
 					color: $champagne-beige;
@@ -144,7 +137,7 @@
 	
 	.navButtons {
 		position:absolute;
-		right: 10%;
+		right: 12%;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
