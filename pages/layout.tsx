@@ -1,4 +1,5 @@
 import localFont from 'next/font/local';
+import Header from '@/components/Header';
 
 // Cinzel Font
 export const cinzel = localFont({
@@ -18,11 +19,21 @@ export const playfairdisplay = localFont({
   variable: '--font-playfairdisplay',
 });
 
+// Layout Props
+type LayoutProps = {
+  children: React.ReactNode;
+  disableHeader?: boolean;
+};
+
 // Layout-Komponente exportieren
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout({ children, disableHeader }: LayoutProps) {
   return (
     <div className={`${cinzel.variable} ${playfairdisplay.variable}`}>
+      {/* Header nur anzeigen, wenn disableHeader nicht true ist */}
+      {!disableHeader && <Header />}
+      
       {children}
     </div>
   );
 }
+

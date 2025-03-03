@@ -1,6 +1,6 @@
-import styles from '@/styles/künstler.module.scss';
+import styles from '@/styles/artists.module.scss';
 
-const Künstler = () => {
+const Artists = () => {
 		return (
 			<div className={styles.artistContainer}>
 				<div className={styles.artist}></div>
@@ -23,4 +23,4 @@ const Künstler = () => {
 		)
 }
 
-export default Künstler;
+export default Artists;

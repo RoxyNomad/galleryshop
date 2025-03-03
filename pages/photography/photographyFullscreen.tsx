@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from '@/styles/fotografien-vollbildanzeige.module.scss';
+import styles from '@/styles/photographyFullscreen.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -23,7 +23,7 @@ const pictures = [
     { id: 16, name: '16', src: '/images/pic16.jpg' }
 ];
 
-const Neuheiten = () => {
+const PhotographyFullscreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0); // Index des aktuellen Bildes
 
   // 🔹 Funktion für "Next"-Button
@@ -39,7 +39,7 @@ const Neuheiten = () => {
     <div>
       <section className={styles.selectionBar}>
         <div className={styles.displaySelection}>
-          <Link href='/fotografien'><button className={styles.displaySelectionButtonStandart}>Standardanzeige</button></Link> 
+          <Link href='/photography/photography'><button className={styles.displaySelectionButtonStandart}>Standardanzeige</button></Link> 
           <button className={styles.displaySelectionButtonFullscreen}>Vollbildanzeige</button>
         </div>
       </section>
@@ -69,4 +69,4 @@ const Neuheiten = () => {
   );
 };
 
-export default Neuheiten;
+export default PhotographyFullscreen;

@@ -1,0 +1,19 @@
+@import './variables.scss';
+@import './mixins.scss';
+
+.pictureContainer {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(20vw, 1fr));
+	grid-gap: 2vw;
+	width:90vw;
+	height: 70vh;
+	margin: 3vh auto;
+	
+	.picture {
+		width: 20vw;
+		height: 20vh;
+		border: 0.1vh solid $pearl-gold;
+		border-radius: 1vh;
+	}
+}
+

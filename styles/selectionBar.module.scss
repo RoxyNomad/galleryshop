@@ -1,5 +1,5 @@
-@import './variables.scss';
-@import './mixins.scss';
+@import './variables';
+@import './mixins';
 
 .selectionBar {
 	position: static;
@@ -98,6 +98,57 @@
 	}
 }
 
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -30vw; // Startposition außerhalb des Bildschirms
+  width: 25vw;
+  height: 100%;
+  background: $black;
+  transition: right 0.3s ease-in-out;
+  z-index: 1001;
+	padding: 1vh 2vw;
+	color: $champagne-beige;
+
+  &.open {
+    right: 0; // Sidebar sichtbar
+  }
+
+	.sidebarHeader {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-family: $cinzel;
+		font-size: 2vh;
+	}
+	
+	.closeButton {
+		background: none;
+		border: none;
+		font-size: 3vh;
+		cursor: pointer;
+		color: $champagne-beige;
+	}
+
+	.sidebarContent {
+		font-family: $playfair;
+		font-size: 2vh;
+	}
+}
+
+
+
+// 🔹 Overlay für Sidebar
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
 .dropdownMenu {
   position: absolute;
   top: 6vh;
@@ -150,19 +201,25 @@
 	}
 }
 
-.pictureContainer {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(20vw, 1fr));
-	grid-gap: 2vw;
-	width:90vw;
-	height: 70vh;
-	margin: 3vh auto;
-	
-	.picture {
-		width: 20vw;
-		height: 20vh;
-		border: 0.1vh solid $pearl-gold;
-		border-radius: 1vh;
-	}
+.dropdownLabel {
+  font-size: 2vh;
+	font-family: $playfair;
+	color: $champagne-beige;
+  display: block;
+	margin-bottom: 1vh;
 }
 
+.dropdownSelect {
+	font-size: 2vh;
+	font-family: $playfair;
+	color: $black;
+	background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+  width: 100%;
+  padding: 1vh;
+  border: 0.1vh solid $pearl-gold;
+	border-radius: 1vh;
+
+	&:hover {
+		cursor: pointer;
+	}
+}

@@ -1,0 +1,43 @@
+@import './variables';
+@import './mixins';
+
+.sidebar {
+	display: flex;
+	text-align: left;
+	flex-direction: column;
+	width: 10vw;
+	height: 100vh;
+	position: relative;
+	border-right: 0.1vh solid $pearl-gold;
+
+	.sidebarLink1, .sidebarLink2, .sidebarLink3, .sidebarLink4, .sidebarLink5 {
+		position: absolute;
+		left: 7%;
+		text-decoration: none;
+		font-family: $playfair;
+		color: $champagne-beige;
+		font-size: 2vh;
+	}
+
+	.sidebarLink1 {
+		top: 7%;
+	}
+	
+	.sidebarLink2 {
+		top: 14%;
+	}
+	
+	.sidebarLink3 {
+		top: 21%;
+	}
+	
+	.sidebarLink4 {
+		top: 28%;
+	}
+	
+	.sidebarLink5 {
+		top: 35%;
+	}
+}
+
+
