@@ -10,7 +10,7 @@
 	position: fixed;
 	border-right: 0.1vh solid $pearl-gold;
 
-	.sidebarLink1, .sidebarLink2, .sidebarLink3, .sidebarLink4, .sidebarLink5, .sidebarButton {
+	.sidebarLink1, .sidebarLink2, .sidebarLink3, .sidebarLink4, .sidebarLink5, .sidebarLink6, .sidebarButton {
 		position: absolute;
 		left: 7%;
 		text-decoration: none;
@@ -37,6 +37,10 @@
 	
 	.sidebarLink5 {
 		top: 35%;
+	}
+
+	.sidebarLink6 {
+		top: 42%;
 	}
 
 	.sidebarButton {

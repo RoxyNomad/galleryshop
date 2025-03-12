@@ -14,11 +14,12 @@ const ArtistSidebar = () => {
   return (
     <div>
       <div className={styles.sidebar}>
-        <Link href="/artist/artworks" className={styles.sidebarLink1}>Meine Werke</Link>
-        <Link href="/artist/orders" className={styles.sidebarLink2}>Bestellungen</Link>
-        <Link href="/artist/messages" className={styles.sidebarLink3}>Nachrichten</Link>
-        <Link href="/artist/profile" className={styles.sidebarLink4}>Mein Profil</Link>
-        <Link href="/artist/settings" className={styles.sidebarLink5}>Einstellungen</Link>
+      <Link href="/artist/artistDashboard" className={styles.sidebarLink1}>Dashboard</Link>
+        <Link href="/artist/artworks" className={styles.sidebarLink2}>Meine Werke</Link>
+        <Link href="/artist/orders" className={styles.sidebarLink3}>Bestellungen</Link>
+        <Link href="/artist/messages" className={styles.sidebarLink4}>Nachrichten</Link>
+        <Link href="/artist/profile" className={styles.sidebarLink5}>Mein Profil</Link>
+        <Link href="/artist/settings" className={styles.sidebarLink6}>Einstellungen</Link>
         <button className={styles.sidebarButton} onClick={handleLogout}>Logout</button>
       </div>
     </div>

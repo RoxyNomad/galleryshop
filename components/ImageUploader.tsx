@@ -9,13 +9,12 @@ interface Category {
 
 interface Props {
   onUpload: (imageUrl: string) => void;
-  artistId?: string; // Optionally passed as a prop
+  artistId?: string;
 }
 
 export default function ImageUploader({ onUpload, artistId }: Props) {
-  const session = useSession(); // Gets the current session!
+  const session = useSession();
 
-  // If artistId is not passed as a prop, fallback to the session artist ID
   const userArtistId = artistId || session?.user?.id;
 
   const [uploading, setUploading] = useState(false);
@@ -24,19 +23,18 @@ export default function ImageUploader({ onUpload, artistId }: Props) {
   const [price, setPrice] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [newCategory, setNewCategory] = useState<string>("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    // Dynamically load Supabase
     const loadSupabase = async () => {
       const { supabase } = await import('@/utils/supabaseClient');
       const { data, error } = await supabase.from("categories").select("id, name");
 
       if (error) {
-        console.error("Fehler beim laden der Kategorien:", error.message);
+        console.error("Fehler beim Laden der Kategorien:", error.message);
       } else {
         setCategories(data || []);
       }
@@ -54,49 +52,72 @@ export default function ImageUploader({ onUpload, artistId }: Props) {
     setSelectedFile(file || null);
   };
 
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value;
+    setSelectedCategory(value);
+    setNewCategory(""); // Reset newCategory field if a category is selected
+  };
+
   const handleUpload = async () => {
     setErrorMessage(null);
     setSuccessMessage(null);
-  
+    
     if (!session) {
-      alert("Sie müssen eingeloggt sein um ein Bild hoch zu laden.");
+      alert("Sie müssen eingeloggt sein, um ein Bild hochzuladen.");
       return;
     }
-  
-    if (!selectedFile || !selectedCategory || !name || !baseColor || !price) {
+
+    if (!selectedFile || (!selectedCategory && !newCategory) || !name || !baseColor || !price) {
       alert("Bitte fülle alle Felder aus und wähle eine Datei.");
       return;
     }
-  
+
     const parsedPrice = parseFloat(price);
     if (isNaN(parsedPrice) || parsedPrice <= 0) {
       alert("Bitte gib einen gültigen Preis ein.");
       return;
     }
-  
+
     setUploading(true);
     const fileName = `${Date.now()}_${selectedFile.name}`;
-  
+    
     const { supabase } = await import('@/utils/supabaseClient');
-  
+    
+    // Wenn eine neue Kategorie eingegeben wurde, fügen wir sie der Datenbank hinzu
+    let categoryId = selectedCategory;
+    if (newCategory) {
+      const { data, error } = await supabase
+        .from("categories")
+        .insert([{ name: newCategory }])
+        .select("id");
+      
+      if (error) {
+        console.error("Fehler beim Hinzufügen der neuen Kategorie:", error.message);
+        setErrorMessage("Fehler beim Hinzufügen der Kategorie.");
+        setUploading(false);
+        return;
+      }
+
+      categoryId = data?.[0]?.id || "";
+      setCategories((prevCategories) => [
+        ...prevCategories,
+        { id: categoryId, name: newCategory },
+      ]);
+    }
+
     const { error: uploadError } = await supabase.storage
       .from("product_images")
       .upload(fileName, selectedFile);
-  
+
     if (uploadError) {
-      console.error("Upload error:", uploadError);
-      setErrorMessage('Upload failed: ' + uploadError.message);
+      console.error("Upload-Fehler:", uploadError);
+      setErrorMessage('Upload fehlgeschlagen: ' + uploadError.message);
       setUploading(false);
       return;
     }
-  
+
     const imageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product_images/${fileName}`;
-  
-    // Wenn die Session vorhanden ist, wird der artist_id vom Benutzer gezogen
-    const userArtistId = session.user.id; // Assuming user.id is a valid UUID
-  
-    console.log("Artist ID:", userArtistId); // Überprüfe den Wert
-  
+
     const { error: insertError } = await supabase.from("artworks").insert([
       {
         name,
@@ -104,28 +125,28 @@ export default function ImageUploader({ onUpload, artistId }: Props) {
         price: parsedPrice,
         created_at: new Date().toISOString(),
         image_url: imageUrl,
-        category_id: selectedCategory,
-        artist_id: userArtistId, // Ändere hier artist_id auf id, da das der richtige Name ist
+        category_id: categoryId,
+        artist_id: userArtistId,
       },
     ]);
-  
+
     if (insertError) {
-      console.error("Insert error:", insertError);
-      setErrorMessage('Error saving to database: ' + insertError.message);
+      console.error("Insert-Fehler:", insertError);
+      setErrorMessage('Fehler beim Speichern in der Datenbank: ' + insertError.message);
       setUploading(false);
       return;
     }
-  
+
     setSuccessMessage('Bild erfolgreich hochgeladen und gespeichert!');
     onUpload(imageUrl);
     setName("");
     setBaseColor("");
     setPrice("");
     setSelectedCategory("");
+    setNewCategory("");
     setSelectedFile(null);
     setUploading(false);
   };
-  
 
   return (
     <div className={styles.uploadContainer}>
@@ -160,7 +181,7 @@ export default function ImageUploader({ onUpload, artistId }: Props) {
       <select
         className={styles.uploadContainerInput}
         value={selectedCategory}
-        onChange={(e) => setSelectedCategory(e.target.value)}
+        onChange={handleCategoryChange}
         required
       >
         <option className={styles.uploadContainerOption} value="" disabled>
@@ -175,7 +196,20 @@ export default function ImageUploader({ onUpload, artistId }: Props) {
             {category.name}
           </option>
         ))}
+        <option className={styles.uploadContainerOption} value="new">
+          Neue Kategorie hinzufügen
+        </option>
       </select>
+
+      {selectedCategory === "new" && (
+        <input
+          className={styles.uploadContainerInput}
+          type="text"
+          placeholder="Neue Kategorie"
+          value={newCategory}
+          onChange={(e) => setNewCategory(e.target.value)}
+        />
+      )}
 
       <input
         className={styles.uploadContainerInput5}
