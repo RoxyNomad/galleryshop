@@ -7,10 +7,10 @@
 	flex-direction: column;
 	width: 10vw;
 	height: 100vh;
-	position: relative;
+	position: fixed;
 	border-right: 0.1vh solid $pearl-gold;
 
-	.sidebarLink1, .sidebarLink2, .sidebarLink3, .sidebarLink4, .sidebarLink5 {
+	.sidebarLink1, .sidebarLink2, .sidebarLink3, .sidebarLink4, .sidebarLink5, .sidebarButton {
 		position: absolute;
 		left: 7%;
 		text-decoration: none;
@@ -37,6 +37,82 @@
 	
 	.sidebarLink5 {
 		top: 35%;
+	}
+
+	.sidebarButton {
+	 bottom: 7%;
+	 width: 8.5vw;
+	 background-color: $dark-grey;
+	 border: 0.1vh solid $pearl-gold;
+	 border-radius: 1vh;
+	 
+	  &:hover {
+			background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+			cursor: pointer;
+			color: $black;
+		}
+	}
+}
+
+.uploadContainer {
+	padding: 7vh 12vw;
+	display: flex;
+	flex-direction: column;
+	width: 25vw;
+	
+	.uploadContainerInput, .uploadContainerInput5 {
+		background: radial-gradient($dark-gold 60%, $pearl-gold);
+		color: $black;
+		border: 0.1vh solid $pearl-gold;
+		border-radius: 1vh;
+		margin: 1vh;
+		font-family: $playfair;
+		font-size: 2vh;
+
+		&:focus {
+			outline: $pearl-gold;
+		}
+	}
+
+	.uploadContainerOption {
+		background-color: $dark-grey;
+		color: $champagne-beige;
+	}
+
+	.uploadButton {
+		background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+		color: $black;
+		border: 0.1vh solid $pearl-gold;
+		border-radius: 1vh;
+		padding: 1vh;
+		font-family: $playfair;
+		font-size: 2vh;
+		cursor: pointer;
+		margin-top: 2vh;
+	
+		&:hover {
+			background: radial-gradient(circle, $pearl-gold, $dark-gold);
+		}
+	
+		&:disabled {
+			background: $dark-grey;
+			cursor: not-allowed;
+		}
+	}	
+}
+
+
+.artworksContainer {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(18vw, 1fr));
+	grid-gap: 2vw;
+	width: 85%;
+	padding: 4vh 0 4vh 12.5vw;
+	.artwork {
+		max-width: 20vw;
+		height: 25vh;
+		border: 0.1vh solid $pearl-gold;
+		border-radius: 1vh;
 	}
 }
 

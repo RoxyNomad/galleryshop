@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { loginUser } from "../utils/supabaseClient";
+import { loginUser } from "../services/authServices";
 import styles from '../styles/login.module.scss';
 
 // LoginResponse Interface zur Typensicherheit
@@ -31,13 +31,22 @@ const LoginForm: React.FC = () => {
         return;
       }
 
-      if (response.user) {
-        // Navigiere je nach Benutzerrolle
-        if (response.user.user_type === 'artist') {
-          router.push('/artist-dashboard');
-        } else {
+      if (!response.user || !response.user.user_type) {
+        setError("Fehler: Nutzertyp nicht gefunden.");
+        setLoading(false);
+        return;
+      }
+
+      // Navigiere je nach Benutzerrolle
+      switch (response.user.user_type) {
+        case 'artist':
+          router.push('/artist/artistDashboard');
+          break;
+        case 'customer':
           router.push('/shop');
-        }
+          break;
+        default:
+          setError("Ungültiger Nutzertyp.");
       }
     } catch {
       setError("Ein unerwarteter Fehler ist aufgetreten.");
@@ -50,7 +59,7 @@ const LoginForm: React.FC = () => {
     <div className={styles.loginContainer}>
       <h2 className={styles.loginTitle}>Login</h2>
 
-      {error && <p className={styles.errorText}>{error}</p>}
+      {error && <p className={styles.errorText} aria-live="assertive">{error}</p>}
 
       <form onSubmit={handleLogin} className={styles.loginForm}>
         <div className={styles.formRow}>

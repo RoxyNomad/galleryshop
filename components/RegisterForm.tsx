@@ -1,163 +1,170 @@
-import React, { useState } from 'react';
-import { supabase } from '../utils/supabaseClient'; // importiere den Supabase Client
-import styles from '../styles/register.module.scss';
+import { useState } from "react";
+import { registerUser } from "@/services/authServices";
+import styles from '@/styles/register.module.scss'
 
 const RegisterForm = () => {
-  const [userType, setUserType] = useState<'customer' | 'artist'>('customer');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [artistName, setArtistName] = useState('');
-  const [portfolioUrl, setPortfolioUrl] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("");
+  const [userType, setUserType] = useState<"customer" | "artist">("customer");
+  const [artistName, setArtistName] = useState("");
+  const [portfolioUrl, setPortfolioUrl] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+    setSuccess(null);
 
-    // Prüfen, ob die Passwörter übereinstimmen
     if (password !== confirmPassword) {
-      console.error("Passwörter stimmen nicht überein");
+      setError("Passwörter stimmen nicht überein");
       return;
     }
 
-    // Registrierung mit den Benutzerdaten
     try {
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await registerUser(
         email,
-        password
-      });
-
-      const { user } = data;
+        password,
+        name,
+        userType,
+        userType === "artist" ? artistName : undefined,
+        userType === "artist" ? portfolioUrl : undefined
+      );
 
       if (error) {
-        throw error;
+        throw new Error(error);
       }
 
-      console.log('Benutzer erfolgreich registriert:', user);
-
-      // Zusätzliche Daten speichern, falls der Benutzer ein Künstler ist
-      if (userType === 'artist') {
-        const { error: artistError } = await supabase
-          .from('artists') // Tabelle für Künstler erstellen
-          .insert([
-            {
-              email,
-              artist_name: artistName,
-              portfolio_url: portfolioUrl
-            }
-          ]);
-
-        if (artistError) {
-          throw artistError;
-        } else {
-          console.log('Künstler erfolgreich gespeichert');
-        }
-      }
-
-      // Optionale Weiterleitung nach erfolgreicher Registrierung
-      // window.location.href = '/dashboard'; // Beispiel für Weiterleitung
-
+      setSuccess("Registrierung erfolgreich!");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setName("");
+      setArtistName("");
+      setPortfolioUrl("");
     } catch (error) {
-      if (error instanceof Error) {
-        console.error('Fehler bei der Registrierung:', error.message);
-      } else {
-        console.error('Fehler bei der Registrierung:', error);
-      }
+      setError(error instanceof Error ? error.message : "Ein Fehler ist aufgetreten.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.registerForm}>
-      <h2 className={styles.registerTitle}>Registriere dich</h2>
+    <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg">
+      <h2 className={styles.registerTitle}>Registrieren</h2>
 
-      {/* Auswahl zwischen Künstler und Kunde */}
-      <div className={styles.userTypeSelection}>
-        <label>
-          <input
-            type="radio"
-            value="customer"
-            checked={userType === 'customer'}
-            onChange={() => setUserType('customer')}
-          />
-          Kunde
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="artist"
-            checked={userType === 'artist'}
-            onChange={() => setUserType('artist')}
-          />
-          Künstler
-        </label>
-      </div>
+      {error && <p className="text-red-500">{error}</p>}
+      {success && <p className={styles.succes}>{success}</p>}
 
-      {/* Allgemeine Eingabefelder */}
-      <div className={styles.formRow}>
-        <label htmlFor="email" className={styles.emailTitle}>E-Mail</label>
-        <input
-          className={styles.emailInput}
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
-      <div className={styles.formRow}>
-        <label htmlFor="password" className={styles.passwordTitle}>Passwort</label>
-        <input
-          className={styles.passwordInput}
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </div>
-
-      <div className={styles.formRow}>
-        <label htmlFor="confirmPassword" className={styles.passwordTitle}>Passwort bestätigen</label>
-        <input
-          className={styles.passwordInput}
-          type="password"
-          id="confirmPassword"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
-      </div>
-
-      {/* Zusätzliche Felder für Künstler */}
-      {userType === 'artist' && (
-        <>
-          <div className={styles.formRow}>
-            <label htmlFor="artistName" className={styles.artistTitle}>Künstlername</label>
+        <div className={styles.userTypeSelection}>
+          <label>
             <input
-              className={styles.artistInput}
+              type="radio"
+              value="customer"
+              checked={userType === 'customer'}
+              onChange={() => setUserType('customer')}
+            />
+            Kunde
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="artist"
+              checked={userType === 'artist'}
+              onChange={() => setUserType('artist')}
+            />
+            Künstler
+          </label>
+        </div>
+        
+        <div className={styles.formRow}>
+          <label className={styles.title}>
+            Name
+            <input
               type="text"
-              id="artistName"
-              value={artistName}
-              onChange={(e) => setArtistName(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
+              className={styles.input}
             />
-          </div>
-
-          <div className={styles.formRow}>
-            <label htmlFor="portfolioUrl" className={styles.portfolioTitle}>Portfolio-Website</label>
+          </label>
+        </div>
+        <div className={styles.formRow}>
+          <label className={styles.title}>
+            E-Mail
             <input
-              className={styles.portfolioInput}
-              type="url"
-              id="portfolioUrl"
-              value={portfolioUrl}
-              onChange={(e) => setPortfolioUrl(e.target.value)}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className={styles.input}
             />
-          </div>
-        </>
-      )}
+          </label>
+        </div>
+        <div className={styles.formRow}>
+          <label className={styles.title}>
+            Passwort
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className={styles.input}
+            />
+          </label>
+        </div>
+        <div className={styles.formRow}>
+          <label className={styles.title}>
+            Passwort bestätigen
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              className={styles.input}
+            />
+          </label>
+        </div>
+        {/* Zusätzliche Felder nur für Künstler */}
+        {userType === "artist" && (
+          <>
+            <div className={styles.formRow}>
+              <label className={styles.title}>
+                Künstlername
+                <input
+                  type="text"
+                  value={artistName}
+                  onChange={(e) => setArtistName(e.target.value)}
+                  required={userType === "artist"}
+                  className={styles.input}
+                />
+              </label>
+            </div>
+            <div className={styles.formRow}>
+              <label className={styles.title}>
+                Portfolio-URL
+                <input
+                  type="url"
+                  value={portfolioUrl}
+                  onChange={(e) => setPortfolioUrl(e.target.value)}
+                  required={userType === "artist"}
+                  className={styles.input}
+                />
+              </label>
+            </div>
+          </>
+        )}
 
-      <button type="submit" className={styles.submitButton}>Registrieren</button>
-    </form>
+        <button
+          type="submit"
+          className={styles.submitButton}
+        >
+          Registrieren
+        </button>
+      </form>
+    </div>
   );
 };
 
