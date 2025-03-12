@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { useRouter } from "next/router";
-import { loginUser } from "../services/authServices";
-import styles from '../styles/login.module.scss';
+import { loginUser } from "@/services/authServices";
+import styles from '@/styles/login.module.scss';
 
 // LoginResponse Interface zur Typensicherheit
 interface LoginResponse {
@@ -10,7 +9,6 @@ interface LoginResponse {
 }
 
 const LoginForm: React.FC = () => {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -21,32 +19,41 @@ const LoginForm: React.FC = () => {
     event.preventDefault(); // Verhindert das Neuladen der Seite
     setLoading(true);
     setError(null);
-
+  
     try {
       const response: LoginResponse = await loginUser(email, password);
-
+  
       if (response.error) {
         setError("Login fehlgeschlagen: " + response.error);
         setLoading(false);
         return;
       }
-
+  
       if (!response.user || !response.user.user_type) {
         setError("Fehler: Nutzertyp nicht gefunden.");
         setLoading(false);
         return;
       }
-
-      // Navigiere je nach Benutzerrolle
+  
+      // Versuche, den Tab zu öffnen
+      let newTab: Window | null = null;
+  
       switch (response.user.user_type) {
         case 'artist':
-          router.push('/artist/artistDashboard');
+          newTab = window.open('/artist/artistDashboard', '_blank'); // Öffnet die Seite im neuen Tab
           break;
         case 'customer':
-          router.push('/shop');
+          newTab = window.open('/shop', '_blank'); // Öffnet die Seite im neuen Tab
           break;
         default:
           setError("Ungültiger Nutzertyp.");
+          setLoading(false);
+          return;
+      }
+  
+      // Wenn der Tab erfolgreich geöffnet wurde, navigiere darin
+      if (!newTab) {
+        setError("Konnte einen neuen Tab nicht öffnen.");
       }
     } catch {
       setError("Ein unerwarteter Fehler ist aufgetreten.");
@@ -54,7 +61,7 @@ const LoginForm: React.FC = () => {
       setLoading(false);
     }
   };
-
+  
   return (
     <div className={styles.loginContainer}>
       <h2 className={styles.loginTitle}>Login</h2>
