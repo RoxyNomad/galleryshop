@@ -15,5 +15,76 @@
 		height: 40vh;
 		border: 0.1vh solid $pearl-gold;
 		border-radius: 1vh;
+		position: relative;
+		text-align: center;
+		background: radial-gradient($dark-gold 60%, $pearl-gold);
+		z-index: 0;
+
+		.profileImageContainer {
+			position: absolute;
+			top: 25%;
+			left: 50%;
+			transform: translateX(-50%);
+			z-index: 2;
+
+			.profileImage {
+				width: 5vw;
+				height: 10vh;
+				border: 0.1vh solid $pearl-gold;
+				border-radius: 7vh;
+			}
+		}
+
+		.coverImageContainer {
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 1;
+
+			.coverImage {
+				width: 15vw;
+				border-bottom: 0.1vh solid $pearl-gold;
+				border-radius: 1vh;
+			}
+		}
+
+		.artistName {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		.artistBio {
+			position: absolute;
+			top: 55%;
+		}
+
+		.artistButton {
+			position: absolute;
+			bottom: 1%;
+			left: 50%;
+			transform: translateX(-50%);
+			background: radial-gradient($dark-gold 60%, $pearl-gold);
+			border: 0.1vh solid $pearl-gold;
+			border-radius: 1vh;
+			padding: 1vh;
+			z-index: 2;
+
+			.artistLink {
+				text-decoration: none;
+				color: $black;
+			}
+			
+			&:hover {
+				background: $dark-grey;
+				cursor: pointer;
+				z-index: 2;
+
+				.artistLink {
+					color: $champagne-beige;
+				}
+			}
+		}
 	}
 }
