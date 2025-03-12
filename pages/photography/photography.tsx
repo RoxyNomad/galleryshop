@@ -14,6 +14,7 @@ const Photography = () => {
     created_at: string;
     artist_id: string;
     category_id: string;
+    image_url: string;
   }
 
   const [artworks, setArtworks] = useState<Artwork[]>([]); // Daten vom Server
@@ -53,9 +54,9 @@ const Photography = () => {
       <section>
         <div className={styles.pictureContainer}>
           {filteredPictures.map((pic) => (
-            <div key={pic.id} className={styles.picture}>
-              <Image src={`/path/to/images/${pic.id}.jpg`} alt={pic.name} width={200} height={150} />
-              <p>{pic.name} - {pic.price} CHF</p>
+            <div key={pic.id} className={styles.pictureField}>
+              <Image className={styles.picture} src={`${pic.image_url}`} alt={pic.name} width={200} height={150} />
+              <p className={styles.pictureLabel}>{pic.name} - {pic.price} CHF</p>
             </div>
           ))}
         </div>

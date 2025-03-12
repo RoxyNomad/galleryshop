@@ -9,6 +9,7 @@ export interface Artwork {
   created_at: string;
   artist_id: string;
   category_id: string;
+  image_url: string;
 }
 
 // Funktion zum Abrufen der Artworks aus Supabase

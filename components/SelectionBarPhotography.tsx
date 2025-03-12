@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 
+
 interface SelectionBarProps {
   handleSortChange: (option: string) => void;
   selectedOption: string;
@@ -14,17 +15,17 @@ const SelectionBar: React.FC<SelectionBarProps> = ({
   handleSortChange,
   selectedOption,
   sortOptions,
-  handleColorChange, // Zugriff auf handleColorChange
+  handleColorChange,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [selectedColor, setSelectedColor] = useState<string>(''); // Zustand für die ausgewählte Farbe
+  const [selectedColor, setSelectedColor] = useState<string>(""); // Zustand für die ausgewählte Farbe
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   // Farben für das Filter-Dropdown
-  const colors = ['Rot', 'Grün', 'Blau', 'Orange', 'Gelb', 'Pink'];
+  const colors = ["Rot", "Grün", "Blau", "Orange", "Gelb", "Pink"];
 
   // Funktion zum Ändern der ausgewählten Farbe
   const handleColorSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -47,7 +48,10 @@ const SelectionBar: React.FC<SelectionBarProps> = ({
           </Link>
         </div>
         <div className={styles.sortSelection}>
-          <button className={styles.sortSelectionButton} onClick={toggleSidebar}>
+          <button
+            className={styles.sortSelectionButton}
+            onClick={toggleSidebar}
+          >
             <Image
               src="/icons/filter-icon.png"
               alt="Filter Icon"
@@ -57,7 +61,10 @@ const SelectionBar: React.FC<SelectionBarProps> = ({
             />
             Filter
           </button>
-          <button className={styles.sortSelectionButton} onClick={toggleDropdown}>
+          <button
+            className={styles.sortSelectionButton}
+            onClick={toggleDropdown}
+          >
             <Image
               src="/icons/sorting-icon.png"
               alt="Sorting Icon"
@@ -85,7 +92,9 @@ const SelectionBar: React.FC<SelectionBarProps> = ({
         </div>
       </section>
 
-      <aside className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ""}`}>
+      <aside
+        className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ""}`}
+      >
         <div className={styles.sidebarHeader}>
           <h2>Filter</h2>
           <button className={styles.closeButton} onClick={toggleSidebar}>
@@ -94,7 +103,9 @@ const SelectionBar: React.FC<SelectionBarProps> = ({
         </div>
         <div className={styles.sidebarContent}>
           {/* Dropdown-Menü für Farben */}
-          <label htmlFor="colorFilter" className={styles.dropdownLabel}>Farbe auswählen:</label>
+          <label htmlFor="colorFilter" className={styles.dropdownLabel}>
+            Farbe auswählen:
+          </label>
           <select
             id="colorFilter"
             value={selectedColor}
@@ -103,19 +114,17 @@ const SelectionBar: React.FC<SelectionBarProps> = ({
           >
             <option value="">Alle Farben</option>
             {colors.map((color) => (
-              <option
-                key={color}
-                value={color}
-              >
+              <option key={color} value={color}>
                 {color}
               </option>
             ))}
           </select>
-
         </div>
       </aside>
 
-      {isSidebarOpen && <div className={styles.overlay} onClick={toggleSidebar}></div>}
+      {isSidebarOpen && (
+        <div className={styles.overlay} onClick={toggleSidebar}></div>
+      )}
     </div>
   );
 };

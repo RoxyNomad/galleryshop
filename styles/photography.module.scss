@@ -9,10 +9,22 @@
 	height: 70vh;
 	margin: 3vh auto;
 	
-	.picture {
-		width: 20vw;
-		height: 20vh;
-		border: 0.1vh solid $pearl-gold;
-		border-radius: 1vh;
+	.pictureField {
+		@include flex-center;
+		justify-content: flex-start;
+		flex-direction: column;
+
+		.picture {
+			width: 20vw;
+			height: 20vh;
+			border: 0.1vh solid $pearl-gold;
+			border-radius: 1vh;
+		}
+	
+		.pictureLabel {
+			font-family: $playfair;
+			font-size: 2vh;
+			color: $champagne-beige;
+		}
 	}
 }
