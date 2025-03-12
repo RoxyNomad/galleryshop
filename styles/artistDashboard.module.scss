@@ -108,9 +108,10 @@
 	grid-gap: 2vw;
 	width: 85%;
 	padding: 4vh 0 4vh 12.5vw;
-	.artwork {
-		max-width: 20vw;
-		height: 25vh;
+	
+	.picture {
+		width: 20vw;
+		height: 20vh;
 		border: 0.1vh solid $pearl-gold;
 		border-radius: 1vh;
 	}

@@ -1,8 +1,8 @@
+import { useState, useEffect } from 'react';
 import styles from '@/styles/selectionBar.module.scss';
+import fetchColors from '@/utils/fetchColors';  // Importiere die fetchColors-Funktion
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
-
 
 interface SelectionBarProps {
   handleSortChange: (option: string) => void;
@@ -20,12 +20,20 @@ const SelectionBar: React.FC<SelectionBarProps> = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedColor, setSelectedColor] = useState<string>(""); // Zustand für die ausgewählte Farbe
+  const [colors, setColors] = useState<string[]>([]); // Zustand für die Farben
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
-  // Farben für das Filter-Dropdown
-  const colors = ["Rot", "Grün", "Blau", "Orange", "Gelb", "Pink"];
+  // Hole die Farben von Supabase beim ersten Laden
+  useEffect(() => {
+    const loadColors = async () => {
+      const colorsFromDB = await fetchColors();
+      setColors(colorsFromDB); // Setze die Farben
+    };
+    
+    loadColors();
+  }, []);
 
   // Funktion zum Ändern der ausgewählten Farbe
   const handleColorSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -113,11 +121,15 @@ const SelectionBar: React.FC<SelectionBarProps> = ({
             className={styles.dropdownSelect}
           >
             <option value="">Alle Farben</option>
-            {colors.map((color) => (
-              <option key={color} value={color}>
-                {color}
-              </option>
-            ))}
+            {colors.length > 0 ? (
+              colors.map((color) => (
+                <option key={color} value={color}>
+                  {color}
+                </option>
+              ))
+            ) : (
+              <option>Keine Farben verfügbar</option>
+            )}
           </select>
         </div>
       </aside>

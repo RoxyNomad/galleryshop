@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from '@/styles/photography.module.scss';
 import Image from 'next/image';
-import { fetchArtworks } from './data';
+import { fetchArtworks } from '@/utils/data';
 import { useSort } from '@/hooks/useSort';
 import SelectionBar from '@/components/SelectionBarPhotography';
 

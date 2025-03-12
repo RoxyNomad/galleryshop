@@ -75,6 +75,7 @@ const Artworks: NextPage & { disableHeader?: boolean } = () => {
           artworks.map((artwork) => (
             <div key={artwork.id}>
               <Image
+                className={styles.picture}
                 src={artwork.imageUrl}
                 alt={`Artwork ${artwork.id}`}
                 width={300}

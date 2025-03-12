@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Artwork } from '../pages/photography/data';
+import { Artwork } from '../utils/data';
 
 export const useSort = (initialPictures: Artwork[]) => {
   const [selectedOption, setSelectedOption] = useState<string>('Neueste'); // Standard ist "Neueste"
