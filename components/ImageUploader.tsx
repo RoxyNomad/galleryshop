@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSession } from "@supabase/auth-helpers-react";
-import styles from "@/styles/artistDashboard.module.scss";
+import styles from "@/styles/artists/artworks.module.scss";
 
 interface Category {
   id: string;

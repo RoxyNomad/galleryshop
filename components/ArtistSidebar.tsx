@@ -1,4 +1,4 @@
-import styles from '@/styles/artistDashboard.module.scss';
+import styles from '@/styles/artists/dashboard.module.scss';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { logoutUser } from "@/services/authServices";
@@ -19,7 +19,6 @@ const ArtistSidebar = () => {
         <Link href="/artist/orders" className={styles.sidebarLink3}>Bestellungen</Link>
         <Link href="/artist/messages" className={styles.sidebarLink4}>Nachrichten</Link>
         <Link href="/artist/profile" className={styles.sidebarLink5}>Mein Profil</Link>
-        <Link href="/artist/settings" className={styles.sidebarLink6}>Einstellungen</Link>
         <button className={styles.sidebarButton} onClick={handleLogout}>Logout</button>
       </div>
     </div>

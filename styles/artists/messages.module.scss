@@ -1,0 +1,147 @@
+@import '../variables';
+@import '../mixins';
+
+.messageContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 7vh 12vw;
+	text-align: center;
+	position: relative;
+	gap: 5vh; // Abstand zwischen den Elementen
+
+	.messageField {
+		background: radial-gradient($dark-gold 60%, $pearl-gold);
+		color: $black;
+		font-family: $playfair;
+		font-size: 2vh;
+		border: 0.1vh solid $pearl-gold;
+		border-radius: 1vh;
+		width: 75vw;
+		height: 50vh;
+		padding: 2vh 2vw;
+		position: relative; // Position anpassen
+
+		.messageFieldHeader {
+			height: 8vh;
+
+			.select {
+				background-color: $dark-grey;
+				border: 0.1vh solid $pearl-gold;
+				border-radius: 1vh;
+				color: $champagne-beige;
+				font-family: $playfair;
+				font-size: 2vh;
+
+				.option {
+					color: $champagne-beige;
+				}
+			}
+		}
+
+		.messageFieldBody {
+			height: 30vh;
+			
+			.textarea {
+				width: 100%;
+				height: 100%;
+				background-color: $dark-grey;
+				color: $champagne-beige;
+				border: 0.1vh solid $pearl-gold;
+				border-radius: 1vh;
+				padding: 1vh;
+			}
+		}
+
+		.messageFieldFooter {
+			.sendButton {
+				margin-top: 4vh;
+				font-family: $playfair;
+				font-size: 2vh;
+				padding: 1vh;
+				border: 0.1vh solid $pearl-gold;
+				border-radius: 1vh;
+				background: radial-gradient($dark-gold 60%, $pearl-gold);
+
+				&:hover {
+					background: $dark-grey;
+					color: $champagne-beige;
+					cursor: pointer;
+				}
+			}
+		}
+	}
+
+	.messageList {
+		display: flex;
+		justify-content: space-between; // Elemente verteilen sich nach links und rechts
+		width: 100%;
+		padding: 2vh 0;
+
+		.messageItem {
+			font-size: 3vh;
+			font-family: $cinzel;
+			background: $dark-grey;
+			color: $champagne-beige;
+			cursor: pointer;
+			border: 0.1vh solid $pearl-gold;
+			border-radius: 1vh;
+			padding: 1vh;
+			flex: 1; // Jedes Element nimmt den gleichen Platz ein
+			text-align: center;
+			max-width: 10vw;
+
+			&:hover {
+				background: radial-gradient($dark-gold 60%, $pearl-gold);
+				color: $black;
+			}
+		}
+	}
+
+	.overlayContainer {
+		background-color: rgba(0, 0, 0, 0.7);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+
+		.overlay {
+			background: radial-gradient($dark-gold 60%, $pearl-gold);
+			border: 0.1vh solid $pearl-gold;
+			border-radius: 1vh;
+			max-width: 75vw;
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%); // Genau zentrieren
+	
+			.overlayContent {
+				font-family: $playfair;
+				font-size: 3vh;
+	
+				.chatMessage {
+					font-family: 2vh;
+				}
+	
+				.chatButton {
+					background: $dark-grey;
+					border: 0.1vh solid $pearl-gold;
+					border-radius: 1vh;
+					color: $champagne-beige;
+					font-family: $playfair;
+					font-size: 3vh;
+					cursor: pointer;
+	
+					&:hover {
+						background: radial-gradient($dark-gold 60%, $pearl-gold);
+						color: $black;
+					}
+				}
+			}
+		}
+	}
+
+	
+}

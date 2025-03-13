@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { NextPage } from "next";
-import styles from "@/styles/artistDashboard.module.scss";
+import styles from "@/styles/artists/artworks.module.scss";
 import Sidebar from "@/components/ArtistSidebar";
 import ImageUploader from "@/components/ImageUploader";
 import { useSession } from '@supabase/auth-helpers-react';

@@ -1,0 +1,115 @@
+@import '../variables';
+@import '../mixins';
+
+.profilePage {
+	padding-top: 7vh;
+
+	.profileContainer {
+		@include flex-center;
+		flex-direction: column;
+		text-align: center;
+		margin: auto;
+		padding: 2vh 0;
+		background: radial-gradient($dark-gold 60%, $pearl-gold);
+		border: 0.1vh solid $pearl-gold;
+		border-radius: 1vh;
+		width: 75vw;
+		font-family: $playfair;
+		
+		.profileHeader {
+			font-family: $cinzel;
+			font-size: 2vh;
+	
+			.editButton {
+				background-color: $dark-grey;
+				color: $champagne-beige;
+				font-size: 2vh;
+				padding: 1vh;
+				margin-bottom: 2vh;
+				border: 0.1vh solid $pearl-gold;
+				border-radius: 1vh;
+				cursor: pointer;
+	
+				&:hover {
+					background: radial-gradient($dark-gold 60%, $pearl-gold);
+					color: $black
+				}
+			}
+		}
+	
+		.editProfileForm {
+			@include flex-center;
+			flex-direction: column;
+			gap: 2vh;
+	
+			.editInput, .editTextarea {
+				font-family: $playfair;
+				font-size: 2vh;
+				background-color: $dark-grey;
+				color: $champagne-beige;
+				border: 0.1vh solid $pearl-gold;
+				border-radius: 1vh;
+				padding: 0.5vh;
+				text-align: center;
+				width: 40vw;
+	
+				&:nth-child(1) {
+					width: 20vw;
+				}
+	
+				&:nth-child(2) {
+					height: 30vh;
+				}
+			}
+	
+			.editSaveButton {
+				background-color: $dark-grey;
+				color: $champagne-beige;
+				font-size: 2vh;
+				padding: 1vh;
+				margin-bottom: 2vh;
+				border: 0.1vh solid $pearl-gold;
+				border-radius: 1vh;
+				cursor: pointer;
+	
+				&:hover {
+					background: radial-gradient($dark-gold 60%, $pearl-gold);
+					color: $black
+				}
+			}
+		}
+	
+		.profileInfo {
+			font-size: 2vh;
+	
+			.imagesContainer {
+				@include flex-center;
+			
+				.profileImageContainer, .coverImageContainer {
+					padding: 2vh 2vw;
+			
+					.coverImage {
+						border: 0.1vh solid $pearl-gold;
+						border-radius: 1vh;
+					}
+
+					.profileImage {
+						width: 7vw;
+						height: 14vh;
+						border: 0.1vh solid $pearl-gold;
+						border-radius: 7vh;
+					}
+				}
+			}
+
+			.profileInfoBio {
+				width: 50vw;
+			}
+
+			.profileInfoLink {
+				text-decoration: none;
+				color: $black;
+			}
+		}
+	}
+}

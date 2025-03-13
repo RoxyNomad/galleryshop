@@ -23,6 +23,11 @@ const RegisterForm = () => {
       return;
     }
 
+    let formattedPortfolioUrl = portfolioUrl.trim();
+    if (userType === "artist" && formattedPortfolioUrl && !/^https?:\/\//i.test(formattedPortfolioUrl)) {
+      formattedPortfolioUrl = `https://${formattedPortfolioUrl}`;
+    }
+
     try {
       const { error } = await registerUser(
         email,
@@ -30,7 +35,7 @@ const RegisterForm = () => {
         name,
         userType,
         userType === "artist" ? artistName : undefined,
-        userType === "artist" ? portfolioUrl : undefined
+        userType === "artist" ? formattedPortfolioUrl : undefined
       );
 
       if (error) {
@@ -145,13 +150,16 @@ const RegisterForm = () => {
             <div className={styles.formRow}>
               <label className={styles.title}>
                 Portfolio-URL
-                <input
-                  type="url"
-                  value={portfolioUrl}
-                  onChange={(e) => setPortfolioUrl(e.target.value)}
-                  required={userType === "artist"}
-                  className={styles.input}
-                />
+                <div className="flex items-center gap-2">
+                  <span>https://</span>
+                  <input
+                    type="text"
+                    value={portfolioUrl.replace(/^https?:\/\//, "")}
+                    onChange={(e) => setPortfolioUrl(e.target.value)}
+                    required={userType === "artist"}
+                    className={styles.input}
+                  />
+                </div>
               </label>
             </div>
           </>

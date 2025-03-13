@@ -2,14 +2,22 @@ import { useState, useEffect } from "react";
 import { useSession } from "@supabase/auth-helpers-react";
 import { NextPage } from 'next';
 import { supabase } from '@/utils/supabaseClient';
-import styles from "@/styles/artistDashboard.module.scss";
+import styles from "@/styles/artists/profile.module.scss";
 import Image from "next/image";
 import Sidebar from '@/components/ArtistSidebar';
 import Link from "next/link";
 
 const ArtistProfile: NextPage & { disableHeader?: boolean } = () => {
   const session = useSession();
-  const [artistInfo, setArtistInfo] = useState<any>(null);
+  interface ArtistInfo {
+	artist_name: string;
+	bio: string;
+	portfolio_url: string;
+	profile_image_url?: string | null;
+	cover_image_url?: string | null;
+  }
+
+  const [artistInfo, setArtistInfo] = useState<ArtistInfo | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
   const [newName, setNewName] = useState<string>("");
   const [newBio, setNewBio] = useState<string>("");
@@ -74,7 +82,7 @@ const ArtistProfile: NextPage & { disableHeader?: boolean } = () => {
     };
 
     try {
-      const updates: any = {
+	  const updates: { artist_name: string; bio: string; portfolio_url: string; profile_image_url?: string | null; cover_image_url?: string | null } = {
         artist_name: newName,
         bio: newBio,
         portfolio_url: newPortfolioUrl
@@ -112,7 +120,7 @@ const ArtistProfile: NextPage & { disableHeader?: boolean } = () => {
       const { error } = await supabase
         .from('artists')
         .update(updates)
-        .eq('id', session?.user?.id);
+	  setArtistInfo((prev) => prev ? ({ ...prev, ...updates }) : null);
 
       if (error) {
         alert("Fehler beim Speichern: " + error.message);
@@ -120,7 +128,7 @@ const ArtistProfile: NextPage & { disableHeader?: boolean } = () => {
         return;
       }
 
-      setArtistInfo((prev: any) => ({ ...prev, ...updates }));
+	  setArtistInfo((prev: ArtistInfo | null) => prev ? ({ ...prev, ...updates }) : null);
       setEditing(false);
     } catch (error) {
       console.error("Fehler beim Hochladen der Bilder:", error);
