@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/utils/supabaseClient";
 import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, TooltipItem } from "chart.js";
 import styles from '@/styles/ordersTable.module.scss'
-import { color } from "chart.js/helpers";
+import { Order } from '@/services/types';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const OrdersChart: React.FC = () => {
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   // Fetch orders from Supabase
@@ -58,7 +58,7 @@ const OrdersChart: React.FC = () => {
       },
       tooltip: {
         callbacks: {
-          label: function(tooltipItem: any) {
+          label: function(tooltipItem: TooltipItem<'bar'>) {
             return `${tooltipItem.raw} CHF`;
           },
         },
