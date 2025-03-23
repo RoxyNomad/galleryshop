@@ -1,4 +1,4 @@
-import { supabase } from '../../utils/supabaseClient';
+import { supabase } from '@/utils/supabaseClient';
 
 export async function getUser(): Promise<{ id: string; email: string; } | null> {
   const { data, error } = await supabase.auth.getUser();
