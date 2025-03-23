@@ -49,3 +49,15 @@ export interface Message {
   message: string;
   created_at: string;
 }
+
+export interface Product {
+  name: string;
+  artist: string;
+  price: string;
+  image_url: string;
+  description: string;
+}
+
+export interface ProductPageProps {
+  product: Product | null;
+}
