@@ -174,7 +174,7 @@ const ArtistProfile: NextPage & { disableHeader?: boolean } = () => {
 													src={artistInfo.profile_image_url} 
 													alt="Profilbild" 
 													className={styles.profileImage} 
-													onClick={() => handleImageClick(artistInfo.profile_image_url)} 
+													onClick={() => handleImageClick(artistInfo.profile_image_url as string)} 
 													width={250} 
 													height={250}/>
 											</div>
@@ -186,7 +186,7 @@ const ArtistProfile: NextPage & { disableHeader?: boolean } = () => {
 													src={artistInfo.cover_image_url} 
 													alt="Titelbild" 
 													className={styles.coverImage} 
-													onClick={() => handleImageClick(artistInfo.cover_image_url)} 
+													onClick={() => handleImageClick(artistInfo.cover_image_url as string)} 
 													width={250} 
 													height={125}/>
 											</div>
