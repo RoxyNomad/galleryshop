@@ -37,3 +37,4 @@ export function Layout({ children, disableHeader }: LayoutProps) {
   );
 }
 
+export default Layout;
