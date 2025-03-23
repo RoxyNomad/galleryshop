@@ -1,0 +1,18 @@
+@import '../variables';
+@import '../mixins';
+
+.checkoutButton {
+	background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+	border: 0.1vh solid $pearl-gold;
+	border-radius: 1vh;
+	padding: 1vh;
+	font-family: $playfair;
+	font-size: 2vh;
+	cursor: pointer;
+	text-align: center;
+
+	&:hover {
+		background: $dark-grey;
+		color: $champagne-beige;
+	}
+}

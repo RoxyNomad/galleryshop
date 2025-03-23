@@ -1,53 +1,46 @@
-// components/CheckoutButton.tsx
 import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
+import styles from '@/styles/customer/checkoutButton.module.scss'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
-
-interface CheckoutButtonProps {
-  products: Product[];
-}
-
-const CheckoutButton: React.FC<CheckoutButtonProps> = ({ products }) => {
+export default function CheckoutButton() {
   const [loading, setLoading] = useState(false);
 
   const handleCheckout = async () => {
     setLoading(true);
-
-    // Sende die Produkte an den Server, um eine Checkout-Session zu erstellen
-    const res = await fetch("/api/checkout_sessions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ products }),
-    });
-
-    const { id } = await res.json();
-
-    // Leite den Benutzer zum Stripe-Checkout weiter
-    const stripe = await stripePromise;
-    const { error } = await stripe!.redirectToCheckout({ sessionId: id });
-
-    if (error) {
-      console.error("Fehler beim Weiterleiten zu Stripe Checkout:", error);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+  
+      console.log("Checkout Response:", res);
+  
+      if (!res.ok) {
+        throw new Error(`Fehler bei der API-Anfrage: ${res.statusText}`);
+      }
+  
+      const { sessionId } = await res.json();
+      console.log("Session ID:", sessionId);
+  
+      const stripe = await stripePromise;
+      if (stripe) {
+        await stripe.redirectToCheckout({ sessionId });
+      }
+    } catch (error) {
+      console.error("Checkout-Fehler:", error);
     }
-
     setLoading(false);
-  };
+  };  
 
   return (
-    <button onClick={handleCheckout} disabled={loading}>
-      {loading ? "Wird geladen..." : "Jetzt Bezahlen"}
+    <button
+      onClick={handleCheckout}
+      disabled={loading}
+      className={styles.checkoutButton}
+    >
+      {loading ? "Lädt..." : "Jetzt kaufen"}
     </button>
   );
-};
-
-export default CheckoutButton;
+}

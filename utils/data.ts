@@ -1,6 +1,6 @@
 import { supabase } from '@/utils/supabaseClient';
 
-// Typ für das Artwork
+// Typ für Artworks
 export interface Artwork {
   id: string;
   name: string;
@@ -12,14 +12,29 @@ export interface Artwork {
   image_url: string;
 }
 
-// Funktion zum Abrufen der Artworks aus Supabase
+// 🔹 Alle Artworks abrufen
 export const fetchArtworks = async (): Promise<Artwork[]> => {
   const { data, error } = await supabase
-    .from('artworks') // Tabelle in Supabase
+    .from('artworks') 
     .select('*'); // Alle Spalten abrufen
 
   if (error) {
     console.error('Fehler beim Abrufen der Artworks:', error.message);
+    return [];
+  }
+
+  return data as Artwork[];
+};
+
+// 🔹 Artworks nach Kategorie abrufen
+export const fetchArtworksByCategory = async (categoryId: string): Promise<Artwork[]> => {
+  const { data, error } = await supabase
+    .from('artworks')
+    .select('*')
+    .eq('category_id', categoryId); // Nur Artworks mit dieser Kategorie-ID abrufen
+
+  if (error) {
+    console.error(`Fehler beim Abrufen der Artworks für Kategorie ${categoryId}:`, error.message);
     return [];
   }
 

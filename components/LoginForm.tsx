@@ -43,7 +43,7 @@ const LoginForm: React.FC = () => {
           newTab = window.open('/artist/artistDashboard', '_blank'); // Öffnet die Seite im neuen Tab
           break;
         case 'customer':
-          newTab = window.open('/shop', '_blank'); // Öffnet die Seite im neuen Tab
+          newTab = window.open('/customer/shop', '_blank'); // Öffnet die Seite im neuen Tab
           break;
         default:
           setError("Ungültiger Nutzertyp.");

@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import Sidebar from '@/components/CustomerSidebar'
 
-const MyOrders: NextPage & { disableHeader?: boolean } = () => {
+const Settings: NextPage & { disableHeader?: boolean } = () => {
 	return (
 		<div>
 			<Sidebar />
@@ -9,6 +9,6 @@ const MyOrders: NextPage & { disableHeader?: boolean } = () => {
 	)
 };
 
-MyOrders.disableHeader = true;
+Settings.disableHeader = true;
 
-export default MyOrders;
+export default Settings;

@@ -1,46 +1,67 @@
 import styles from '@/styles/global.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
-import LoginForm from '@/components/LoginForm'; // LoginForm importieren
-import RegisterForm from '@/components/RegisterForm'; // RegisterForm importieren
-import { useState } from 'react'; // useState importieren
+import LoginForm from '@/components/LoginForm';
+import RegisterForm from '@/components/RegisterForm';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/utils/supabaseClient'; // Supabase-Client importieren
+
+interface Category {
+  id: number;
+  name: string;
+}
 
 const Header = () => {
-	const [searchTerm, setSearchTerm] = useState<string>(''); // State für den Suchbegriff
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State für das Dropdown-Menü
-  const [showLoginForm, setShowLoginForm] = useState(false); // Zustand für das Anzeigen des Formulars
-  const [isLogin, setIsLogin] = useState(true); // Zustand für Login oder Registrierung (true = Login)
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showLoginForm, setShowLoginForm] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]); // State für Kategorien
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => { 
+  // Funktion zum Laden der Kategorien aus Supabase
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const { data, error } = await supabase.from('categories').select('id, name');
+      if (error) {
+        console.error('Error fetching categories:', error);
+      } else {
+        setCategories(data || []);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
-  }; // Funktion, die den Suchbegriff aktualisiert
+  };
 
   const handleLoginClick = () => {
-    setShowLoginForm(!showLoginForm); // Toggle Login-Formular Sichtbarkeit
+    setShowLoginForm(!showLoginForm);
   };
 
   const handleSwitchForm = () => {
-    setIsLogin(!isLogin); // Wechsel zwischen Login und Registrierung
+    setIsLogin(!isLogin);
   };
 
-	return (
-		<div>
-			<header className={styles.header}>
+  return (
+    <div>
+      <header className={styles.header}>
         <nav className={styles.nav}>
-          <input 
-            type="text" 
-            value={searchTerm} 
-            onChange={handleInputChange} 
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleInputChange}
             placeholder="Search"
-            aria-label="Search" 
-            className={styles.search} 
+            aria-label="Search"
+            className={styles.search}
           />
           <div className={styles.navLinks}>
             <Link href="/" className={styles.navLink1}>Home</Link>
             <Link href="/novelties/novelties" className={styles.navLink2}>Neuheiten</Link>
-            
-            {/* Fotografien mit Dropdown */}
+
+            {/* Fotografien mit dynamischem Dropdown */}
             <div 
               className={styles.navItem} 
               onMouseEnter={() => setIsDropdownOpen(true)}
@@ -49,10 +70,13 @@ const Header = () => {
               <Link href="/photography/photography" className={styles.navLink3}>Fotografien</Link>
               {isDropdownOpen && (
                 <div className={styles.dropdownMenu}>
-                  <Link href="/photography/landscape" className={styles.dropdownItem}>Landschaft</Link>
-                  <Link href="/photography/portraits" className={styles.dropdownItem}>Porträts</Link>
-                  <Link href="/photography/street" className={styles.dropdownItem}>Street Photography</Link>
-                  <Link href="/photography/photography" className={styles.dropdownItem}>Alle Fotografien</Link>
+                  {categories.length > 0 ? (
+                    categories.map(category => (
+                      <Link key={category.id} href={`/photography/${category.id}`} passHref className={styles.dropdownItem}>{category.name}</Link>
+                    ))
+                  ) : (
+                    <p className={styles.dropdownItem}>Keine Kategorien verfügbar</p>
+                  )}
                 </div>
               )}
             </div>
@@ -61,11 +85,7 @@ const Header = () => {
           </div>
 
           <div className={styles.navButtons}>
-            <button
-              className={styles.navButton}
-              aria-label="Login"
-              onClick={handleLoginClick} // Login-Button klickt das Login-Formular ein/aus
-            >
+            <button className={styles.navButton} aria-label="Login" onClick={handleLoginClick}>
               <Image
                 src='/icons/login-icon.png'
                 alt='Login Icon'
@@ -75,19 +95,14 @@ const Header = () => {
               />
             </button>
 
-            {/* Das Formular wird je nach Zustand angezeigt */}
             {showLoginForm && (
               <>
-                {/* Overlay Hintergrund für Modal */}
                 <div className={styles.modalOverlay} onClick={handleLoginClick} />
-
                 <div className={styles.modal}>
-                  {isLogin ? (
-                    <LoginForm /> // Login-Formular wird angezeigt
-                  ) : (
-                    <RegisterForm /> // Registrierungs-Formular wird angezeigt
-                  )}
-                  <button onClick={handleSwitchForm} className={styles.switchButton}
+                  {isLogin ? <LoginForm /> : <RegisterForm />}
+                  <button 
+                    onClick={handleSwitchForm} 
+                    className={styles.switchButton}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                     style={{ 
@@ -106,18 +121,11 @@ const Header = () => {
                 </div>
               </>
             )}
-
-            <button className={styles.navButton} aria-label="whishlist">
-              <Image src='/icons/heart-icon.png' alt='wishlist icon' className={styles.buttonImage} width={18} height={18} />
-            </button>
-            <button className={styles.navButton} aria-label="cart">
-              <Image src='/icons/shopping-cart-icon.png' alt='cart icon' className={styles.buttonImage} width={18} height={18} />
-            </button>
           </div>
         </nav>
       </header>
-		</div>
-	)
-}
+    </div>
+  );
+};
 
 export default Header;

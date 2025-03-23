@@ -1,0 +1,32 @@
+@import '../variables';
+@import '../mixins';
+
+.ordersPage {
+	.ordersContainer {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(10vw, 1fr));
+		max-width: 60vw;
+		gap: 1vh 5vw;
+		position: absolute;
+		top: 5%;
+		left: 50%;
+		transform: translateX(-50%);
+
+		.orderItem {
+			border: 0.1vh solid $pearl-gold;
+			border-radius: 1vh;
+			padding: 1vh;
+			text-align: center;
+			color: $champagne-beige;
+			font-family: $playfair;
+			font-size: 2vh;
+
+			.orderImage {
+				width: 90%;
+				height: fit-content;
+				border: 0.1vh solid $pearl-gold;
+				border-radius: 1vh;
+			}
+		}
+	}
+}

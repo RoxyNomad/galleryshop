@@ -1,24 +1,30 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { Artwork } from '@/services/types'; // Import Artwork type
 import styles from '@/styles/photography.module.scss';
 import Image from 'next/image';
-import { fetchArtworks } from '@/utils/data'; // Alle Artworks abrufen
+import { fetchArtworksByCategory } from '@/utils/data';
 import { useSort } from '@/hooks/useSort';
 import SelectionBar from '@/components/SelectionBarPhotography';
 
-const Photography = () => {
+const CategoryPage = () => {
+  const router = useRouter();
+  const { categoryId } = router.query;
+
   const [artworks, setArtworks] = useState<Artwork[]>([]);
   const { pictures, handleSortChange, selectedOption, sortOptions } = useSort(artworks);
   const [selectedColor, setSelectedColor] = useState<string>('');
 
   useEffect(() => {
+    if (!categoryId) return;
+
     const loadArtworks = async () => {
-      const fetchedArtworks = await fetchArtworks(); // Alle Artworks abrufen
+      const fetchedArtworks = await fetchArtworksByCategory(categoryId as string);
       setArtworks(fetchedArtworks);
     };
 
     loadArtworks();
-  }, []);
+  }, [categoryId]);
 
   const filteredPictures = selectedColor
     ? pictures.filter((pic) => pic.base_color.toLowerCase() === selectedColor.toLowerCase())
@@ -43,7 +49,7 @@ const Photography = () => {
               </div>
             ))
           ) : (
-            <p className={styles.noResults}>Keine Bilder gefunden</p>
+            <p className={styles.noResults}>Keine Bilder in dieser Kategorie</p>
           )}
         </div>
       </section>
@@ -51,4 +57,4 @@ const Photography = () => {
   );
 };
 
-export default Photography;
+export default CategoryPage;

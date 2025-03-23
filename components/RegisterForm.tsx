@@ -29,6 +29,7 @@ const RegisterForm = () => {
     }
 
     try {
+      
       const { error } = await registerUser(
         email,
         password,
@@ -55,13 +56,13 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div>
       <h2 className={styles.registerTitle}>Registrieren</h2>
 
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p>{error}</p>}
       {success && <p className={styles.succes}>{success}</p>}
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit}>
 
         <div className={styles.userTypeSelection}>
           <label>
@@ -150,7 +151,7 @@ const RegisterForm = () => {
             <div className={styles.formRow}>
               <label className={styles.title}>
                 Portfolio-URL
-                <div className="flex items-center gap-2">
+                <div>
                   <span>https://</span>
                   <input
                     type="text"

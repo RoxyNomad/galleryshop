@@ -1,0 +1,234 @@
+@import '../variables';
+@import '../mixins';
+
+.shopContainer {
+	margin: 0;
+	padding: 0;
+
+	.sidebar {
+		display: flex;
+		text-align: left;
+		flex-direction: column;
+		width: 10vw;
+		height: 100vh;
+		position: fixed;
+		border-right: 0.1vh solid $pearl-gold;
+		z-index: 1;
+	
+		.sidebarLink1, .sidebarLink2, .sidebarLink3, .sidebarLink4, .sidebarButton {
+			position: absolute;
+			left: 7%;
+			text-decoration: none;
+			font-family: $playfair;
+			color: $champagne-beige;
+			font-size: 2vh;
+		}
+	
+		.sidebarLink1 {
+			top: 7%;
+		}
+		
+		.sidebarLink2 {
+			top: 14%;
+		}
+		
+		.sidebarLink3 {
+			top: 21%;
+		}
+		
+		.sidebarLink4 {
+			top: 28%;
+		}
+	
+		.sidebarButton {
+		 bottom: 7%;
+		 width: 8.5vw;
+		 background-color: $dark-grey;
+		 border: 0.1vh solid $pearl-gold;
+		 border-radius: 1vh;
+		 
+			&:hover {
+				background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+				cursor: pointer;
+				color: $black;
+			}
+		}
+	}
+
+	.productList {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(10vw, 1fr));
+		max-width: 60vw;
+		gap: 1vh 5vw;
+		position: absolute;
+		top: 10%;
+		left: 50%;
+		transform: translateX(-50%);
+
+		.productCard {
+			border: 0.1vh solid $pearl-gold;
+			border-radius: 1vh;
+			padding: 1vh;
+			text-align: center;
+			color: $champagne-beige;
+			font-family: $playfair;
+			font-size: 2vh;
+
+			.productImage {
+				border: 0.1vh solid $pearl-gold;
+				border-radius: 1vh;
+			}
+
+			.addToButton {
+				border: 0.1vh solid $pearl-gold;
+				border-radius: 1vh;
+				background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+				font-family: $playfair;
+				font-size: 2vh;
+				margin-bottom: 0.5vh;
+
+				&:hover {
+					background: $dark-grey;
+					color: $champagne-beige;
+					cursor: pointer;
+				}
+			}
+		}
+	}
+	
+	.cartButton {
+		margin: 0;
+		background-color: $black-20;
+		border: 0.1vh solid $pearl-gold;
+		border-radius: 4vh;
+		padding: 1vh;
+		height: 4vh;
+		position: absolute;
+		top: 5%;
+		right: 5%;
+	
+		&:hover {
+			background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+			cursor: pointer;
+			
+			.buttonImage {
+				filter: none;
+			}
+		}
+		
+		.buttonImage {
+			filter: invert(85%) sepia(50%) saturate(200%) hue-rotate(20deg);
+		}
+	}
+
+	.wishlistButton {
+		margin: 0;
+		background-color: $black-20;
+		border: 0.1vh solid $pearl-gold;
+		border-radius: 4vh;
+		padding: 1vh;
+		height: 4vh;
+		position: absolute;
+		top: 5%;
+		right: 10%;
+	
+		&:hover {
+			background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+			cursor: pointer;
+			
+			.buttonImage {
+				filter: none;
+			}
+		}
+		
+		.buttonImage {
+			filter: invert(85%) sepia(50%) saturate(200%) hue-rotate(20deg);
+		}
+	}
+	
+	.overlayContainer {
+		position: fixed;
+		top: 0;
+		left: 0;
+		background: rgba(0, 0, 0, 0.7);
+		z-index: 2;
+		width: 100%;
+		height: 100%;
+
+		.cartOverlay {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			z-index: 3;
+			border: 0.1vh solid $pearl-gold;
+			border-radius: 1vh;
+			padding: 1vh;
+			background: radial-gradient($dark-gold 60%, $pearl-gold);
+			width: 20vw;
+
+			.cartContent {
+				z-index: 4;
+				font-family: $playfair;
+				text-align: center;
+
+				.closeButton {
+					border: 0.1vh solid $pearl-gold;
+					border-radius: 1vh;
+					background: radial-gradient($dark-gold 60%, $pearl-gold);
+					z-index: 4;
+					padding: 0.5vh;
+
+					&:hover {
+						background: $dark-grey;
+						color: $champagne-beige;
+						cursor: pointer;
+					}
+				}
+
+				.cartArticle {
+					display: flex;
+					align-items: center;
+					flex-direction: column;
+
+					.spanContainer {
+						display: flex;
+						text-align: center;
+						gap: 2vw;
+					}
+				}
+
+				.selectionGroup {
+					font-size: 2vh;
+					display: flex;
+					justify-content: space-between;
+					gap: 0.5vw;
+					margin: 0.5vh;
+
+					.selectionField {
+						background-color: $dark-grey;
+						color: $champagne-beige;
+						border: 0.1vh solid $pearl-gold;
+						border-radius: 1vh;
+					}
+				}
+
+				.addToButton {
+					border: 0.1vh solid $pearl-gold;
+					border-radius: 1vh;
+					background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+					font-family: $playfair;
+					font-size: 2vh;
+					margin-bottom: 0.5vh;
+	
+					&:hover {
+						background: $dark-grey;
+						color: $champagne-beige;
+						cursor: pointer;
+					}
+				}
+			}
+		}
+	}
+}
+

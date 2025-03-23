@@ -8,6 +8,7 @@
 	height: 100vh;
 	position: fixed;
 	border-right: 0.1vh solid $pearl-gold;
+	z-index: 1;
 
 	.sidebarLink1, .sidebarLink2, .sidebarLink3, .sidebarLink4, .sidebarLink5, .sidebarLink6, .sidebarButton {
 		position: absolute;
