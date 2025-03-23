@@ -34,6 +34,14 @@ export interface Artwork {
   image_url: string;
 }
 
+export interface SelectionBarProps {
+  handleSortChange: (option: string) => void;
+  handleColorChange: (color: string) => void;
+  selectedOption: string;
+  sortOptions: string[];
+  pictures: Artwork[]; // Add the pictures property
+}
+
 export interface Message {
   id: string;
   sender: string;

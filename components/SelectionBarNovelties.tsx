@@ -3,19 +3,13 @@ import styles from '@/styles/selectionBar.module.scss';
 import fetchColors from '@/utils/fetchColors';  // Importiere die fetchColors-Funktion
 import Link from 'next/link';
 import Image from 'next/image';
-
-interface SelectionBarProps {
-  handleSortChange: (option: string) => void;
-  selectedOption: string;
-  sortOptions: string[];
-  handleColorChange: (color: string) => void;  // Funktion zum Farbwechsel
-}
+import { SelectionBarProps } from '@/services/types';
 
 const SelectionBar: React.FC<SelectionBarProps> = ({
   handleSortChange,
+  handleColorChange,
   selectedOption,
   sortOptions,
-  handleColorChange,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -31,7 +25,7 @@ const SelectionBar: React.FC<SelectionBarProps> = ({
       const colorsFromDB = await fetchColors();
       setColors(colorsFromDB); // Setze die Farben
     };
-    
+
     loadColors();
   }, []);
 

@@ -4,19 +4,9 @@ import Image from 'next/image';
 import { fetchArtworks } from '@/utils/data';
 import { useSort } from '@/hooks/useSort';
 import SelectionBar from '@/components/SelectionBarNovelties';
+import { Artwork } from '@/services/types';
 
 const Novelties = () => {
-  interface Artwork {
-    id: string;
-    name: string;
-    base_color: string;
-    price: number;
-    created_at: string;
-    artist_id: string;
-    category_id: string;
-    image_url: string;
-  }
-
   const [artworks, setArtworks] = useState<Artwork[]>([]); // Daten vom Server
   const { pictures, handleSortChange, selectedOption, sortOptions } = useSort(artworks);
 
@@ -39,10 +29,11 @@ const Novelties = () => {
     <div>
       {/* Sortierleiste */}
       <SelectionBar
-        pictures={pictures}
         handleSortChange={handleSortChange}
+        handleColorChange={() => {}}
         selectedOption={selectedOption}
         sortOptions={sortOptions}
+        pictures={pictures} // Übergibt die Bilder an die Auswahlleiste
       />
 
       {/* Bilderanzeige */}
