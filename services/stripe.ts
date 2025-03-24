@@ -4,6 +4,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: "2025-02-24.acacia",
 });
 
+console.log("Stripe Secret Key:", process.env.STRIPE_SECRET_KEY ? "✔️ Geladen" : "❌ Fehlt!");
+
 export const createCheckoutSession = async () => {
   return await stripe.checkout.sessions.create({
     payment_method_types: ["card"],

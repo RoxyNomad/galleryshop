@@ -7,7 +7,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
+    console.log("API-Route wurde aufgerufen"); // Test, ob die API überhaupt erreicht wird
     const session = await createCheckoutSession();
+    console.log("Session:", session); // Prüfen, ob `session` existiert
+
     res.status(200).json({ sessionId: session.id });
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
