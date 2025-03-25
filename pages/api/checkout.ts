@@ -13,16 +13,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    console.log("API-Route wurde aufgerufen"); // Prüfen, ob API erreicht wird
+    console.log("API /checkout wurde aufgerufen."); // Debugging-Log
     const session = await createCheckoutSession();
+    
     if (!session) {
-      throw new Error("Fehler: Stripe-Session ist null oder undefined.");
+      throw new Error("Stripe-Session konnte nicht erstellt werden.");
     }
-    console.log("Erfolgreich Session erstellt:", session);
-
+    
+    console.log("Checkout-Session erfolgreich erstellt:", session.id);
     res.status(200).json({ sessionId: session.id });
   } catch (error) {
-    console.error("Fehler in checkout.ts:", error);
+    console.error("Checkout API Fehler:", error); // Detaillierter Log
     res.status(500).json({ error: (error as Error).message });
   }
 }
