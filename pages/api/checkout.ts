@@ -8,7 +8,10 @@ export const config = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  console.log("🚀 API /checkout wurde aufgerufen");
+
   if (req.method !== "POST") {
+    console.error("❌ Fehler: Falsche HTTP-Methode");
     return res.status(405).json({ error: "Method not allowed" });
   }
 
