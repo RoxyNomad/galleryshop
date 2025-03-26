@@ -3,7 +3,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { supabase } from "@/utils/supabaseClient"; // Dein Supabase-Client
 import styles from '@/styles/customer/checkoutButton.module.scss';
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_TEST_KEY!);
 
 export default function CheckoutButton() {
   const [loading, setLoading] = useState(false);
