@@ -33,8 +33,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const stripeSession = await createCheckoutSession(userId); // Erstelle die Stripe-Sitzung mit der User-ID
-    res.status(200).json({ sessionId: stripeSession.id });
+
+    // Prüfen, ob die Session korrekt erstellt wurde
+    if (!stripeSession || !stripeSession.id) {
+      return res.status(400).json({ error: "Fehlende Session ID von Stripe" });
+    }
+
+    // Falls die Session-ID vorhanden ist, sende sie zurück
+    return res.status(200).json({ sessionId: stripeSession.id });
   } catch (error) {
-    res.status(500).json({ error: error instanceof Error ? error.message : "Unbekannter Fehler" });
+    // Fehlerbehandlung bei Stripe-Fehlern oder anderen Problemen
+    return res.status(500).json({ error: error instanceof Error ? error.message : "Unbekannter Fehler" });
   }
 }
