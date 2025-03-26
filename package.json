@@ -23,7 +23,7 @@
     "stripe": "^17.7.0"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=20.x"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
