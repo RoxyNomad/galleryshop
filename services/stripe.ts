@@ -39,15 +39,14 @@ export const createCheckoutSession = async (userId: string) => {
         quantity: item.quantity,
       })),
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/products/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/products/cancel`,
     });
 
     console.log("✅ Stripe-Session erstellt:", session.url);
     return session;
   } catch (error) {
     console.error("Fehler beim Erstellen der Checkout-Session:", error); // Detaillierter Fehler
-    throw new Error("Fehler bei der Stripe-API-Anfrage.");
+    throw new Error(error instanceof Error ? error.message : "Fehler bei der Stripe-API-Anfrage.");
   }
-  
 };
