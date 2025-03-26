@@ -8,26 +8,32 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_TEST
 export default function CheckoutButton() {
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null); // Fehlerzustand hinzufügen
 
   useEffect(() => {
-    // Supabase-Session abrufen und UserID aus der Tabelle 'users' holen
     const fetchUserId = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session && session.user) {
-        // User-ID aus der Supabase-Session holen und dann in der 'users'-Tabelle nach weiteren Daten suchen
-        const { data, error } = await supabase
-          .from("users")
-          .select("id") // Hier gehst du davon aus, dass die User-ID in der 'users' Tabelle gespeichert ist
-          .eq("id", session.user.id) // Wir nehmen an, dass die `id` der Supabase-Session mit der User-ID übereinstimmt
-          .single();
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session && session.user) {
+          const { data, error } = await supabase
+            .from("users")
+            .select("id")
+            .eq("id", session.user.id)
+            .single();
 
-        if (data) {
-          setUserId(data.id); // Setze die Benutzer-ID
+          if (data) {
+            setUserId(data.id);
+          } else {
+            console.error("Benutzer nicht gefunden in der 'users' Tabelle", error);
+            setError("Benutzer konnte nicht gefunden werden.");
+          }
         } else {
-          console.error("Benutzer nicht gefunden in der 'users' Tabelle", error);
+          console.error("Benutzer ist nicht authentifiziert");
+          setError("Benutzer ist nicht authentifiziert.");
         }
-      } else {
-        console.error("Benutzer ist nicht authentifiziert");
+      } catch (error) {
+        console.error("Fehler beim Abrufen der Benutzerdaten", error);
+        setError("Fehler beim Abrufen der Benutzerdaten.");
       }
     };
 
@@ -37,38 +43,52 @@ export default function CheckoutButton() {
   const handleCheckout = async () => {
     if (!userId) {
       console.error("Benutzer ist nicht authentifiziert");
+      setError("Benutzer ist nicht authentifiziert.");
       return;
     }
 
     setLoading(true);
+    setError(null); // Fehler zurücksetzen vor dem Checkout
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId }), // Übergebe die userId zur API
+        body: JSON.stringify({ userId }),
       });
 
-      const { sessionId } = await res.json();
+      const { sessionId, error } = await res.json();
+
+      if (error) {
+        setError(error); // Setze die Fehlermeldung von der API
+        setLoading(false);
+        return;
+      }
 
       const stripe = await stripePromise;
       if (stripe && sessionId) {
         await stripe.redirectToCheckout({ sessionId });
       } else {
-        console.error("Fehlende sessionId oder Stripe-Objekt.");
+        setError("Fehlende sessionId oder Stripe-Objekt.");
+        setLoading(false);
       }
     } catch (error) {
       console.error("Checkout-Fehler:", error);
+      setError("Fehler beim Checkout-Prozess.");
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
-    <button
-      onClick={handleCheckout}
-      disabled={loading}
-      className={styles.checkoutButton}
-    >
-      {loading ? "Lädt..." : "Jetzt kaufen"}
-    </button>
+    <div>
+      <button
+        onClick={handleCheckout}
+        disabled={loading}
+        className={styles.checkoutButton}
+      >
+        {loading ? "Lädt..." : "Jetzt kaufen"}
+      </button>
+
+      {error && <p className={styles.errorMessage}>{error}</p>} {/* Fehlermeldung anzeigen */}
+    </div>
   );
 }
