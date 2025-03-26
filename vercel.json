@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/checkout.ts",
+      "src": "./pages/api/checkout.ts",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/checkout",
-      "dest": "/api/checkout.ts"
+      "src": "./pages/api/checkout.ts",
+      "dest": "./pages/api/checkout.ts"
     }
   ]
 }
