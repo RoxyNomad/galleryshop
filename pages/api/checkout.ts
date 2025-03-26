@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { supabase } from "@/utils/supabaseClient"; // Dein Supabase-Client
 import { createCheckoutSession } from "@/services/stripe";
 
 export const config = {
@@ -8,25 +9,32 @@ export const config = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log("🚀 API /checkout wurde aufgerufen");
-
   if (req.method !== "POST") {
-    console.error("❌ Fehler: Falsche HTTP-Methode");
-    return res.status(405).json({ error: "Method not allowed" });
+    return res.status(405).json({ error: "Nur POST erlaubt" });
+  }
+
+  // User ID aus dem Body der Anfrage holen
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ error: "Benutzer-ID fehlt" });
+  }
+
+  // Optional: Weitere Daten aus der 'users'-Tabelle abrufen, falls erforderlich
+  const { error } = await supabase
+    .from("users")
+    .select("id, email, name") // Hier kannst du auch andere User-Daten abfragen
+    .eq("id", userId)
+    .single();
+
+  if (error) {
+    return res.status(400).json({ error: "Benutzer nicht gefunden" });
   }
 
   try {
-    console.log("API /checkout wurde aufgerufen."); // Debugging-Log
-    const session = await createCheckoutSession();
-    
-    if (!session) {
-      throw new Error("Stripe-Session konnte nicht erstellt werden.");
-    }
-    
-    console.log("Checkout-Session erfolgreich erstellt:", session.id);
-    res.status(200).json({ sessionId: session.id });
+    const stripeSession = await createCheckoutSession(userId); // Erstelle die Stripe-Sitzung mit der User-ID
+    res.status(200).json({ sessionId: stripeSession.id });
   } catch (error) {
-    console.error("Checkout API Fehler:", error); // Detaillierter Log
-    res.status(500).json({ error: (error as Error).message });
+    res.status(500).json({ error: error instanceof Error ? error.message : "Unbekannter Fehler" });
   }
 }

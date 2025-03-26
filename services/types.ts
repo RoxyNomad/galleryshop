@@ -21,6 +21,8 @@ export interface CartItem {
   frame_id: string;
   quantity: number;
   artwork_name: string;
+  price: number;
+  total_price: number;
 }
 
 export interface Artwork {

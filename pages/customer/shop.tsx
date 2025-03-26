@@ -98,8 +98,12 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
 
   // Artwork zum Warenkorb hinzufügen und Menge aktualisieren
   const handleAddToCart = async (artwork_id: string) => {
-    if (!userId || !selectedSize || !selectedFrame) return;
+    if (!userId || !selectedSize || !selectedFrame || !selectedArtwork) return;
 
+    const artworkPrice = selectedArtwork.price;
+    const artworkName = selectedArtwork.name;
+
+    // Überprüfen, ob der Artikel bereits im Warenkorb ist
     const { data: existingItem } = await supabase
       .from('cart')
       .select('*')
@@ -110,9 +114,16 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
       .single();
 
     if (existingItem) {
+      // Artikel existiert im Warenkorb, Preis basierend auf Menge aktualisieren
+      const updatedQuantity = existingItem.quantity + 1;
+      const updatedTotalPrice = updatedQuantity * artworkPrice;
+
       const { error } = await supabase
         .from('cart')
-        .update({ quantity: existingItem.quantity + 1 })
+        .update({ 
+          quantity: updatedQuantity, 
+          total_price: updatedTotalPrice // Preis aktualisieren
+        })
         .eq('user_id', userId)
         .eq('artwork_id', artwork_id)
         .eq('size_id', selectedSize)
@@ -121,15 +132,25 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
         console.error("Error updating cart:", error);
       }
     } else {
+      // Neuer Eintrag im Warenkorb
       const { error } = await supabase
         .from('cart')
-        .insert([{ artwork_id, user_id: userId, size_id: selectedSize, frame_id: selectedFrame, quantity: 1 }]);
+        .insert([{
+          artwork_id,
+          user_id: userId,
+          size_id: selectedSize,
+          frame_id: selectedFrame,
+          quantity: 1,
+          artwork_name: artworkName, // artwork_name hinzufügen
+          price: artworkPrice, // Preis hinzufügen
+          total_price: artworkPrice, // Preis beim ersten Artikel setzen
+        }]);
       if (error) {
         console.error("Error adding to cart:", error);
       }
     }
 
-    fetchCart(userId);
+    fetchCart(userId);  // Warenkorb aktualisieren
     setIsSelectionOpen(false);  // Auswahl schließen
   };
 
@@ -247,7 +268,8 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
                   {cart.map((item, index) => (
                     <span key={index} className={styles.spanContainer}>
                       <span className={styles.span1}>{item.artwork_name}</span>
-                      <span className={styles.span2}>{item.quantity} Stück</span><br />
+                      <span className={styles.span2}>{item.quantity} Stück</span>
+                      <span className={styles.span3}>{item.total_price} CHF</span><br />
                     </span>
                   ))}
                 </p>
