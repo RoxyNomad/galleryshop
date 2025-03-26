@@ -28,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     .single();
 
   if (error) {
-    return res.status(400).json({ error: "Benutzer nicht gefunden" });
+    return res.status(400).json({ error: "Benutzer nicht gefunden", details: error });
   }
 
   try {
@@ -42,7 +42,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Falls die Session-ID vorhanden ist, sende sie zurück
     return res.status(200).json({ sessionId: stripeSession.id });
   } catch (error) {
+    // Logge den Fehler detailliert auf dem Server
+    console.error("Fehler bei der Erstellung der Stripe-Session:", error);
+
     // Fehlerbehandlung bei Stripe-Fehlern oder anderen Problemen
-    return res.status(500).json({ error: error instanceof Error ? error.message : "Unbekannter Fehler" });
+    return res.status(500).json({ error: error instanceof Error ? error.message : "Unbekannter Fehler", details: error });
   }
 }
