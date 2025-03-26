@@ -39,7 +39,7 @@ export const createCheckoutSession = async (userId: string) => {
         quantity: item.quantity,
       })),
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/products/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/products/success`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/products/cancel`,
     });
 
