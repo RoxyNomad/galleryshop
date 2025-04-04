@@ -1,22 +1,16 @@
 import { useState, useEffect } from "react";
 import { useSession } from "@supabase/auth-helpers-react";
+import { Category, Props } from "@/services/types";
 import styles from "@/styles/artists/artworks.module.scss";
 
-interface Category {
-  id: string;
-  name: string;
-}
-
-interface Props {
-  onUpload: (imageUrl: string) => void;
-  artistId?: string;
-}
-
 export default function ImageUploader({ onUpload, artistId }: Props) {
+  // Get the current session using Supabase authentication
   const session = useSession();
 
+  // Get the artist ID (either from props or session)
   const userArtistId = artistId || session?.user?.id;
 
+  // State hooks to manage form data and statuses
   const [uploading, setUploading] = useState(false);
   const [name, setName] = useState("");
   const [baseColor, setBaseColor] = useState("");
@@ -28,9 +22,11 @@ export default function ImageUploader({ onUpload, artistId }: Props) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
+  // useEffect hook to fetch categories from the Supabase database on component mount
   useEffect(() => {
     const loadSupabase = async () => {
       const { supabase } = await import('@/utils/supabaseClient');
+      // Fetch categories from the database
       const { data, error } = await supabase.from("categories").select("id, name");
 
       if (error) {
@@ -43,47 +39,55 @@ export default function ImageUploader({ onUpload, artistId }: Props) {
     loadSupabase();
   }, []);
 
+  // Check if user artist ID exists, if not show a message to login
   if (!userArtistId) {
-    return <p>Artist ID nicht verfügbar. Bitte logge dich ein.</p>;
+    return <p>Künstler ID ist nicht verfügbar. Bitte melden Sie sich an.</p>;
   }
 
+  // Handle file change when a user selects a file for upload
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     setSelectedFile(file || null);
   };
 
+  // Handle category change when a user selects a category from the dropdown
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     setSelectedCategory(value);
     setNewCategory(""); // Reset newCategory field if a category is selected
   };
 
+  // Handle the upload process when the user clicks the upload button
   const handleUpload = async () => {
     setErrorMessage(null);
     setSuccessMessage(null);
     
+    // Check if the user is logged in before proceeding
     if (!session) {
-      alert("Sie müssen eingeloggt sein, um ein Bild hochzuladen.");
+      alert("Sie müssen angemeldet sein um ein Bild hochzuladen.");
       return;
     }
 
+    // Validate the required fields and selected file
     if (!selectedFile || (!selectedCategory && !newCategory) || !name || !baseColor || !price) {
-      alert("Bitte fülle alle Felder aus und wähle eine Datei.");
+      alert("Bitte füllen Sie alle Felder aus und wählen Sie eine Datei.");
       return;
     }
 
+    // Validate price input
     const parsedPrice = parseFloat(price);
     if (isNaN(parsedPrice) || parsedPrice <= 0) {
-      alert("Bitte gib einen gültigen Preis ein.");
+      alert("Bitte geben Sie einen gültigen Preis ein.");
       return;
     }
 
+    // Start the upload process and set uploading status
     setUploading(true);
     const fileName = `${Date.now()}_${selectedFile.name}`;
     
     const { supabase } = await import('@/utils/supabaseClient');
     
-    // Wenn eine neue Kategorie eingegeben wurde, fügen wir sie der Datenbank hinzu
+    // If a new category is provided, insert it into the database
     let categoryId = selectedCategory;
     if (newCategory) {
       const { data, error } = await supabase
@@ -92,12 +96,13 @@ export default function ImageUploader({ onUpload, artistId }: Props) {
         .select("id");
       
       if (error) {
-        console.error("Fehler beim Hinzufügen der neuen Kategorie:", error.message);
-        setErrorMessage("Fehler beim Hinzufügen der Kategorie.");
+        console.error("Error adding new category:", error.message);
+        setErrorMessage("Fehler beim hinzufügen der Kategorie");
         setUploading(false);
         return;
       }
 
+      // Get the category ID from the database and update the categories state
       categoryId = data?.[0]?.id || "";
       setCategories((prevCategories) => [
         ...prevCategories,
@@ -105,19 +110,22 @@ export default function ImageUploader({ onUpload, artistId }: Props) {
       ]);
     }
 
+    // Upload the selected image to Supabase storage
     const { error: uploadError } = await supabase.storage
       .from("product_images")
       .upload(fileName, selectedFile);
 
     if (uploadError) {
-      console.error("Upload-Fehler:", uploadError);
-      setErrorMessage('Upload fehlgeschlagen: ' + uploadError.message);
+      console.error("Upload error:", uploadError);
+      setErrorMessage('Hochladen fehlgeschlagen: ' + uploadError.message);
       setUploading(false);
       return;
     }
 
+    // Generate the URL for the uploaded image
     const imageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product_images/${fileName}`;
 
+    // Insert the artwork details into the 'artworks' table in Supabase
     const { error: insertError } = await supabase.from("artworks").insert([
       {
         name,
@@ -131,14 +139,17 @@ export default function ImageUploader({ onUpload, artistId }: Props) {
     ]);
 
     if (insertError) {
-      console.error("Insert-Fehler:", insertError);
-      setErrorMessage('Fehler beim Speichern in der Datenbank: ' + insertError.message);
+      console.error("Insert error:", insertError);
+      setErrorMessage('Fehler beim speichern in die Datenbank: ' + insertError.message);
       setUploading(false);
       return;
     }
 
-    setSuccessMessage('Bild erfolgreich hochgeladen und gespeichert!');
+    // Set success message and notify parent component with the uploaded image URL
+    setSuccessMessage('Bild erfolgreich hochgeladen!');
     onUpload(imageUrl);
+
+    // Reset the form fields
     setName("");
     setBaseColor("");
     setPrice("");
@@ -153,6 +164,7 @@ export default function ImageUploader({ onUpload, artistId }: Props) {
       {errorMessage && <div className="error-message">{errorMessage}</div>}
       {successMessage && <div className="success-message">{successMessage}</div>}
 
+      {/* Input fields for artwork details */}
       <input
         className={styles.uploadContainerInput}
         type="text"
@@ -178,6 +190,7 @@ export default function ImageUploader({ onUpload, artistId }: Props) {
         required
       />
 
+      {/* Dropdown for selecting a category or adding a new one */}
       <select
         className={styles.uploadContainerInput}
         value={selectedCategory}
@@ -201,16 +214,18 @@ export default function ImageUploader({ onUpload, artistId }: Props) {
         </option>
       </select>
 
+      {/* Input for new category if selected */}
       {selectedCategory === "new" && (
         <input
           className={styles.uploadContainerInput}
           type="text"
-          placeholder="Neue Kategorie"
+          placeholder="New Category"
           value={newCategory}
           onChange={(e) => setNewCategory(e.target.value)}
         />
       )}
 
+      {/* File input for selecting an image */}
       <input
         className={styles.uploadContainerInput5}
         type="file"
@@ -220,6 +235,7 @@ export default function ImageUploader({ onUpload, artistId }: Props) {
         required
       />
 
+      {/* Upload button */}
       <button
         className={styles.uploadButton}
         onClick={handleUpload}

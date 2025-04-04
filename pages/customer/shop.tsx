@@ -1,10 +1,10 @@
-import { NextPage } from 'next';
 import { useState, useEffect } from 'react';
-import Sidebar from '@/components/CustomerSidebar';
-import Image from 'next/image';
-import { supabase } from '@/utils/supabaseClient';
-import styles from '@/styles/customer/shop.module.scss';
+import { NextPage } from 'next';
 import { Artwork, CartItem } from '@/services/types'
+import { supabase } from '@/utils/supabaseClient';
+import Image from 'next/image';
+import Sidebar from '@/components/CustomerSidebar';
+import styles from '@/styles/customer/shop.module.scss';
 import CheckoutButton from '@/components/CheckoutButton';
 
 const Shop: NextPage & { disableHeader?: boolean } = () => {
@@ -23,20 +23,20 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
   const [isSelectionOpen, setIsSelectionOpen] = useState<boolean>(false);
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
 
-  // Benutzer-ID aus der Session abrufen
+  // Fetch user ID from session
   useEffect(() => {
     const fetchUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setUserId(user.id);
-        fetchCart(user.id);
-        fetchWishlist(user.id);
+        fetchCart(user.id);  // Fetch user's cart
+        fetchWishlist(user.id);  // Fetch user's wishlist
       }
     };
     fetchUser();
   }, []);
 
-  // Warenkorb aus der Datenbank abrufen
+  // Fetch cart data from Supabase
   const fetchCart = async (userId: string) => {
     const { data, error } = await supabase
       .from('cart')
@@ -49,7 +49,7 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
     }
   };
 
-  // Wunschliste aus der Datenbank abrufen
+  // Fetch wishlist data from Supabase
   const fetchWishlist = async (userId: string) => {
     const { data, error } = await supabase
       .from('wishlist')
@@ -62,7 +62,7 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
     }
   };
 
-  // Größen und Rahmen aus der Supabase-Datenbank abrufen
+  // Fetch available sizes and frames from Supabase
   useEffect(() => {
     const fetchSizesAndFrames = async () => {
       const { data: sizeData, error: sizeError } = await supabase.from('sizes').select('*');
@@ -83,7 +83,7 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
     fetchSizesAndFrames();
   }, []);
 
-  // Daten aus Supabase abrufen
+  // Fetch artwork data from Supabase
   useEffect(() => {
     const fetchArtworks = async () => {
       const { data, error } = await supabase.from('artworks').select('id, price, image_url, artist_id, category_id, name, base_color, created_at');
@@ -96,14 +96,14 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
     fetchArtworks();
   }, []);
 
-  // Artwork zum Warenkorb hinzufügen und Menge aktualisieren
+  // Add artwork to cart and update quantity if necessary
   const handleAddToCart = async (artwork_id: string) => {
     if (!userId || !selectedSize || !selectedFrame || !selectedArtwork) return;
 
     const artworkPrice = selectedArtwork.price;
     const artworkName = selectedArtwork.name;
 
-    // Überprüfen, ob der Artikel bereits im Warenkorb ist
+    // Check if the item is already in the cart
     const { data: existingItem } = await supabase
       .from('cart')
       .select('*')
@@ -114,7 +114,7 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
       .single();
 
     if (existingItem) {
-      // Artikel existiert im Warenkorb, Preis basierend auf Menge aktualisieren
+      // Item exists in cart, update quantity and price
       const updatedQuantity = existingItem.quantity + 1;
       const updatedTotalPrice = updatedQuantity * artworkPrice;
 
@@ -122,7 +122,7 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
         .from('cart')
         .update({ 
           quantity: updatedQuantity, 
-          total_price: updatedTotalPrice // Preis aktualisieren
+          total_price: updatedTotalPrice // Update price
         })
         .eq('user_id', userId)
         .eq('artwork_id', artwork_id)
@@ -132,7 +132,7 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
         console.error("Error updating cart:", error);
       }
     } else {
-      // Neuer Eintrag im Warenkorb
+      // New item in cart
       const { error } = await supabase
         .from('cart')
         .insert([{
@@ -141,27 +141,27 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
           size_id: selectedSize,
           frame_id: selectedFrame,
           quantity: 1,
-          artwork_name: artworkName, // artwork_name hinzufügen
-          price: artworkPrice, // Preis hinzufügen
-          total_price: artworkPrice, // Preis beim ersten Artikel setzen
+          artwork_name: artworkName, // Add artwork name
+          price: artworkPrice, // Add price
+          total_price: artworkPrice, // Set price for first item
         }]);
       if (error) {
         console.error("Error adding to cart:", error);
       }
     }
 
-    fetchCart(userId);  // Warenkorb aktualisieren
-    setIsSelectionOpen(false);  // Auswahl schließen
+    fetchCart(userId);  // Refresh cart data
+    setIsSelectionOpen(false);  // Close selection modal
   };
 
-  // Artwork zur Wunschliste hinzufügen und in Supabase speichern
+  // Add artwork to wishlist in Supabase
   const addToWishlist = async (artwork_id: string) => {
     if (!userId) return;
     const { error } = await supabase.from('wishlist').insert([{ artwork_id, user_id: userId }]);
     if (error) {
       console.error("Error adding to wishlist:", error);
     } else {
-      fetchWishlist(userId);
+      fetchWishlist(userId);  // Refresh wishlist
     }
   };
 
@@ -169,7 +169,7 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
     <div className={styles.shopContainer}>
       <Sidebar />
       
-      {/* Produkte anzeigen */}
+      {/* Display artwork products */}
       <div className={styles.productList}>
         {artworks.map((artwork) => (
           <div key={artwork.id} className={styles.productCard}>
@@ -192,7 +192,7 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
         ))}
       </div>
 
-      {/* Auswahlmodal für Größe und Rahmen */}
+      {/* Size and frame selection modal */}
       {isSelectionOpen && (
         <div className={styles.overlayContainer}>
           <div className={styles.cartOverlay}>
@@ -200,7 +200,7 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
               <button className={styles.closeButton} onClick={() => setIsSelectionOpen(false)}>✖</button>
               <h2>Wähle Größe und Rahmen</h2>
 
-              {/* Größen-Auswahl */}
+              {/* Size selection */}
               <div className={styles.selectionGroup}>
                 <label htmlFor="size">Größe wählen:</label>
                 <select className={styles.selectionField} id="size" onChange={(e) => setSelectedSize(e.target.value || null)} value={selectedSize || ''}>
@@ -211,7 +211,7 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
                 </select>
               </div>
 
-              {/* Rahmen-Auswahl */}
+              {/* Frame selection */}
               <div className={styles.selectionGroup}>
                 <label htmlFor="frame">Rahmen wählen:</label>
                 <select className={styles.selectionField} id="frame" onChange={(e) => setSelectedFrame(e.target.value)} value={selectedFrame || ''}>
@@ -227,12 +227,12 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
         </div>
       )}
 
-      {/* Wishlist-Button */}
+      {/* Wishlist button */}
       <button className={styles.wishlistButton} onClick={() => setIsWishlistOpen(true)} aria-label="wishlist">
         <Image src='/icons/heart-icon.png' alt='wishlist icon' className={styles.buttonImage} width={18} height={18} />
       </button>
 
-      {/* Wishlist-Overlay */}
+      {/* Wishlist overlay */}
       {isWishlistOpen && (
         <div className={styles.overlayContainer}>
           <div className={styles.cartOverlay}>
@@ -251,12 +251,12 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
         </div>
       )}
       
-      {/* Cart-Button */}
+      {/* Cart button */}
       <button className={styles.cartButton} onClick={() => setIsCartOpen(true)} aria-label="cart">
         <Image className={styles.buttonImage} src='/icons/shopping-cart-icon.png' alt='cart icon' width={18} height={18} />
       </button>
 
-      {/* Warenkorb-Overlay */}
+      {/* Cart overlay */}
       {isCartOpen && (
         <div className={styles.overlayContainer}>
           <div className={styles.cartOverlay}>
@@ -267,9 +267,8 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
                 <p className={styles.cartArticle}>
                   {cart.map((item, index) => (
                     <span key={index} className={styles.spanContainer}>
-                      <span className={styles.span1}>{item.artwork_name}</span>
-                      <span className={styles.span2}>{item.quantity} Stück</span>
-                      <span className={styles.span3}>{item.total_price} CHF</span><br />
+                      <div>{item.artwork_name}</div>
+                      <div>{item.quantity}</div>
                     </span>
                   ))}
                 </p>
@@ -281,8 +280,7 @@ const Shop: NextPage & { disableHeader?: boolean } = () => {
       )}
     </div>
   );
-};
-
-Shop.disableHeader = true;
+}
 
 export default Shop;
+

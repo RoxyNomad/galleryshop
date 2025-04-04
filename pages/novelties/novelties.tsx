@@ -1,47 +1,54 @@
 import { useState, useEffect } from 'react';
-import styles from '@/styles/novelties.module.scss';
-import Image from 'next/image';
 import { fetchArtworks } from '@/utils/data';
 import { useSort } from '@/hooks/useSort';
-import SelectionBar from '@/components/SelectionBarNovelties';
 import { Artwork } from '@/services/types';
+import Image from 'next/image';
+import styles from '@/styles/novelties.module.scss';
+import SelectionBar from '@/components/SelectionBarNovelties';
 
 const Novelties = () => {
-  const [artworks, setArtworks] = useState<Artwork[]>([]); // Daten vom Server
+  // State for holding fetched artworks
+  const [artworks, setArtworks] = useState<Artwork[]>([]);
+
+  // Custom hook for sorting functionality
   const { pictures, handleSortChange, selectedOption, sortOptions } = useSort(artworks);
 
+  // Fetching artworks from the server when the component is mounted
   useEffect(() => {
     const loadArtworks = async () => {
       const fetchedArtworks = await fetchArtworks();
 
-      // Sortiere die Artworks nach 'created_at' (absteigend) und nehme nur die ersten 4
+      // Sort artworks by 'created_at' in descending order and take the first 4
       const sortedArtworks = fetchedArtworks
         .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-        .slice(0, 4);
+        .slice(0, 4); // Only show 4 most recent artworks
 
+      // Set the fetched and sorted artworks into state
       setArtworks(sortedArtworks);
     };
 
-    loadArtworks();
+    loadArtworks(); // Call the loadArtworks function when the component mounts
   }, []);
 
   return (
     <div>
-      {/* Sortierleiste */}
+      {/* Sort selection bar */}
       <SelectionBar
-        handleSortChange={handleSortChange}
-        handleColorChange={() => {}}
-        selectedOption={selectedOption}
-        sortOptions={sortOptions}
-        pictures={pictures} // Übergibt die Bilder an die Auswahlleiste
+        handleSortChange={handleSortChange} // Function to handle sort option change
+        handleColorChange={() => {}} // Function for color change (currently not implemented)
+        selectedOption={selectedOption} // The currently selected sorting option
+        sortOptions={sortOptions} // The available sort options
+        pictures={pictures} // Pass the sorted pictures to the selection bar
       />
 
-      {/* Bilderanzeige */}
+      {/* Display of images */}
       <section>
         <div className={styles.pictureContainer}>
           {pictures.map((pic) => (
             <div key={pic.id} className={styles.pictureField}>
+              {/* Image display */}
               <Image className={styles.picture} src={`${pic.image_url}`} alt={pic.name} width={200} height={150} />
+              {/* Label showing name and price of the artwork */}
               <p className={styles.pictureLabel}>{pic.name} - {pic.price} CHF</p>
             </div>
           ))}

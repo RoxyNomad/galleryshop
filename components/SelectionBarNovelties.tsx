@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from '@/styles/selectionBar.module.scss';
-import fetchColors from '@/utils/fetchColors';  // Importiere die fetchColors-Funktion
+import fetchColors from '@/utils/fetchColors';  // Import the fetchColors function to retrieve colors from the database
 import Link from 'next/link';
 import Image from 'next/image';
 import { SelectionBarProps } from '@/services/types';
@@ -11,29 +11,32 @@ const SelectionBar: React.FC<SelectionBarProps> = ({
   selectedOption,
   sortOptions,
 }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [selectedColor, setSelectedColor] = useState<string>(""); // Zustand für die ausgewählte Farbe
-  const [colors, setColors] = useState<string[]>([]); // Zustand für die Farben
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);  // State to control the visibility of the dropdown
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);  // State to control the visibility of the sidebar
+  const [selectedColor, setSelectedColor] = useState<string>(""); // State for the selected color
+  const [colors, setColors] = useState<string[]>([]); // State to store the available colors
 
+  // Toggle function to open/close the dropdown
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+
+  // Toggle function to open/close the sidebar
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
-  // Hole die Farben von Supabase beim ersten Laden
+  // Fetch colors from Supabase when the component first mounts
   useEffect(() => {
     const loadColors = async () => {
-      const colorsFromDB = await fetchColors();
-      setColors(colorsFromDB); // Setze die Farben
+      const colorsFromDB = await fetchColors();  // Fetch colors from the database
+      setColors(colorsFromDB); // Set the fetched colors to the state
     };
 
-    loadColors();
-  }, []);
+    loadColors();  // Call the loadColors function
+  }, []); // Empty dependency array ensures this runs only once after the initial render
 
-  // Funktion zum Ändern der ausgewählten Farbe
+  // Function to handle color selection
   const handleColorSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const color = event.target.value;
-    setSelectedColor(color);
-    handleColorChange(color); // Übergibt die ausgewählte Farbe nach oben
+    const color = event.target.value; // Get the selected color
+    setSelectedColor(color);  // Update the selected color state
+    handleColorChange(color); // Pass the selected color to the parent component
   };
 
   return (
@@ -76,6 +79,7 @@ const SelectionBar: React.FC<SelectionBarProps> = ({
             />
             Sortieren nach
           </button>
+          {/* Dropdown menu for sorting options */}
           {isDropdownOpen && (
             <div className={styles.dropdownMenu}>
               {sortOptions.map((option) => (
@@ -84,7 +88,7 @@ const SelectionBar: React.FC<SelectionBarProps> = ({
                     type="radio"
                     name="sort"
                     checked={selectedOption === option}
-                    onChange={() => handleSortChange(option)}
+                    onChange={() => handleSortChange(option)} // Handle sorting option change
                   />
                   {option}
                 </label>
@@ -94,6 +98,7 @@ const SelectionBar: React.FC<SelectionBarProps> = ({
         </div>
       </section>
 
+      {/* Sidebar for filter options */}
       <aside
         className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ""}`}
       >
@@ -104,17 +109,18 @@ const SelectionBar: React.FC<SelectionBarProps> = ({
           </button>
         </div>
         <div className={styles.sidebarContent}>
-          {/* Dropdown-Menü für Farben */}
+          {/* Dropdown menu for selecting color */}
           <label htmlFor="colorFilter" className={styles.dropdownLabel}>
             Farbe auswählen:
           </label>
           <select
             id="colorFilter"
             value={selectedColor}
-            onChange={handleColorSelect}
+            onChange={handleColorSelect}  // Handle color selection
             className={styles.dropdownSelect}
           >
             <option value="">Alle Farben</option>
+            {/* Render available colors as options */}
             {colors.length > 0 ? (
               colors.map((color) => (
                 <option key={color} value={color}>
@@ -122,12 +128,13 @@ const SelectionBar: React.FC<SelectionBarProps> = ({
                 </option>
               ))
             ) : (
-              <option>Keine Farben verfügbar</option>
+              <option>Keine Farben verfügbar</option>  // Fallback message if no colors are available
             )}
           </select>
         </div>
       </aside>
 
+      {/* Overlay background when the sidebar is open */}
       {isSidebarOpen && (
         <div className={styles.overlay} onClick={toggleSidebar}></div>
       )}

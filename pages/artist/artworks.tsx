@@ -1,37 +1,42 @@
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { NextPage } from "next";
+import { useSession } from '@supabase/auth-helpers-react';
+import { supabase } from "@/utils/supabaseClient"; // Make sure you're importing the Supabase instance correctly
+import { Artwork } from '@/services/types'; // Ensure this path is correct
+import Image from "next/image";
 import styles from "@/styles/artists/artworks.module.scss";
 import Sidebar from "@/components/ArtistSidebar";
 import ImageUploader from "@/components/ImageUploader";
-import { useSession } from '@supabase/auth-helpers-react';
-import { supabase } from "@/utils/supabaseClient"; // Sicherstellen, dass du die Supabase Instanz korrekt importierst
-
-interface Artwork {
-  imageUrl: string;
-  id: string; // ID des Artworks
-}
 
 const Artworks: NextPage & { disableHeader?: boolean } = () => {
   const [artworks, setArtworks] = useState<Artwork[]>([]);
   const session = useSession();
+  const artistId = session?.user?.id; // Use the artistId from the session
 
-  const artistId = session?.user?.id; // Verwendet die artistId aus der Session
-
-  // Lade die Kunstwerke des Künstlers bei der ersten Anzeige
+  // Load the artist's artworks on initial render
   useEffect(() => {
     if (artistId) {
-      // Hol dir die Kunstwerke des Künstlers aus der Datenbank
       const fetchArtworks = async () => {
         const { data, error } = await supabase
           .from('artworks')
-          .select('id, image_url')
-          .eq('artist_id', artistId); // Filter nach artistId
+          .select('id, image_url, created_at, category_id, name, base_color, description, price')
+          .eq('artist_id', artistId); // Filter by artistId
           
         if (error) {
           console.error('Error fetching artworks:', error);
-        } else {
-          setArtworks(data.map((artwork: { id: string; image_url: string }) => ({ id: artwork.id, imageUrl: artwork.image_url })));
+        } else if (data) {
+          setArtworks(
+            data.map((artwork) => ({
+              id: artwork.id,
+              image_url: artwork.image_url, // Convert image_url from DB to imageUrl
+              created_at: artwork.created_at || '',
+              artist_id: artistId,
+              category_id: artwork.category_id || null,
+              name: artwork.name || '',
+              base_color: artwork.base_color || '',
+              price: artwork.price || 0
+            }))
+          );
         }
       };
 
@@ -39,27 +44,37 @@ const Artworks: NextPage & { disableHeader?: boolean } = () => {
     }
   }, [artistId]);
 
-  // Wenn der Nutzer nicht eingeloggt ist, Anzeige eines Hinweises
+  // If the user is not logged in, show a message
   if (!session) {
     return <p>Bitte logge dich ein, um deine Kunstwerke zu sehen.</p>;
   }
 
-  // Funktion, um das hochgeladene Bild in die Kunstwerke-Liste hinzuzufügen
+  // Function to add the uploaded image to the artworks list
   const handleUpload = async (imageUrl: string) => {
     if (artistId) {
-      // Speichern des neuen Bildes in der Datenbank
+      // Save the new image to the database
       const { data, error } = await supabase
         .from('artworks')
         .insert([{ artist_id: artistId, image_url: imageUrl }])
-        .select('id');
+        .select('id, created_at');
 
       if (error) {
         console.error('Error inserting artwork:', error);
-      } else {
-        // Das Bild wurde erfolgreich in der DB gespeichert
-        if (data && data.length > 0) {
-          setArtworks((prevArtworks) => [...prevArtworks, { imageUrl, id: data[0].id }]);
-        }
+      } else if (data && data.length > 0) {
+        // If insert is successful, update the local state
+        setArtworks((prevArtworks) => [
+          ...prevArtworks,
+          {
+            id: data[0].id,
+            image_url: imageUrl, // Ensure consistency
+            created_at: data[0].created_at || '',
+            artist_id: artistId,
+            category_id: '',
+            name: '',
+            base_color: '',
+            price: 0
+          }
+        ]);
       }
     }
   };
@@ -76,7 +91,7 @@ const Artworks: NextPage & { disableHeader?: boolean } = () => {
             <div key={artwork.id}>
               <Image
                 className={styles.picture}
-                src={artwork.imageUrl}
+                src={artwork.image_url} // Ensure correct key usage
                 alt={`Artwork ${artwork.id}`}
                 width={300}
                 height={200}
@@ -92,3 +107,4 @@ const Artworks: NextPage & { disableHeader?: boolean } = () => {
 Artworks.disableHeader = true;
 
 export default Artworks;
+

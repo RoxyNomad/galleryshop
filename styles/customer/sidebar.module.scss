@@ -1,0 +1,52 @@
+@import "../variables";
+@import "../mixins";
+
+.sidebar {
+	display: flex;
+	text-align: left;
+	flex-direction: column;
+	width: 10vw;
+	height: 100vh;
+	position: fixed;
+	border-right: 0.1vh solid $pearl-gold;
+	z-index: 1;
+
+	.sidebarLink1, .sidebarLink2, .sidebarLink3, .sidebarLink4, .sidebarButton {
+		position: absolute;
+		left: 7%;
+		text-decoration: none;
+		font-family: $playfair;
+		color: $champagne-beige;
+		font-size: 2vh;
+	}
+
+	.sidebarLink1 {
+		top: 7%;
+	}
+	
+	.sidebarLink2 {
+		top: 14%;
+	}
+	
+	.sidebarLink3 {
+		top: 21%;
+	}
+	
+	.sidebarLink4 {
+		top: 28%;
+	}
+
+	.sidebarButton {
+	 bottom: 7%;
+	 width: 8.5vw;
+	 background-color: $dark-grey;
+	 border: 0.1vh solid $pearl-gold;
+	 border-radius: 1vh;
+	 
+		&:hover {
+			background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+			cursor: pointer;
+			color: $black;
+		}
+	}
+}

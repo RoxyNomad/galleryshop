@@ -1,43 +1,38 @@
 import { useState, useEffect } from 'react';
-import styles from '@/styles/photographyFullscreen.module.scss';
+import { Picture } from '@/services/types'; // Import the Picture type definition
+import { supabase } from '@/utils/supabaseClient'; // Import Supabase client
 import Link from 'next/link';
 import Image from 'next/image';
-import { supabase } from '@/utils/supabaseClient';
+import styles from '@/styles/photographyFullscreen.module.scss'; // Import SCSS styles
 
 const PhotographyFullscreen = () => {
-  interface Picture {
-    id: string;
-    name: string;
-    image_url: string;
-  }
+  const [pictures, setPictures] = useState<Picture[]>([]); // State to store images from the database
+  const [currentIndex, setCurrentIndex] = useState(0); // State to track the current image index
 
-  const [pictures, setPictures] = useState<Picture[]>([]); // Bilder aus der DB
-  const [currentIndex, setCurrentIndex] = useState(0); // Aktuelles Bild
-
-  // 🔹 Bilder aus Supabase laden
+  // 🔹 Fetch images from Supabase
   useEffect(() => {
     const fetchPictures = async () => {
       const { data, error } = await supabase
-        .from('artworks') // 📌 Deine Tabelle mit Bildern
+        .from('artworks') // 📌 Your table containing images
         .select('id, name, image_url');
 
       if (error) {
-        console.error('Fehler beim Laden der Bilder:', error);
+        console.error('Fehler beim Laden der Bilder:', error); // Log error if fetching fails
         return;
       }
 
-      setPictures(data);
+      setPictures(data); // Update state with fetched images
     };
 
-    fetchPictures();
-  }, []);
+    fetchPictures(); // Invoke the function to fetch data
+  }, []); // Run effect only once on component mount
 
-  // 🔹 Funktion für "Next"-Button
+  // 🔹 Function to navigate to the next image
   const nextImage = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % pictures.length);
   };
 
-  // 🔹 Funktion für "Prev"-Button
+  // 🔹 Function to navigate to the previous image
   const prevImage = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + pictures.length) % pictures.length);
   };
@@ -54,6 +49,7 @@ const PhotographyFullscreen = () => {
       </section>
 
       <section className={styles.fullscreenContainer}>
+        {/* Previous image button, disabled if no images are loaded */}
         <button className={styles.prevButton} onClick={prevImage} disabled={pictures.length === 0}>
           Prev
         </button>
@@ -61,7 +57,7 @@ const PhotographyFullscreen = () => {
           <div className={styles.top} />
           <div className={styles.left} />
           <div className={styles.middle}>
-            {/* 🔹 Falls keine Bilder geladen wurden, Platzhalter anzeigen */}
+            {/* 🔹 Display placeholder if no images are loaded */}
             {pictures.length > 0 ? (
               <Image
                 src={pictures[currentIndex].image_url}
@@ -80,6 +76,7 @@ const PhotographyFullscreen = () => {
           <div className={styles.right} />
           <div className={styles.bottom} />
         </div>
+        {/* Next image button, disabled if no images are loaded */}
         <button className={styles.nextButton} onClick={nextImage} disabled={pictures.length === 0}>
           Next
         </button>
