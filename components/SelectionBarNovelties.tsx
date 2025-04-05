@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import styles from '@/styles/selectionBar.module.scss';
-import fetchColors from '@/utils/fetchColors';  // Import the fetchColors function to retrieve colors from the database
+import { SelectionBarProps } from '@/services/types';
 import Link from 'next/link';
 import Image from 'next/image';
-import { SelectionBarProps } from '@/services/types';
+import styles from '@/styles/components/selectionBar.module.scss';
+import fetchColors from '@/utils/fetchColors';  // Import the fetchColors function to retrieve colors from the database
 
 const SelectionBar: React.FC<SelectionBarProps> = ({
   handleSortChange,

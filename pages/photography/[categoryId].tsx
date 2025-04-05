@@ -5,7 +5,7 @@ import { fetchArtworksByCategory } from '@/utils/data'; // Function to fetch art
 import { useSort } from '@/hooks/useSort'; // Custom hook for sorting functionality
 import Image from 'next/image';
 import SelectionBar from '@/components/SelectionBarPhotography'; // Component for sorting and filtering options
-import styles from '@/styles/photography.module.scss'; // Import SCSS styles
+import styles from '@/styles/photography/photography.module.scss'; // Import SCSS styles
 
 const CategoryPage = () => {
   const router = useRouter(); // Get Next.js router instance

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/utils/supabaseClient";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, TooltipItem } from "chart.js";
-import styles from '@/styles/ordersTable.module.scss'
 import { Order } from '@/services/types';
+import { supabase } from "@/utils/supabaseClient";
+import styles from '@/styles/components/ordersTable.module.scss'
 
 // Register necessary ChartJS components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);

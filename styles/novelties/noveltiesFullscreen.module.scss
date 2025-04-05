@@ -1,0 +1,188 @@
+// Importing shared variables and mixins for reuse
+@import './variables.scss';
+@import './mixins.scss';
+
+// Styling for the selection bar container
+.selectionBar {
+  position: relative; // Positioning the container relative to its normal position
+  background-color: $black; // Setting background color to black
+  width: 100vw; // The width of the selection bar spans the full viewport width
+  height: 10vh; // The height of the selection bar is 10% of the viewport height
+  margin-top: 9vh; // Adding a top margin of 9% of the viewport height
+
+  // Base styles for selection buttons
+  .displaySelectionButtonStandart, 
+  .displaySelectionButtonFullscreen {
+    background-color: $black; // Black background for both buttons
+    color: $champagne-beige; // Setting text color to champagne beige
+    font-size: 2vh; // Font size is 2% of the viewport height
+    font-family: $playfair; // Using Playfair font for text
+    text-decoration: none; // Removing underline from links
+    margin: 0; // Removing any default margins
+  }
+
+  // Styling for the selection container which holds both buttons
+  .displaySelection {
+    background-color: $black; // Black background for the selection container
+    border: 0.1vh solid $pearl-gold; // Gold border around the container
+    border-radius: 1vh; // Rounded corners with a radius of 1vh
+    display: flex; // Using flexbox for button layout
+    position: absolute; // Positioning absolutely within the parent container
+    top: 49%; // Positioning the container vertically at the center
+    transform: translateY(-50%); // Adjusting the container to truly center it
+    left: 5%; // Positioning it from the left with 5% spacing
+
+    // Base styling for the two buttons within the selection container
+    .displaySelectionButtonStandart,
+    .displaySelectionButtonFullscreen {
+      flex: 1; // Making both buttons take up equal width
+      border: none; // Removing border from buttons
+      cursor: pointer; // Changing cursor to pointer on hover
+      font-weight: bold; // Making text bold
+    }
+
+    // Styling for the fullscreen button (active state)
+    .displaySelectionButtonFullscreen {
+      background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Applying gradient background
+      color: $black; // Text color set to black
+      border-top-right-radius: 1vh; // Rounding top right corner
+      border-bottom-right-radius: 1vh; // Rounding bottom right corner
+    }
+
+    // Styling for the standard button (inactive state, but hoverable)
+    .displaySelectionButtonStandart {
+      border-top-left-radius: 1vh; // Rounding top left corner
+      border-bottom-left-radius: 1vh; // Rounding bottom left corner
+      background: $black; // Black background
+      color: $champagne-beige; // Text color set to champagne beige
+
+      // Hover effect for the standard button
+      &:hover {
+        background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Gradient background on hover
+        color: $black; // Text color changes to black on hover
+      }
+    }
+
+    // Changing the fullscreen button when the standard button is hovered
+    &:has(.displaySelectionButtonStandart:hover) .displaySelectionButtonFullscreen {
+      background: $black; // Fullscreen button background changes to black
+      color: $champagne-beige; // Text color changes to champagne beige
+    }
+  }
+}
+
+// Fullscreen container for the image display and navigation buttons
+.fullscreenContainer {
+  @include flex-center; // Using mixin to center content with flexbox
+  flex-direction: row; // Arranging buttons and content in a row
+  width: 100vw; // Full viewport width for the container
+
+  // Styling for previous and next buttons
+  .prevButton, .nextButton {
+    position: absolute; // Positioning buttons absolutely within the container
+    top: 59%; // Placing buttons vertically centered
+    transform: translateY(-41%); // Adjusting to truly center the buttons
+    background-color: $black-20; // Slightly transparent black background
+    color: $champagne-beige; // Text color set to champagne beige
+    font-size: 2vh; // Font size is 2% of the viewport height
+    font-family: $playfair; // Playfair font for the text
+    text-decoration: none; // Removing text decoration
+    border: 0.1vh solid $pearl-gold; // Adding a thin gold border
+    border-radius: 1vh; // Rounding corners of the buttons
+    padding: 1vh; // Adding padding inside the buttons
+    cursor: pointer; // Changing cursor to pointer on hover
+
+    // Positioning the previous button to the left and next button to the right
+    &:first-child {
+      left: 5%; // Positioning previous button on the left with 5% spacing
+    }
+    &:last-child {
+      right: 5%; // Positioning next button on the right with 5% spacing
+    }
+
+    // Hover effect for the buttons
+    &:hover {
+      background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Gradient background on hover
+      color: $black; // Changing text color to black on hover
+    }
+  }
+}
+
+// Container for pictures with custom styling for each section
+.pictureContainer {
+  position: relative; // Setting the container's position as relative for absolute child elements
+  margin: 0 auto; // Centering the container horizontally
+  width: 80vw; // Container width is 80% of the viewport width
+  height: 80vh; // Container height is 80% of the viewport height
+
+  // Top section with custom polygon clip-path to create unique shape
+  .top {
+    position: absolute; // Positioning the top section absolutely
+    background: linear-gradient($warmoffwhite, $warmoffwhite2); // Gradient background
+    width: 80vw; // Width is 80% of the viewport width
+    height: 20vh; // Height is 20% of the viewport height
+    clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%); // Creating a custom shape with clip-path
+  }
+
+  // Left section with custom polygon clip-path for unique design
+  .left {
+    position: absolute; // Absolute positioning for the left section
+    top: 0; // Aligning to the top of the container
+    background: linear-gradient(to right, $warmoffwhite, $warmoffwhite2); // Gradient background
+    width: 20vw; // Width is 20% of the viewport width
+    height: 80vh; // Height is 80% of the viewport height
+    clip-path: polygon(0% 0%, 100% 25%, 100% 100%, 0% 100%); // Custom polygon shape
+  }
+
+  // Center section that holds the image content
+  .middle {
+    position: absolute; // Absolute positioning within the container
+    top: 20vh; // Starting at 20% of the viewport height
+    left: 20vw; // Starting at 20% of the viewport width
+    background: $warmoffwhite; // Warm off-white background color
+    width: 40vw; // Width is 40% of the viewport width
+    height: 40vh; // Height is 40% of the viewport height
+    @include flex-center; // Centering content with flexbox
+    flex-direction: column; // Arranging items vertically
+  }
+
+  // Styling for the fullscreen image
+  .fullscreenImage {
+    width: 30vw; // Image width is 30% of the viewport width
+    height: 30vh; // Image height is 30% of the viewport height
+    border: 0.1vh solid $pearl-gold; // Thin gold border around the image
+    border-radius: 1vh; // Rounded corners for the image
+    margin-top: 7vh; // Adding top margin to space out the image
+  }
+
+  // Caption styling for the image
+  .imageCaption {
+    font-family: $playfair; // Using Playfair font for the caption
+    text-align: center; // Centering the caption text
+    font-size: 3vh; // Font size is 3% of the viewport height
+    margin-top: 0; // Removing top margin
+    color: $black; // Setting text color to black
+  }
+
+  // Right section with custom polygon clip-path for unique design
+  .right {
+    position: absolute; // Absolute positioning for the right section
+    top: 0; // Aligning to the top of the container
+    right: 0; // Aligning to the right of the container
+    background: linear-gradient(to left, $warmoffwhite, $warmoffwhite2); // Gradient background
+    width: 20vw; // Width is 20% of the viewport width
+    height: 80vh; // Height is 80% of the viewport height
+    clip-path: polygon(0% 25%, 100% 0%, 100% 100%, 0% 100%); // Custom polygon shape
+  }
+
+  // Bottom section with dark walnut background and custom clip-path
+  .bottom {
+    position: absolute; // Absolute positioning for the bottom section
+    top: 60vh; // Placing it at 60% of the viewport height
+    background: $darkwalnut; // Dark walnut background color
+    width: 80vw; // Width is 80% of the viewport width
+    height: 20vh; // Height is 20% of the viewport height
+    clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%); // Custom polygon shape
+  }
+}
+

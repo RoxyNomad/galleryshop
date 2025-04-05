@@ -1,15 +1,19 @@
+// Importing variables and mixins for reuse throughout the styles
 @import '../variables';
 @import '../mixins';
 
+// Main container for the sentence element
 .container {
+
+  // Styling for the sentence inside the container
 	.sentence {
-		font-size: 3vh;
-		text-align: center;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		font-family: $cinzel;
-		color: $champagne-beige
+		font-size: 5vh; // Set font size relative to the viewport height (5% of viewport height)
+		text-align: center; // Center the text horizontally within the container
+		position: absolute; // Position the sentence in the middle of the container
+		top: 50%; // Position from the top 50% of the container
+		left: 50%; // Position from the left 50% of the container
+		transform: translate(-50%, -50%); // Apply transform to adjust the element by 50% of its own size to truly center it		
+		font-family: $cinzel; // Apply the Cinzel font family to the text
+		color: $champagne-beige; // Set the text color to champagne beige (a color variable defined elsewhere)
 	}
 }

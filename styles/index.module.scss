@@ -1,37 +1,44 @@
+// Importing variables and mixins for reuse throughout the styles
 @import './variables.scss';
 @import './mixins.scss';
 
+// Hero section styling
 .heroSection {
-	@include flex-center;
-	flex-direction: column;
+	@include flex-center; // Apply flexbox centering from mixin
+	flex-direction: column; // Arrange content in a column direction
 
+	// Headline styling within the hero section
 	.headline {
-		font-family: $cinzel;
-		font-size: 5vh;
-		color: $champagne-beige;
-		margin-top: 45vh;
+		font-family: $cinzel; // Set font to Cinzel
+		font-size: 5vh; // Set font size to 5% of the viewport height
+		color: $champagne-beige; // Set text color to champagne beige
+		margin-top: 45vh; // Position the headline 45% from the top of the viewport
 	}
 	
+	// Call-to-action button styling
 	.ctaButton {
-		background-color: $black-20;
-		margin-top: 2vh;
-		border: 0.1vh solid $pearl-gold;
-		border-radius: 4vh;
-		padding: 0 1vw;
+		background-color: $black-20; // Set background color with opacity
+		margin-top: 2vh; // Add margin on top of the button
+		border: 0.1vh solid $pearl-gold; // Set border color to pearl gold
+		border-radius: 4vh; // Apply rounded corners to the button
+		padding: 0 1vw; // Horizontal padding inside the button
 	
+		// Hover effect for the CTA button
 		&:hover {
-			background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
+			background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Gradient background on hover
 
+			// Change link color on hover
 			.ctaLink {
-				color: $black;
+				color: $black; // Set text color to black when hovered
 			}
 		}
 
+		// Link inside the CTA button styling
 		.ctaLink {
-			color: $champagne-beige;
-			font-size: 3vh;
-			font-family: $playfair;
-			text-decoration: none;
+			color: $champagne-beige; // Set link color to champagne beige
+			font-size: 3vh; // Set font size to 3% of the viewport height
+			font-family: $playfair; // Set font to Playfair
+			text-decoration: none; // Remove underline from the link
 		}
 	}
 }

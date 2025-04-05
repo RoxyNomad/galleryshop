@@ -1,0 +1,35 @@
+// Importing shared variables and mixins for reuse
+@import './variables.scss';
+@import './mixins.scss';
+
+// Styling the picture container that holds the image grid
+.pictureContainer {
+  display: grid; // Using grid layout for the container
+  grid-template-columns: repeat(auto-fill, minmax(20vw, 1fr)); // Dynamically adjusting column sizes; each column should be at least 20vw wide, but can grow to fill available space
+  grid-gap: 2vw; // Setting a 2vw gap between grid items
+  width: 90vw; // The container width is 90% of the viewport width
+  height: 70vh; // The container height is 70% of the viewport height
+  margin: 3vh auto; // Adding a 3% viewport height margin at the top and bottom, and centering horizontally
+
+  // Styling for individual picture fields inside the container
+  .pictureField {
+    @include flex-center; // Using the flex-center mixin to center content horizontally and vertically
+    justify-content: flex-start; // Aligning items to the start of the container along the main axis (vertically)
+    flex-direction: column; // Arranging items vertically within the pictureField
+
+    // Styling for individual images within the pictureField
+    .picture {
+      width: 20vw; // Setting the width of the image to 20% of the viewport width
+      height: 20vh; // Setting the height of the image to 20% of the viewport height
+      border: 0.1vh solid $pearl-gold; // Adding a thin gold border around the image
+      border-radius: 1vh; // Rounding the corners of the image with a radius of 1vh
+    }
+  
+    // Styling for the image label
+    .pictureLabel {
+      font-family: $playfair; // Using Playfair font for the label text
+      font-size: 2vh; // Setting the font size to 2% of the viewport height
+      color: $champagne-beige; // Setting the text color to champagne beige
+    }
+  }
+}

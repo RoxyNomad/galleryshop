@@ -1,0 +1,185 @@
+// Importing shared variables and mixins for reuse
+@import './variables.scss';
+@import './mixins.scss';
+
+// Styling the selection bar container
+.selectionBar {
+  position: relative; // Making the selection bar positioned relative to its parent container
+  background-color: $black; // Setting the background color to black
+  width: 100vw; // Full viewport width
+  height: 10vh; // Height is 10% of the viewport height
+  margin-top: 9vh; // Adding a margin of 9% of the viewport height at the top
+
+  // Styling for the buttons inside the selection bar
+  .displaySelectionButtonStandart,
+  .displaySelectionButtonFullscreen {
+    background-color: $black; // Setting button background color to black
+    color: $champagne-beige; // Setting button text color to champagne beige
+    font-size: 2vh; // Setting font size to 2% of the viewport height
+    font-family: $playfair; // Using Playfair font
+    text-decoration: none; // Removing text decoration (like underline)
+    margin: 0; // Removing default margin
+  }
+
+  // Styling the display selection container
+  .displaySelection {
+    background-color: $black; // Setting background color to black
+    border: 0.1vh solid $pearl-gold; // Adding a border with pearl gold color
+    border-radius: 1vh; // Rounding the corners of the container
+    display: flex; // Using flexbox layout
+    position: absolute; // Positioning the container absolutely within the selection bar
+    top: 49%; // Vertically centering the container
+    transform: translateY(-50%); // Centering by translating it by 50% of its own height
+    left: 5%; // Moving the container 5% from the left
+
+    // Common styling for both button types inside display selection
+    .displaySelectionButtonStandart,
+    .displaySelectionButtonFullscreen {
+      flex: 1; // Each button takes equal width within the container
+      border: none; // Removing the default border
+      cursor: pointer; // Changing cursor to pointer to indicate it's clickable
+      font-weight: bold; // Making the font bold
+    }
+
+    // Styling for the fullscreen button when active
+    .displaySelectionButtonFullscreen {
+      background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Radial gradient background
+      color: $black; // Setting the text color to black
+      border-top-right-radius: 1vh; // Rounding the top right corner
+      border-bottom-right-radius: 1vh; // Rounding the bottom right corner
+    }
+
+    // Styling for the standard button (inactive, but hoverable)
+    .displaySelectionButtonStandart {
+      border-top-left-radius: 1vh; // Rounding the top left corner
+      border-bottom-left-radius: 1vh; // Rounding the bottom left corner
+      background: $black; // Background color is black
+      color: $champagne-beige; // Text color is champagne beige
+
+      &:hover {
+        background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Change background on hover
+        color: $black; // Change text color to black on hover
+      }
+    }
+
+    // Changing fullscreen button appearance when the standard button is hovered
+    &:has(.displaySelectionButtonStandart:hover) .displaySelectionButtonFullscreen {
+      background: $black; // Fullscreen button background turns black
+      color: $champagne-beige; // Fullscreen button text color turns champagne beige
+    }
+  }
+}
+
+// Styling the fullscreen container that holds the image and navigation buttons
+.fullscreenContainer {
+  @include flex-center; // Using flex-center mixin to center the content
+  flex-direction: row; // Laying out elements in a row
+  width: 100vw; // Full viewport width
+
+  // Styling for previous and next buttons
+  .prevButton, .nextButton {
+    position: absolute; // Positioning buttons absolutely within the container
+    top: 59%; // Vertically positioning at 59% from the top
+    transform: translateY(-41%); // Fine-tuning vertical position
+    background-color: $black-20; // Background color with slight transparency
+    color: $champagne-beige; // Text color is champagne beige
+    font-size: 2vh; // Font size is 2% of the viewport height
+    font-family: $playfair; // Using Playfair font
+    text-decoration: none; // Removing text decoration
+    border: 0.1vh solid $pearl-gold; // Adding a gold border
+    border-radius: 1vh; // Rounding the corners
+    padding: 1vh; // Padding around the button content
+    cursor: pointer; // Changing cursor to pointer on hover
+
+    &:first-child {
+      left: 5%; // Position the first button on the left side with a 5% margin
+    }
+    &:last-child {
+      right: 5%; // Position the second button on the right side with a 5% margin
+    }
+
+    &:hover {
+      background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Change background on hover
+      color: $black; // Change text color to black on hover
+    }
+  }
+}
+
+// Styling the picture container that holds the image sections
+.pictureContainer {
+  position: relative; // Positioning relative to place other elements inside it
+  margin: 0 auto; // Centering the container horizontally
+  width: 80vw; // Setting the container width to 80% of the viewport width
+  height: 80vh; // Setting the container height to 80% of the viewport height
+
+  // Styling for the top section of the picture container
+  .top {
+    position: absolute; // Absolute positioning for the top section
+    background: linear-gradient($warmoffwhite, $warmoffwhite2); // Gradient background
+    width: 80vw; // Setting width to 80% of the viewport width
+    height: 20vh; // Height is 20% of the viewport height
+    clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%); // Creating a polygonal clipping path
+  }
+
+  // Styling for the left section of the picture container
+  .left {
+    position: absolute; // Absolute positioning for the left section
+    top: 0; // Aligning it to the top of the container
+    background: linear-gradient(to right, $warmoffwhite, $warmoffwhite2); // Gradient background
+    width: 20vw; // Width is 20% of the viewport width
+    height: 80vh; // Height is 80% of the viewport height
+    clip-path: polygon(0% 0%, 100% 25%, 100% 100%, 0% 100%); // Creating a polygonal clipping path
+  }
+
+  // Styling for the middle section of the picture container
+  .middle {
+    position: absolute; // Absolute positioning for the middle section
+    top: 20vh; // Positioning it below the top section
+    left: 20vw; // Positioning it with a 20% margin from the left
+    background: $warmoffwhite; // Background color is a warm off-white
+    width: 40vw; // Width is 40% of the viewport width
+    height: 40vh; // Height is 40% of the viewport height
+    @include flex-center; // Using flex-center mixin to center content inside
+    flex-direction: column; // Arranging content vertically
+  }
+
+  // Styling for the fullscreen image inside the picture container
+  .fullscreenImage {
+    width: 30vw; // Width is 30% of the viewport width
+    height: 30vh; // Height is 30% of the viewport height
+    border: 0.1vh solid $pearl-gold; // Thin pearl-gold border around the image
+    border-radius: 1vh; // Rounded corners for the image
+    margin-top: 7vh; // Adding space above the image
+  }
+  
+  // Styling for the image caption
+  .imageCaption {
+    font-family: $playfair; // Using Playfair font for the caption
+    text-align: center; // Center-aligning the text
+    font-size: 3vh; // Font size is 3% of the viewport height
+    margin-top: 0; // Removing any top margin
+    color: $black; // Setting the text color to black
+  }
+
+  // Styling for the right section of the picture container
+  .right {
+    position: absolute; // Absolute positioning for the right section
+    top: 0; // Aligning it to the top of the container
+    right: 0; // Aligning it to the right of the container
+    background: linear-gradient(to left, $warmoffwhite, $warmoffwhite2); // Gradient background
+    width: 20vw; // Width is 20% of the viewport width
+    height: 80vh; // Height is 80% of the viewport height
+    clip-path: polygon(0% 25%, 100% 0%, 100% 100%, 0% 100%); // Creating a polygonal clipping path
+  }
+
+  // Styling for the bottom section of the picture container
+  .bottom {
+    position: absolute; // Absolute positioning for the bottom section
+    top: 60vh; // Positioning it at 60% of the viewport height from the top
+    background: $darkwalnut; // Dark walnut color background
+    width: 80vw; // Width is 80% of the viewport width
+    height: 20vh; // Height is 20% of the viewport height
+    clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%); // Creating a polygonal clipping path
+  }
+}
+

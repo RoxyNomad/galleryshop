@@ -2,146 +2,165 @@
 @import '../mixins';
 
 .messageContainer {
+	// Container for the entire message area
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	padding: 7vh 12vw;
-	text-align: center;
-	position: relative;
-	gap: 5vh; // Abstand zwischen den Elementen
+	flex-direction: column; // Align items vertically
+	align-items: center; // Center align items horizontally
+	justify-content: center; // Center the content
+	padding: 7vh 12vw; // Padding for top, bottom, left, and right
+	text-align: center; // Center align text
+	position: relative; // Set position to relative for positioning child elements
+	gap: 5vh; // Space between child elements
 
 	.messageField {
-		background: radial-gradient($dark-gold 60%, $pearl-gold);
-		color: $black;
-		font-family: $playfair;
-		font-size: 2vh;
-		border: 0.1vh solid $pearl-gold;
-		border-radius: 1vh;
-		width: 75vw;
-		height: 50vh;
-		padding: 2vh 2vw;
-		position: relative; // Position anpassen
+		// Message field styling
+		background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Gradient background
+		color: $black; // Text color
+		font-family: $playfair; // Font style
+		font-size: 2vh; // Font size
+		border: 0.1vh solid $pearl-gold; // Border styling
+		border-radius: 1vh; // Rounded corners
+		width: 75vw; // Set width to 75% of the viewport width
+		height: 50vh; // Set height to 50% of the viewport height
+		padding: 2vh 2vw; // Padding for the content inside
+		position: relative; // Relative positioning for inner elements
 
 		.messageFieldHeader {
-			height: 8vh;
+			// Header of the message field
+			height: 8vh; // Set the height of the header
 
 			.select {
-				background-color: $dark-grey;
-				border: 0.1vh solid $pearl-gold;
-				border-radius: 1vh;
-				color: $champagne-beige;
-				font-family: $playfair;
-				font-size: 2vh;
+				// Select dropdown styling inside the header
+				background-color: $dark-grey; // Background color
+				border: 0.1vh solid $pearl-gold; // Border styling
+				border-radius: 1vh; // Rounded corners
+				color: $champagne-beige; // Text color
+				font-family: $playfair; // Font style
+				font-size: 2vh; // Font size
 
 				.option {
-					color: $champagne-beige;
+					// Styling for options inside the select dropdown
+					color: $champagne-beige; // Text color
 				}
 			}
 		}
 
 		.messageFieldBody {
-			height: 30vh;
-			
+			// Body section of the message field
+			height: 30vh; // Set height for the body section
+
 			.textarea {
-				width: 100%;
-				height: 100%;
-				background-color: $dark-grey;
-				color: $champagne-beige;
-				border: 0.1vh solid $pearl-gold;
-				border-radius: 1vh;
-				padding: 1vh;
+				// Textarea for input inside the body
+				width: 100%; // Full width of the container
+				height: 100%; // Full height of the container
+				background-color: $dark-grey; // Background color
+				color: $champagne-beige; // Text color
+				border: 0.1vh solid $pearl-gold; // Border styling
+				border-radius: 1vh; // Rounded corners
+				padding: 1vh; // Padding inside the textarea
 			}
 		}
 
 		.messageFieldFooter {
+			// Footer of the message field
+
 			.sendButton {
-				margin-top: 4vh;
-				font-family: $playfair;
-				font-size: 2vh;
-				padding: 1vh;
-				border: 0.1vh solid $pearl-gold;
-				border-radius: 1vh;
-				background: radial-gradient($dark-gold 60%, $pearl-gold);
+				// Styling for the send button in the footer
+				margin-top: 4vh; // Top margin for spacing
+				font-family: $playfair; // Font style
+				font-size: 2vh; // Font size
+				padding: 1vh; // Padding for the button
+				border: 0.1vh solid $pearl-gold; // Border styling
+				border-radius: 1vh; // Rounded corners
+				background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Gradient background
 
 				&:hover {
-					background: $dark-grey;
-					color: $champagne-beige;
-					cursor: pointer;
+					// Hover effect for the button
+					background: $dark-grey; // Background color on hover
+					color: $champagne-beige; // Text color on hover
+					cursor: pointer; // Change cursor to pointer on hover
 				}
 			}
 		}
 	}
 
 	.messageList {
-		display: flex;
-		justify-content: space-between; // Elemente verteilen sich nach links und rechts
-		width: 100%;
-		padding: 2vh 0;
+		// Message list container styling
+		display: flex; // Flexbox layout
+		justify-content: space-between; // Space between the message items
+		width: 100%; // Full width of the container
+		padding: 2vh 0; // Vertical padding
 
 		.messageItem {
-			font-size: 3vh;
-			font-family: $cinzel;
-			background: $dark-grey;
-			color: $champagne-beige;
-			cursor: pointer;
-			border: 0.1vh solid $pearl-gold;
-			border-radius: 1vh;
-			padding: 1vh;
-			flex: 1; // Jedes Element nimmt den gleichen Platz ein
-			text-align: center;
-			max-width: 10vw;
+			// Individual message item styling
+			font-size: 3vh; // Font size for the message
+			font-family: $cinzel; // Font style
+			background: $dark-grey; // Background color
+			color: $champagne-beige; // Text color
+			cursor: pointer; // Change cursor on hover
+			border: 0.1vh solid $pearl-gold; // Border styling
+			border-radius: 1vh; // Rounded corners
+			padding: 1vh; // Padding inside the message item
+			flex: 1; // Flexbox property to make all items equal in size
+			text-align: center; // Center align text inside the item
+			max-width: 10vw; // Limit max width to 10% of viewport width
 
 			&:hover {
-				background: radial-gradient($dark-gold 60%, $pearl-gold);
-				color: $black;
+				// Hover effect for the message item
+				background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Gradient background on hover
+				color: $black; // Change text color on hover
 			}
 		}
 	}
 
 	.overlayContainer {
-		background-color: rgba(0, 0, 0, 0.7);
-		width: 100%;
-		height: 100%;
-		position: fixed;
-		top: 0;
-		left: 0;
+		// Overlay container for modal-like behavior
+		background-color: rgba(0, 0, 0, 0.7); // Dark semi-transparent background
+		width: 100%; // Full width of the screen
+		height: 100%; // Full height of the screen
+		position: fixed; // Fixed position on the screen
+		top: 0; // Align to the top
+		left: 0; // Align to the left
 
 		.overlay {
-			background: radial-gradient($dark-gold 60%, $pearl-gold);
-			border: 0.1vh solid $pearl-gold;
-			border-radius: 1vh;
-			max-width: 75vw;
-			position: fixed;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%); // Genau zentrieren
-	
+			// Styling for the overlay modal
+			background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Gradient background
+			border: 0.1vh solid $pearl-gold; // Border styling
+			border-radius: 1vh; // Rounded corners
+			max-width: 75vw; // Maximum width of 75% of the viewport width
+			position: fixed; // Fixed positioning
+			top: 50%; // Position in the center vertically
+			left: 50%; // Position in the center horizontally
+			transform: translate(-50%, -50%); // Center the overlay exactly
+
 			.overlayContent {
-				font-family: $playfair;
-				font-size: 3vh;
-	
+				// Content inside the overlay modal
+				font-family: $playfair; // Font style
+				font-size: 3vh; // Font size
+
 				.chatMessage {
-					font-family: 2vh;
+					// Chat message inside the overlay
+					font-family: 2vh; // Font size for the chat message
 				}
-	
+
 				.chatButton {
-					background: $dark-grey;
-					border: 0.1vh solid $pearl-gold;
-					border-radius: 1vh;
-					color: $champagne-beige;
-					font-family: $playfair;
-					font-size: 3vh;
-					cursor: pointer;
-	
+					// Styling for the chat button inside the overlay
+					background: $dark-grey; // Background color
+					border: 0.1vh solid $pearl-gold; // Border styling
+					border-radius: 1vh; // Rounded corners
+					color: $champagne-beige; // Text color
+					font-family: $playfair; // Font style
+					font-size: 3vh; // Font size
+					cursor: pointer; // Change cursor to pointer on hover
+
 					&:hover {
-						background: radial-gradient($dark-gold 60%, $pearl-gold);
-						color: $black;
+						// Hover effect for the chat button
+						background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Gradient background on hover
+						color: $black; // Change text color on hover
 					}
 				}
 			}
 		}
 	}
-
-	
 }
+

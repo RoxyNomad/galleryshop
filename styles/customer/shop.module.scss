@@ -1,184 +1,210 @@
-@import '../variables';
-@import '../mixins';
+@import '../variables'; // Import global variables like colors, fonts, etc.
+@import '../mixins';    // Import reusable mixins for layout and styles
 
+// Styles for the shop container
 .shopContainer {
-	margin: 0;
-	padding: 0;
+  margin: 0; // Remove default margin
+  padding: 0; // Remove default padding
 
-	.productList {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(10vw, 1fr));
-		max-width: 60vw;
-		gap: 1vh 5vw;
-		position: absolute;
-		top: 10%;
-		left: 50%;
-		transform: translateX(-50%);
+  // Styles for the product list grid
+  .productList {
+    display: grid; // Use CSS Grid for layout
+    grid-template-columns: repeat(auto-fill, minmax(10vw, 1fr)); // Auto-fill columns with minimum width of 10vw and equal distribution
+    max-width: 60vw; // Set maximum width to 60% of the viewport width
+    gap: 1vh 5vw; // Add vertical and horizontal gaps between grid items
+    position: absolute; // Position the grid absolutely
+    top: 10%; // Set the grid 10% from the top of the parent container
+    left: 50%; // Center the grid horizontally
+    transform: translateX(-50%); // Adjust horizontal positioning to perfectly center it
 
-		.productCard {
-			border: 0.1vh solid $pearl-gold;
-			border-radius: 1vh;
-			padding: 1vh;
-			text-align: center;
-			color: $champagne-beige;
-			font-family: $playfair;
-			font-size: 2vh;
+    // Styles for individual product cards
+    .productCard {
+      border: 0.1vh solid $pearl-gold; // Add a thin pearl-gold border around the card
+      border-radius: 1vh; // Apply rounded corners with a 1vh radius
+      padding: 1vh; // Add padding inside the product card
+      text-align: center; // Center the text inside the card
+      color: $champagne-beige; // Set the text color to champagne beige
+      font-family: $playfair; // Set the font family to Playfair
+      font-size: 2vh; // Set font size to 2vh
 
-			.productImage {
-				border: 0.1vh solid $pearl-gold;
-				border-radius: 1vh;
-			}
+      // Styles for the product image
+      .productImage {
+        border: 0.1vh solid $pearl-gold; // Add a thin border around the image
+        border-radius: 1vh; // Apply rounded corners to the image
+      }
 
-			.addToButton {
-				border: 0.1vh solid $pearl-gold;
-				border-radius: 1vh;
-				background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
-				font-family: $playfair;
-				font-size: 2vh;
-				margin-bottom: 0.5vh;
+      // Styles for the "Add to Cart" button
+      .addToButton {
+        border: 0.1vh solid $pearl-gold; // Add a pearl-gold border
+        border-radius: 1vh; // Apply rounded corners
+        background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Apply a radial gradient background from dark gold to pearl gold
+        font-family: $playfair; // Set the font family to Playfair
+        font-size: 2vh; // Set the font size to 2vh
+        margin-bottom: 0.5vh; // Add some space below the button
 
-				&:hover {
-					background: $dark-grey;
-					color: $champagne-beige;
-					cursor: pointer;
-				}
-			}
-		}
-	}
-	
-	.cartButton {
-		margin: 0;
-		background-color: $black-20;
-		border: 0.1vh solid $pearl-gold;
-		border-radius: 4vh;
-		padding: 1vh;
-		height: 4vh;
-		position: absolute;
-		top: 5%;
-		right: 5%;
-	
-		&:hover {
-			background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
-			cursor: pointer;
-			
-			.buttonImage {
-				filter: none;
-			}
-		}
-		
-		.buttonImage {
-			filter: invert(85%) sepia(50%) saturate(200%) hue-rotate(20deg);
-		}
-	}
+        // Styles for the hover state of the button
+        &:hover {
+          background: $dark-grey; // Change the background to dark grey on hover
+          color: $champagne-beige; // Change the text color to champagne beige on hover
+          cursor: pointer; // Change the cursor to a pointer when hovering
+        }
+      }
+    }
+  }
+  
+  // Styles for the cart button
+  .cartButton {
+    margin: 0; // Remove default margin
+    background-color: $black-20; // Set the background color to a semi-transparent black
+    border: 0.1vh solid $pearl-gold; // Add a thin pearl-gold border
+    border-radius: 4vh; // Apply rounded corners with a 4vh radius
+    padding: 1vh; // Add padding inside the button
+    height: 4vh; // Set the button height to 4vh
+    position: absolute; // Position the button absolutely
+    top: 5%; // Place the button 5% from the top of the parent container
+    right: 5%; // Place the button 5% from the right edge of the parent container
 
-	.wishlistButton {
-		margin: 0;
-		background-color: $black-20;
-		border: 0.1vh solid $pearl-gold;
-		border-radius: 4vh;
-		padding: 1vh;
-		height: 4vh;
-		position: absolute;
-		top: 5%;
-		right: 10%;
-	
-		&:hover {
-			background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
-			cursor: pointer;
-			
-			.buttonImage {
-				filter: none;
-			}
-		}
-		
-		.buttonImage {
-			filter: invert(85%) sepia(50%) saturate(200%) hue-rotate(20deg);
-		}
-	}
-	
-	.overlayContainer {
-		position: fixed;
-		top: 0;
-		left: 0;
-		background: rgba(0, 0, 0, 0.7);
-		z-index: 2;
-		width: 100%;
-		height: 100%;
+    // Styles for the hover state of the button
+    &:hover {
+      background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Change background on hover
+      cursor: pointer; // Change cursor to a pointer when hovering
 
-		.cartOverlay {
-			position: fixed;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			z-index: 3;
-			border: 0.1vh solid $pearl-gold;
-			border-radius: 1vh;
-			padding: 1vh;
-			background: radial-gradient($dark-gold 60%, $pearl-gold);
-			width: 20vw;
+      // Styles for the button image inside the cart button
+      .buttonImage {
+        filter: none; // Remove the filter effect on hover
+      }
+    }
 
-			.cartContent {
-				z-index: 4;
-				font-family: $playfair;
-				text-align: center;
+    // Styles for the button image (applies filter effect)
+    .buttonImage {
+      filter: invert(85%) sepia(50%) saturate(200%) hue-rotate(20deg); // Apply a color filter to the button image
+    }
+  }
 
-				.closeButton {
-					border: 0.1vh solid $pearl-gold;
-					border-radius: 1vh;
-					background: radial-gradient($dark-gold 60%, $pearl-gold);
-					z-index: 4;
-					padding: 0.5vh;
+  // Styles for the wishlist button (similar to cart button)
+  .wishlistButton {
+    margin: 0; // Remove default margin
+    background-color: $black-20; // Set background to semi-transparent black
+    border: 0.1vh solid $pearl-gold; // Add a thin border with pearl-gold
+    border-radius: 4vh; // Apply rounded corners with a 4vh radius
+    padding: 1vh; // Add padding inside the button
+    height: 4vh; // Set button height to 4vh
+    position: absolute; // Position the button absolutely
+    top: 5%; // Place the button 5% from the top of the parent container
+    right: 10%; // Place the button 10% from the right edge of the parent container
 
-					&:hover {
-						background: $dark-grey;
-						color: $champagne-beige;
-						cursor: pointer;
-					}
-				}
+    // Styles for the hover state of the button
+    &:hover {
+      background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Change background on hover
+      cursor: pointer; // Change cursor to pointer on hover
 
-				.cartArticle {
-					display: flex;
-					align-items: center;
-					flex-direction: column;
+      // Styles for the button image inside the wishlist button
+      .buttonImage {
+        filter: none; // Remove the filter effect on hover
+      }
+    }
 
-					.spanContainer {
-						display: flex;
-						text-align: center;
-						gap: 2vw;
-					}
-				}
+    // Styles for the button image (applies filter effect)
+    .buttonImage {
+      filter: invert(85%) sepia(50%) saturate(200%) hue-rotate(20deg); // Apply a color filter to the button image
+    }
+  }
+  
+  // Styles for the overlay container
+  .overlayContainer {
+    position: fixed; // Fix the overlay to the viewport
+    top: 0; // Align to the top of the screen
+    left: 0; // Align to the left of the screen
+    background: rgba(0, 0, 0, 0.7); // Apply a semi-transparent black background to the overlay
+    z-index: 2; // Ensure it appears above other elements
+    width: 100%; // Set width to 100% of the viewport
+    height: 100%; // Set height to 100% of the viewport
 
-				.selectionGroup {
-					font-size: 2vh;
-					display: flex;
-					justify-content: space-between;
-					gap: 0.5vw;
-					margin: 0.5vh;
+    // Styles for the cart overlay
+    .cartOverlay {
+      position: fixed; // Fix the cart overlay in place
+      top: 50%; // Place it 50% from the top of the viewport
+      left: 50%; // Place it 50% from the left of the viewport
+      transform: translate(-50%, -50%); // Center the overlay by translating it back by half of its width and height
+      z-index: 3; // Ensure the cart overlay is above the main overlay
+      border: 0.1vh solid $pearl-gold; // Add a thin pearl-gold border
+      border-radius: 1vh; // Apply rounded corners to the overlay
+      padding: 1vh; // Add padding inside the overlay
+      background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Apply a radial gradient background
+      width: 20vw; // Set the width to 20% of the viewport width
 
-					.selectionField {
-						background-color: $dark-grey;
-						color: $champagne-beige;
-						border: 0.1vh solid $pearl-gold;
-						border-radius: 1vh;
-					}
-				}
+      // Styles for the cart content
+      .cartContent {
+        z-index: 4; // Ensure cart content is above the overlay
+        font-family: $playfair; // Set the font family to Playfair
+        text-align: center; // Center align the content
 
-				.addToButton {
-					border: 0.1vh solid $pearl-gold;
-					border-radius: 1vh;
-					background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
-					font-family: $playfair;
-					font-size: 2vh;
-					margin-bottom: 0.5vh;
-	
-					&:hover {
-						background: $dark-grey;
-						color: $champagne-beige;
-						cursor: pointer;
-					}
-				}
-			}
-		}
-	}
+        // Styles for the close button in the cart overlay
+        .closeButton {
+          border: 0.1vh solid $pearl-gold; // Add a border with pearl-gold color
+          border-radius: 1vh; // Apply rounded corners to the button
+          background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Apply a radial gradient background
+          z-index: 4; // Ensure it appears above other elements inside the cart overlay
+          padding: 0.5vh; // Add padding inside the button
+
+          // Styles for hover state of the close button
+          &:hover {
+            background: $dark-grey; // Change background to dark grey on hover
+            color: $champagne-beige; // Change text color to champagne beige
+            cursor: pointer; // Change cursor to pointer on hover
+          }
+        }
+
+        // Styles for the product article inside the cart content
+        .cartArticle {
+          display: flex; // Use flexbox for layout
+          align-items: center; // Align items in the center
+          flex-direction: column; // Stack items vertically
+
+          // Styles for the span container inside the cart article
+          .spanContainer {
+            display: flex; // Use flexbox for layout
+            text-align: center; // Center align the text
+            gap: 2vw; // Add gap between elements
+          }
+        }
+
+        // Styles for the selection group (for options like quantity or size)
+        .selectionGroup {
+          font-size: 2vh; // Set font size to 2vh
+          display: flex; // Use flexbox for layout
+          justify-content: space-between; // Distribute items evenly with space between
+          gap: 0.5vw; // Add gap between elements
+          margin: 0.5vh; // Add margin between the group and surrounding elements
+
+          // Styles for individual selection fields
+          .selectionField {
+            background-color: $dark-grey; // Set background color to dark grey
+            color: $champagne-beige; // Set text color to champagne beige
+            border: 0.1vh solid $pearl-gold; // Add a thin border with pearl-gold
+            border-radius: 1vh; // Apply rounded corners
+          }
+        }
+
+        // Styles for the "Add to Cart" button in the cart overlay
+        .addToButton {
+          border: 0.1vh solid $pearl-gold; // Add a thin border with pearl-gold
+          border-radius: 1vh; // Apply rounded corners to the button
+          background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Apply a radial gradient background
+          font-family: $playfair; // Set the font family to Playfair
+          font-size: 2vh; // Set font size to 2vh
+          margin-bottom: 0.5vh; // Add space below the button
+
+          // Styles for the hover state of the button
+          &:hover {
+            background: $dark-grey; // Change background to dark grey on hover
+            color: $champagne-beige; // Change text color to champagne beige
+            cursor: pointer; // Change cursor to pointer on hover
+          }
+        }
+      }
+    }
+  }
 }
+
 

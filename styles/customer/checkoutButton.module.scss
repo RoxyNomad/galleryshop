@@ -1,18 +1,20 @@
-@import '../variables';
-@import '../mixins';
+@import '../variables'; // Importing global variables like colors, fonts, etc.
+@import '../mixins';    // Importing reusable mixins for layout and styles
 
+// Styles for the checkout button
 .checkoutButton {
-	background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
-	border: 0.1vh solid $pearl-gold;
-	border-radius: 1vh;
-	padding: 1vh;
-	font-family: $playfair;
-	font-size: 2vh;
-	cursor: pointer;
-	text-align: center;
+  background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Set a radial gradient background from dark gold to pearl gold
+  border: 0.1vh solid $pearl-gold; // Add a thin border with pearl gold color
+  border-radius: 1vh; // Apply rounded corners with a 1vh radius
+  padding: 1vh; // Add 1vh padding inside the button
+  font-family: $playfair; // Set the font family to Playfair
+  font-size: 2vh; // Set the font size to 2vh (2% of the viewport height)
+  cursor: pointer; // Change the cursor to a pointer when hovering over the button
+  text-align: center; // Align the text in the center of the button
 
-	&:hover {
-		background: $dark-grey;
-		color: $champagne-beige;
-	}
+  // Styles for the button when hovered over
+  &:hover {
+    background: $dark-grey; // Change the background to dark grey when hovered
+    color: $champagne-beige; // Change the text color to champagne beige when hovered
+  }
 }

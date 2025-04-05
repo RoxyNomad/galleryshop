@@ -3,7 +3,7 @@ import { supabase } from '@/utils/supabaseClient';
 import { Picture } from '@/services/types'; // Ensure this type is correctly defined
 import Link from 'next/link';
 import Image from 'next/image';
-import styles from '@/styles/noveltiesFullscreen.module.scss';
+import styles from '@/styles/novelties/noveltiesFullscreen.module.scss';
 
 const NoveltiesFullscreen = () => {
   const [pictures, setPictures] = useState<Picture[]>([]); // State to hold pictures fetched from the database

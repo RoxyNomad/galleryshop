@@ -1,115 +1,134 @@
-@import '../variables';
-@import '../mixins';
+// Import global variables and mixins
+@import '../variables'; // Import global variables such as colors, font sizes, etc.
+@import '../mixins'; // Import reusable mixins (functions or reusable styles)
 
+// Styles for the profile page
 .profilePage {
-	padding-top: 7vh;
+  padding-top: 7vh; // Add padding to the top of the page
 
-	.profileContainer {
-		@include flex-center;
-		flex-direction: column;
-		text-align: center;
-		margin: auto;
-		padding: 2vh 0;
-		background: radial-gradient($dark-gold 60%, $pearl-gold);
-		border: 0.1vh solid $pearl-gold;
-		border-radius: 1vh;
-		width: 75vw;
-		font-family: $playfair;
-		
-		.profileHeader {
-			font-family: $cinzel;
-			font-size: 2vh;
-	
-			.editButton {
-				background-color: $dark-grey;
-				color: $champagne-beige;
-				font-size: 2vh;
-				padding: 1vh;
-				margin-bottom: 2vh;
-				border: 0.1vh solid $pearl-gold;
-				border-radius: 1vh;
-				cursor: pointer;
-	
-				&:hover {
-					background: radial-gradient($dark-gold 60%, $pearl-gold);
-					color: $black
-				}
-			}
-		}
-	
-		.editProfileForm {
-			@include flex-center;
-			flex-direction: column;
-			gap: 2vh;
-	
-			.editInput, .editTextarea {
-				font-family: $playfair;
-				font-size: 2vh;
-				background-color: $dark-grey;
-				color: $champagne-beige;
-				border: 0.1vh solid $pearl-gold;
-				border-radius: 1vh;
-				padding: 0.5vh;
-				text-align: center;
-				width: 40vw;
-	
-				&:nth-child(1) {
-					width: 20vw;
-				}
-	
-				&:nth-child(2) {
-					height: 30vh;
-				}
-			}
-	
-			.editSaveButton {
-				background-color: $dark-grey;
-				color: $champagne-beige;
-				font-size: 2vh;
-				padding: 1vh;
-				margin-bottom: 2vh;
-				border: 0.1vh solid $pearl-gold;
-				border-radius: 1vh;
-				cursor: pointer;
-	
-				&:hover {
-					background: radial-gradient($dark-gold 60%, $pearl-gold);
-					color: $black
-				}
-			}
-		}
-	
-		.profileInfo {
-			font-size: 2vh;
-	
-			.imagesContainer {
-				@include flex-center;
-			
-				.profileImageContainer, .coverImageContainer {
-					padding: 2vh 2vw;
-			
-					.coverImage {
-						border: 0.1vh solid $pearl-gold;
-						border-radius: 1vh;
-					}
+  // Container for profile information
+  .profileContainer {
+    @include flex-center; // Use mixin to center content horizontally and vertically
+    flex-direction: column; // Stack elements vertically
+    text-align: center; // Center text horizontally
+    margin: auto; // Center container horizontally
+    padding: 2vh 0; // Add padding to the container
+    background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Set background to a radial gradient
+    border: 0.1vh solid $pearl-gold; // Add border to the container
+    border-radius: 1vh; // Add border radius to the container
+    width: 75vw; // Set width to 75% of the viewport width
+    font-family: $playfair; // Set font family to Playfair
 
-					.profileImage {
-						width: 7vw;
-						height: 14vh;
-						border: 0.1vh solid $pearl-gold;
-						border-radius: 7vh;
-					}
-				}
-			}
+    // Header for profile information
+    .profileHeader {
+      font-family: $cinzel; // Set font family to Cinzel
+      font-size: 2vh; // Set font size to 2vh
 
-			.profileInfoBio {
-				width: 50vw;
-			}
+      // Button to edit profile information
+      .editButton {
+        background-color: $dark-grey; // Set background color to dark grey
+        color: $champagne-beige; // Set text color to champagne beige
+        font-size: 2vh; // Set font size to 2vh
+        padding: 1vh; // Add padding to the button
+        margin-bottom: 2vh; // Add margin to the bottom of the button
+        border: 0.1vh solid $pearl-gold; // Add border to the button
+        border-radius: 1vh; // Add border radius to the button
+        cursor: pointer; // Change cursor to a pointer
 
-			.profileInfoLink {
-				text-decoration: none;
-				color: $black;
-			}
-		}
-	}
+        // Styles for button hover state
+        &:hover {
+          background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Set background to a radial gradient
+          color: $black; // Set text color to black
+        }
+      }
+    }
+
+    // Form to edit profile information
+    .editProfileForm {
+      @include flex-center; // Use mixin to center content horizontally and vertically
+      flex-direction: column; // Stack elements vertically
+      gap: 2vh; // Add gap between form elements
+
+      // Input fields and text area for editing profile information
+      .editInput, .editTextarea {
+        font-family: $playfair; // Set font family to Playfair
+        font-size: 2vh; // Set font size to 2vh
+        background-color: $dark-grey; // Set background color to dark grey
+        color: $champagne-beige; // Set text color to champagne beige
+        border: 0.1vh solid $pearl-gold; // Add border to the input fields and text area
+        border-radius: 1vh; // Add border radius to the input fields and text area
+        padding: 0.5vh; // Add padding to the input fields and text area
+        text-align: center; // Center text horizontally
+        width: 40vw; // Set width to 40% of the viewport width
+
+        // Styles for the first input field
+        &:nth-child(1) {
+          width: 20vw; // Set width to 20% of the viewport width
+        }
+
+        // Styles for the text area
+        &:nth-child(2) {
+          height: 30vh; // Set height to 30vh
+        }
+      }
+
+      // Button to save edited profile information
+      .editSaveButton {
+        background-color: $dark-grey; // Set background color to dark grey
+        color: $champagne-beige; // Set text color to champagne beige
+        font-size: 2vh; // Set font size to 2vh
+        padding: 1vh; // Add padding to the button
+        margin-bottom: 2vh; // Add margin to the bottom of the button
+        border: 0.1vh solid $pearl-gold; // Add border to the button
+        border-radius: 1vh; // Add border radius to the button
+        cursor: pointer; // Change cursor to a pointer
+
+        // Styles for button hover state
+        &:hover {
+          background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Set background to a radial gradient
+          color: $black; // Set text color to black
+        }
+      }
+    }
+
+    // Container for profile information
+    .profileInfo {
+      font-size: 2vh; // Set font size to 2vh
+
+      // Container for profile images
+      .imagesContainer {
+        @include flex-center; // Use mixin to center content horizontally and vertically
+
+        // Containers for profile and cover images
+        .profileImageContainer, .coverImageContainer {
+          padding: 2vh 2vw; // Add padding to the containers
+
+          // Cover image
+          .coverImage {
+            border: 0.1vh solid $pearl-gold; // Add border to the cover image
+            border-radius: 1vh; // Add border radius to the cover image
+          }
+
+          // Profile image
+          .profileImage {
+            width: 7vw; // Set width to 7% of the viewport width
+            height: 14vh; // Set height to 14vh
+            border: 0.1vh solid $pearl-gold; // Add border to the profile image
+            border-radius: 7vh; // Add border radius to the profile image
+          }
+        }
+      }
+
+      // Bio information
+      .profileInfoBio {
+        width: 50vw; // Set width to 50% of the viewport width
+      }
+
+      // Link to external profile
+      .profileInfoLink {
+        text-decoration: none; // Remove text decoration
+        color: $black; // Set text color to black
+      }
+    }
+  }
 }

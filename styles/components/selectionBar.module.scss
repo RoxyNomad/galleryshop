@@ -1,0 +1,236 @@
+@import './variables';
+@import './mixins';
+
+// Styling for the selection bar at the top of the screen
+.selectionBar {
+	position: static; // Positioning is static by default
+	background-color: $black; // Set the background color to black
+	width: 100vw; // Set the width to 100% of the viewport width
+	height: 10vh; // Set the height to 10% of the viewport height
+	margin-top: 9vh; // Add top margin to push the bar down
+
+	// Styling for the buttons in the selection bar
+	.displaySelectionButtonStandart, 
+	.displaySelectionButtonFullscreen, 
+	.sortSelectionButton {
+		background-color: $black; // Black background for the buttons
+		color: $champagne-beige; // Champagne beige text color
+		font-size: 2vh; // Font size relative to viewport height
+		font-family: $playfair; // Use 'Playfair' font
+		text-decoration: none; // Remove any default text decoration
+		margin: 0; // Remove any default margin
+	}
+
+	// Styling for the display selection container
+	.displaySelection {
+		background-color: $black; // Black background for the container
+		border: 0.1vh solid $pearl-gold; // Thin pearl gold border around the container
+		border-radius: 1vh; // Round the corners of the container
+		display: flex; // Use flexbox for layout
+		position: absolute; // Position absolutely relative to parent
+		top: 15%; // Position the container 15% from the top
+		transform: translateY(-85%); // Adjust the vertical position
+		left: 5%; // Position the container 5% from the left
+	
+		// Base button styling for all display selection buttons
+		.displaySelectionButtonStandart,
+		.displaySelectionButtonFullscreen {
+			flex: 1; // Allow buttons to share the space equally
+			border: none; // Remove default border
+			cursor: pointer; // Change cursor to pointer on hover
+			font-weight: bold; // Make button text bold
+		}
+	
+		// Styling for the standard display button
+		.displaySelectionButtonStandart {
+			background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Gradient background
+			color: $black; // Set text color to black
+			border-top-left-radius: 1vh; // Round the top-left corner
+			border-bottom-left-radius: 1vh; // Round the bottom-left corner
+		}
+	
+		// Styling for the fullscreen display button (inactive but hoverable)
+		.displaySelectionButtonFullscreen {
+			border-top-right-radius: 1vh; // Round the top-right corner
+			border-bottom-right-radius: 1vh; // Round the bottom-right corner
+			background: $black; // Set background to black
+			color: $champagne-beige; // Set text color to champagne beige
+	
+			&:hover {
+				background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Gradient on hover
+				color: $black; // Change text color to black on hover
+			}
+		}
+	
+		// Change the standard button's styling when the fullscreen button is hovered
+		&:has(.displaySelectionButtonFullscreen:hover) .displaySelectionButtonStandart {
+			background: $black; // Set background to black
+			color: $champagne-beige; // Set text color to champagne beige
+		}
+	}
+		
+	// Styling for the sort selection container
+	.sortSelection {
+		@include flex-center; // Center content using the flex-center mixin
+		background-color: $black; // Set black background
+		gap: 1.5vw; // Set gap between elements
+		position: absolute; // Position absolutely relative to parent
+		top: 15%; // Position 15% from the top
+		transform: translateY(-85%); // Adjust vertical position
+		right: 5.9%; // Position 5.9% from the right
+	
+		// Styling for the sort selection button
+		.sortSelectionButton {
+			border: 0.1vh solid $pearl-gold; // Thin pearl gold border
+			border-radius: 1vh; // Round the corners of the button
+			padding: 0.2vh 1vw; // Add padding to the button
+
+			&:hover {
+				background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Gradient background on hover
+				color: $black; // Change text color to black on hover
+				cursor: pointer; // Change cursor to pointer on hover
+			
+				// Styling for the button image on hover
+				.buttonImage {
+					filter: none; // Remove filter on hover
+				}
+			}
+		}
+		
+		// Styling for images inside the buttons
+		.buttonImage {
+			filter: invert(85%) sepia(50%) saturate(200%) hue-rotate(20deg); // Apply a color filter
+			margin-right: 0.5vw; // Add margin to the right of the image
+		}
+	}
+}
+
+// Sidebar styling
+.sidebar {
+  position: fixed; // Fixed positioning for the sidebar
+  top: 0; // Align to the top of the screen
+  right: -30vw; // Start position outside the screen
+  width: 25vw; // Set width of the sidebar to 25% of the viewport width
+  height: 100%; // Full height of the screen
+  background: $black; // Black background
+  transition: right 0.3s ease-in-out; // Smooth transition for opening and closing
+  z-index: 1001; // Ensure sidebar appears above other content
+	padding: 1vh 2vw; // Padding for internal spacing
+	color: $champagne-beige; // Set text color to champagne beige
+
+  // Open state for the sidebar
+  &.open {
+    right: 0; // Sidebar visible when in the open state
+  }
+
+	// Styling for the sidebar header
+	.sidebarHeader {
+		display: flex; // Use flexbox for layout
+		justify-content: space-between; // Space out items in the header
+		align-items: center; // Center items vertically
+		font-family: $cinzel; // Use 'Cinzel' font for the header
+		font-size: 2vh; // Set font size relative to viewport height
+	}
+	
+	// Styling for the close button in the sidebar
+	.closeButton {
+		background: none; // No background for the close button
+		border: none; // Remove default border
+		font-size: 3vh; // Set font size relative to viewport height
+		cursor: pointer; // Change cursor to pointer when hovering
+		color: $champagne-beige; // Set text color to champagne beige
+	}
+
+	// Styling for the content inside the sidebar
+	.sidebarContent {
+		font-family: $playfair; // Use 'Playfair' font for the content
+		font-size: 2vh; // Set font size relative to viewport height
+	}
+}
+
+// Overlay styling for the sidebar
+.overlay {
+  position: fixed; // Fixed positioning for the overlay
+  top: 0; // Align to the top of the screen
+  left: 0; // Align to the left of the screen
+  width: 100%; // Full width of the screen
+  height: 100%; // Full height of the screen
+  background: rgba(0, 0, 0, 0.5); // Semi-transparent black background
+  z-index: 1000; // Ensure overlay appears below the sidebar
+}
+
+// Styling for the dropdown menu
+.dropdownMenu {
+  position: absolute; // Position the dropdown absolutely
+  top: 6vh; // Position 6% from the top
+  right: 0; // Align to the right
+  background: $black; // Black background for the menu
+  border: 0.1vh solid $pearl-gold; // Thin pearl gold border
+  border-radius: 1vh; // Round the corners of the dropdown
+  display: flex; // Use flexbox for layout
+  flex-direction: column; // Arrange items vertically
+  gap: 5px; // Add gap between items
+  z-index: 10; // Ensure the dropdown is above other elements
+}
+
+// Styling for each dropdown item
+.dropdownItem {
+  display: flex; // Use flexbox for the item layout
+  align-items: center; // Vertically center the content
+  gap: 0.5vh; // Add gap between items
+	padding: 0.5vh 1vw; // Add padding inside the item
+  cursor: pointer; // Change cursor to pointer on hover
+	color: $champagne-beige; // Set text color to champagne beige
+	font-size: 2vh; // Set font size relative to viewport height
+	font-family: $playfair; // Use 'Playfair' font for the item text
+  
+	&:hover {
+    background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Gradient on hover
+		color: $black; // Change text color to black on hover
+  }
+
+	// Styling for the first and last dropdown items with rounded corners
+	&:first-child {
+		border-top-left-radius: 1vh; // Round the top-left corner of the first item
+		border-top-right-radius: 1vh; // Round the top-right corner of the first item
+	}
+
+	&:last-child {
+		border-bottom-left-radius: 1vh; // Round the bottom-left corner of the last item
+		border-bottom-right-radius: 1vh; // Round the bottom-right corner of the last item
+	}
+}
+
+// Styling for checkboxes inside dropdown items
+.dropdownItem input {
+  cursor: pointer; // Change cursor to pointer for checkboxes
+	appearance: none; // Remove default checkbox appearance
+	width: 1.5vh; // Set width relative to viewport height
+	height: 1.5vh; // Set height relative to viewport height
+	border: 0.1vh solid $pearl-gold; // Add a thin border around the checkbox
+	border-radius: 0.5vh; // Round the corners of the checkbox
+
+	&:checked {
+		background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Gradient background when checked
+	}
+}
+
+// Styling for dropdown labels
+.dropdownLabel {
+  font-size: 2vh; // Set font size relative to viewport height
+	font-family: $playfair; // Use 'Playfair' font for labels
+	color: $champagne-beige; // Set text color to champagne beige
+  display: block; // Make label block-level
+	margin-bottom: 1vh; // Add bottom margin for spacing
+}
+
+// Styling for dropdown select box
+.dropdownSelect {
+	font-size: 2vh; // Set font size relative to viewport height
+	font-family: $playfair; // Use 'Playfair' font for select box
+	color: $champagne-beige; // Set text color to champagne beige
+	border: 0.1vh solid $pearl-gold; // Thin pearl gold border
+	border-radius: 1vh; // Round the corners of the select box
+	padding: 1vh 2vw; // Add padding inside the select box
+	width: 10vw; // Set width to 10% of the viewport width
+}

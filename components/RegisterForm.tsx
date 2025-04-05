@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { registerUser } from "@/services/authServices";
-import styles from '@/styles/register.module.scss'
+import styles from '@/styles/components/register.module.scss'
 
 const RegisterForm = () => {
   // States to hold form data

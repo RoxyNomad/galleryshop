@@ -3,7 +3,7 @@ import { Picture } from '@/services/types'; // Import the Picture type definitio
 import { supabase } from '@/utils/supabaseClient'; // Import Supabase client
 import Link from 'next/link';
 import Image from 'next/image';
-import styles from '@/styles/photographyFullscreen.module.scss'; // Import SCSS styles
+import styles from '@/styles/photography/photographyFullscreen.module.scss'; // Import SCSS styles
 
 const PhotographyFullscreen = () => {
   const [pictures, setPictures] = useState<Picture[]>([]); // State to store images from the database

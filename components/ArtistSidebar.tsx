@@ -1,4 +1,4 @@
-import styles from '@/styles/artists/dashboard.module.scss'; // Import the CSS module for styling
+import styles from '@/styles/artists/sidebar.module.scss'; // Import the CSS module for styling
 import Link from 'next/link'; // Import the Link component from Next.js for client-side navigation
 import { useRouter } from 'next/router'; // Import the Next.js router for programmatic navigation
 import { logoutUser } from "@/services/authServices"; // Import the logout function from authentication services

@@ -1,52 +1,58 @@
+// Importing shared variables and mixins
 @import "../variables";
 @import "../mixins";
 
+// Sidebar styles - container for the sidebar with a fixed position
 .sidebar {
-	display: flex;
-	text-align: left;
-	flex-direction: column;
-	width: 10vw;
-	height: 100vh;
-	position: fixed;
-	border-right: 0.1vh solid $pearl-gold;
-	z-index: 1;
+  display: flex; // Using flexbox to arrange content
+  text-align: left; // Aligning text to the left
+  flex-direction: column; // Stacking the items vertically
+  width: 10vw; // Sidebar width is 10% of the viewport width
+  height: 100vh; // Sidebar height is 100% of the viewport height
+  position: fixed; // Fixing the sidebar to the side of the screen
+  border-right: 0.1vh solid $pearl-gold; // Adding a thin gold border to the right side
+  z-index: 1; // Ensuring the sidebar is above other content
 
-	.sidebarLink1, .sidebarLink2, .sidebarLink3, .sidebarLink4, .sidebarButton {
-		position: absolute;
-		left: 7%;
-		text-decoration: none;
-		font-family: $playfair;
-		color: $champagne-beige;
-		font-size: 2vh;
-	}
+  // Styling for sidebar links and buttons
+  .sidebarLink1, .sidebarLink2, .sidebarLink3, .sidebarLink4, .sidebarButton {
+    position: absolute; // Absolutely position the elements within the sidebar
+    left: 7%; // Position the elements 7% from the left of the sidebar
+    text-decoration: none; // Removing underline from the links
+    font-family: $playfair; // Applying the Playfair font
+    color: $champagne-beige; // Setting text color to champagne beige
+    font-size: 2vh; // Setting the font size to 2% of the viewport height
+  }
 
-	.sidebarLink1 {
-		top: 7%;
-	}
-	
-	.sidebarLink2 {
-		top: 14%;
-	}
-	
-	.sidebarLink3 {
-		top: 21%;
-	}
-	
-	.sidebarLink4 {
-		top: 28%;
-	}
+  // Positioning for each sidebar link
+  .sidebarLink1 {
+    top: 7%; // Position the first link 7% from the top of the sidebar
+  }
+  
+  .sidebarLink2 {
+    top: 14%; // Position the second link 14% from the top
+  }
+  
+  .sidebarLink3 {
+    top: 21%; // Position the third link 21% from the top
+  }
+  
+  .sidebarLink4 {
+    top: 28%; // Position the fourth link 28% from the top
+  }
 
-	.sidebarButton {
-	 bottom: 7%;
-	 width: 8.5vw;
-	 background-color: $dark-grey;
-	 border: 0.1vh solid $pearl-gold;
-	 border-radius: 1vh;
-	 
-		&:hover {
-			background: radial-gradient(circle, $dark-gold 60%, $pearl-gold);
-			cursor: pointer;
-			color: $black;
-		}
-	}
+  // Styling for the sidebar button at the bottom
+  .sidebarButton {
+    bottom: 7%; // Position the button 7% from the bottom of the sidebar
+    width: 8.5vw; // Button width is 8.5% of the viewport width
+    background-color: $dark-grey; // Button background color is dark grey
+    border: 0.1vh solid $pearl-gold; // A thin gold border around the button
+    border-radius: 1vh; // Rounded corners for the button
+
+    // Button hover effect
+    &:hover {
+      background: radial-gradient(circle, $dark-gold 60%, $pearl-gold); // Gradient background on hover
+      cursor: pointer; // Change cursor to pointer when hovering
+      color: $black; // Change text color to black on hover
+    }
+  }
 }

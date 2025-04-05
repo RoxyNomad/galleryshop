@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { loginUser } from "@/services/authServices";
-import styles from '@/styles/login.module.scss';
 import { LoginResponse } from '@/services/types';
+import styles from '@/styles/components/login.module.scss';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState(""); // State to store email input

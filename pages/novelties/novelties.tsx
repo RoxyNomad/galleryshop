@@ -3,7 +3,7 @@ import { fetchArtworks } from '@/utils/data';
 import { useSort } from '@/hooks/useSort';
 import { Artwork } from '@/services/types';
 import Image from 'next/image';
-import styles from '@/styles/novelties.module.scss';
+import styles from '@/styles/novelties/novelties.module.scss';
 import SelectionBar from '@/components/SelectionBarNovelties';
 
 const Novelties = () => {

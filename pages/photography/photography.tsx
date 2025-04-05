@@ -3,7 +3,7 @@ import { Artwork } from '@/services/types'; // Import the Artwork type definitio
 import { fetchArtworks } from '@/utils/data'; // Function to fetch all artworks
 import { useSort } from '@/hooks/useSort'; // Custom hook for sorting functionality
 import Image from 'next/image';
-import styles from '@/styles/photography.module.scss'; // Import SCSS styles
+import styles from '@/styles/photography/photography.module.scss'; // Import SCSS styles
 import SelectionBar from '@/components/SelectionBarPhotography'; // Component for sorting and filtering options
 
 const Photography = () => {
