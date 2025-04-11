@@ -19,7 +19,7 @@ const Artworks: NextPage & { disableHeader?: boolean } = () => {
       const fetchArtworks = async () => {
         const { data, error } = await supabase
           .from('artworks')
-          .select('id, image_url, created_at, category_id, name, base_color, description, price')
+          .select('id, image_url, created_at, category_id, name, base_color, price')
           .eq('artist_id', artistId); // Filter by artistId
           
         if (error) {

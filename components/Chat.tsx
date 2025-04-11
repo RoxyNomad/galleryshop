@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"; // Import React hooks
+import { Message, User } from "@/services/types"; // Import types for messages and users
 import { useSession } from "@supabase/auth-helpers-react"; // Import authentication hook from Supabase
 import { supabase } from "@/utils/supabaseClient"; // Import Supabase client instance
 import { NextPage } from "next"; // Import Next.js type for pages
@@ -8,21 +9,6 @@ import styles from "@/styles/artists/messages.module.scss"; // Import styles for
 const Chat: NextPage & { disableHeader?: boolean } = () => {
   const session = useSession(); // Retrieve the user's session data
   const userId = session?.user?.id; // Extract the user ID from the session
-
-  // Define the message structure
-  interface Message {
-    id: string;
-    sender_id: string;
-    receiver_id: string;
-    message: string;
-  }
-
-  // Define the user structure
-  interface User {
-    id: string;
-    name: string;
-    email: string;
-  }
 
   // State variables for messages, users, and chat functionality
   const [messages, setMessages] = useState<Message[]>([]);
@@ -84,15 +70,39 @@ const Chat: NextPage & { disableHeader?: boolean } = () => {
   };
 
   // Function to open a chat with a selected user
-  const openChat = (user: User) => {
+  const openChat = async (user: User) => {
     setChatUser(user);
+
     // Filter messages between current user and selected user
     const filteredMessages = messages.filter(
-      (msg) => (msg.sender_id === userId && msg.receiver_id === user.id) ||
-               (msg.sender_id === user.id && msg.receiver_id === userId)
+      (msg) =>
+        (msg.sender_id === userId && msg.receiver_id === user.id) ||
+        (msg.sender_id === user.id && msg.receiver_id === userId)
     );
-    setChatMessages(filteredMessages); // Store chat messages in state
+
+    setChatMessages(filteredMessages);
+
+    // Mark unread messages from this user as read
+    const { error } = await supabase
+      .from("messages")
+      .update({ is_read: true })
+      .eq("sender_id", user.id)
+      .eq("receiver_id", userId)
+      .eq("is_read", false);
+
+    if (error) {
+      console.error("Fehler beim Markieren als gelesen:", error.message);
+    }
   };
+
+  // Filter users who have exchanged messages with the current user
+  const activeChatUsers = users.filter((user) => {
+    return messages.some(
+      (msg) =>
+        (msg.sender_id === userId && msg.receiver_id === user.id) ||
+        (msg.sender_id === user.id && msg.receiver_id === userId)
+    );
+  });
 
   return (
     <div>
@@ -107,13 +117,11 @@ const Chat: NextPage & { disableHeader?: boolean } = () => {
               onChange={(e) => setSelectedReceiver(e.target.value)}
             >
               <option value="">-- Empfänger wählen --</option>
-              {users
-                .filter((user) => user.id !== userId)
-                .map((user) => (
-                  <option className={styles.option} key={user.id} value={user.id}>
-                    {user.email}
-                  </option>
-                ))}
+              {users.map((user) => (
+                <option className={styles.option} key={user.id} value={user.id}>
+                  {user.email}
+                </option>
+              ))}
             </select>
           </div>
           <div className={styles.messageFieldBody}>
@@ -131,9 +139,9 @@ const Chat: NextPage & { disableHeader?: boolean } = () => {
           </div>
         </div>
 
-        {/* List of available chat users */}
+        {/* List of users you have chatted with */}
         <div className={styles.messageList}>
-          {users.filter((user) => user.id !== userId).map((user) => (
+          {activeChatUsers.map((user) => (
             <div 
               key={user.id} 
               className={styles.messageItem} 
@@ -153,7 +161,7 @@ const Chat: NextPage & { disableHeader?: boolean } = () => {
                 <div className={styles.chatMessages}>
                   {chatMessages.map((msg) => (
                     <p key={msg.id}>
-                      <strong>{msg.sender_id === userId ? "You" : chatUser.name}:</strong> {msg.message}
+                      <strong>{msg.sender_id === userId ? "Du" : chatUser.name}:</strong> {msg.message}
                     </p>
                   ))}
                 </div>

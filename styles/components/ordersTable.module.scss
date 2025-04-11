@@ -1,13 +1,13 @@
-@import './variables';
-@import './mixins';
+@import '../variables';
+@import '../mixins';
 
 // Container for the orders chart
 .ordersChartContainer {
-  margin: 0 12vw; // Set horizontal margin to 12vw for spacing on both sides
+  @include flex-center; // Center the container using Flexbox
+  flex-direction: column; // Arrange child elements in a column
   padding: 7vh 0; // Add vertical padding of 7vh on top and bottom
 
   .mainTitle {
-    text-align: center; // Center align the main title
     font-family: $playfair; // Use the 'Playfair' font for the title
     font-size: 3vh; // Set font size relative to the viewport height
     letter-spacing: 3%; // Slight letter spacing for a more spaced-out effect

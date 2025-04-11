@@ -4,7 +4,7 @@ export interface Order {
   name: string;  // Name of the order
   customer: string;  // Customer who placed the order
   amount: number;  // Total amount of the order
-  status: "Bestellt" | "Verschickt" | "Zugestellt"; // Order status (Ordered, Shipped, Delivered)
+  status: "Bestellt" | "Verschickt" | "Zugestellt";  // Order status (Ordered, Shipped, Delivered)
   created_at: string;  // Date and time when the order was created
 }
 
@@ -38,14 +38,14 @@ export interface Artwork {
   base_color: string;  // Base color of the artwork
   price: number;  // Price of the artwork
   created_at: string;  // Date and time when the artwork was created
-  image_url: string; // URL of the artwork's image
+  image_url: string;  // URL of the artwork's image
 }
 
 // Interface for representing a picture
 export interface Picture {
-    id: string;  // Unique identifier for the picture
-    name: string;  // Name of the picture
-    image_url: string;  // URL of the picture
+  id: string;  // Unique identifier for the picture
+  name: string;  // Name of the picture
+  image_url: string;  // URL of the picture
 }
 
 // Interface for representing a category of artwork
@@ -61,16 +61,16 @@ export interface Artist {
   bio: string;  // Biography of the artist
   portfolio_url: string;  // URL of the artist's portfolio
   profile_image_url: string | null;  // URL of the artist's profile image (can be null)
-  cover_image_url: string | null;    // URL of the artist's cover image (can be null)
+  cover_image_url: string | null;  // URL of the artist's cover image (can be null)
 }
 
 // Interface for representing artist information with optional profile and cover images
 export interface ArtistInfo {
-    artist_name: string;  // Name of the artist
-    bio: string;  // Biography of the artist
-    portfolio_url: string;  // URL of the artist's portfolio
-    profile_image_url?: string | null;  // Optional profile image URL
-    cover_image_url?: string | null;    // Optional cover image URL
+  artist_name: string;  // Name of the artist
+  bio: string;  // Biography of the artist
+  portfolio_url: string;  // URL of the artist's portfolio
+  profile_image_url?: string | null;  // Optional profile image URL
+  cover_image_url?: string | null;  // Optional cover image URL
 }
 
 // Interface for the props of the upload component
@@ -85,16 +85,17 @@ export interface SelectionBarProps {
   handleColorChange: (color: string) => void;  // Function to handle color change
   selectedOption: string;  // The currently selected sorting option
   sortOptions: string[];  // List of available sorting options
-  pictures: Artwork[]; // List of artwork pictures
+  pictures: Artwork[];  // List of artwork pictures
 }
 
 // Interface for representing a message
 export interface Message {
   id: string;  // Unique identifier for the message
-  sender: string;  // Sender of the message
-  receiver: string;  // Receiver of the message
+  sender_id: string;  // Sender of the message
+  receiver_id: string;  // Receiver of the message
   message: string;  // The content of the message
   created_at: string;  // Date and time when the message was created
+  is_read: boolean;  // Indicates if the message has been read
 }
 
 // Interface for representing a product
@@ -115,4 +116,19 @@ export interface ProductPageProps {
 export interface LoginResponse {
   user?: { id: string; email?: string; user_type?: string };  // User data if login is successful
   error?: string | null;  // Error message if login fails
+}
+
+// Define the message structure (different from the previous message interface)
+export interface UserMessage {
+  id: string;  // Unique identifier for the message
+  sender_id: string;  // Sender's unique identifier
+  receiver_id: string;  // Receiver's unique identifier
+  message: string;  // The content of the message
+}
+
+// Define the user structure
+export interface User {
+  id: string;  // Unique identifier for the user
+  name: string;  // Name of the user
+  email: string;  // Email address of the user
 }

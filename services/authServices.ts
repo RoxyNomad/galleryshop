@@ -76,29 +76,25 @@ export async function registerUser(
       .eq("email", email)
       .single();
 
-    // If there is an error during the email check, return the error
-    if (existingUserError && existingUserError.code !== "PGRST116") {  
+    if (existingUserError && existingUserError.code !== "PGRST116") {
       return { user: null, error: "Fehler bei der E-Mail-Überprüfung." };
     }
 
-    // If the user already exists, return an error
     if (existingUser) {
       return { user: null, error: "Ein Benutzer mit dieser E-Mail existiert bereits." };
     }
 
-    // Attempt to sign up the user with the provided email and password
+    // Sign up the user
     const { data, error } = await supabase.auth.signUp({ email, password });
 
-    // If there is an error during sign-up, return the error
     if (error) {
       return { user: null, error: error.message };
     }
 
     if (data.user) {
-      // Delete any existing user data to avoid conflicts before inserting new user
+      // Delete any previously created row with this email in case something went wrong before
       await supabase.from("users").delete().eq("email", email);
 
-      // Insert the new user data into the 'users' table
       const newUser = {
         id: data.user.id,
         name,
@@ -106,7 +102,11 @@ export async function registerUser(
         user_type: userType,
       };
 
-      await supabase.from("users").insert([newUser]);
+      // Insert into users
+      const { error: userInsertError } = await supabase.from("users").insert([newUser]);
+      if (userInsertError) {
+        return { user: null, error: `Fehler beim Einfügen des Benutzers: ${userInsertError.message}` };
+      }
 
       // If the user is an artist, insert artist-specific data
       if (userType === "artist") {
@@ -114,24 +114,30 @@ export async function registerUser(
           id: data.user.id,
           artist_name: artistName || undefined,
         };
-        
-        // Include portfolio URL if provided
+
         if (portfolioUrl) {
           artistData.portfolio_url = portfolioUrl;
         }
-        
-        await supabase.from("artists").insert([artistData]);
+
+        console.log("artistData", artistData); // Debug: check artistData before insert
+
+        const { error: artistError } = await supabase.from("artists").insert([artistData]);
+
+        if (artistError) {
+          console.error("Fehler beim Insert in artists:", artistError);
+          return { user: null, error: `Fehler beim Einfügen des Künstlers: ${artistError.message}` };
+        }
       }
 
-      // Return the new user data
       return { user: { id: data.user.id, email: data.user.email ?? "" }, error: null };
     }
 
-    // Return error if sign-up is unsuccessful
     return { user: null, error: "Unbekannter Fehler bei der Registrierung." };
-  } catch {
-    // Return error if there is an unexpected error
-    return { user: null, error: "Ein unerwarteter Fehler ist aufgetreten." };
+  } catch (err) {
+    return {
+      user: null,
+      error: `Ein unerwarteter Fehler ist aufgetreten: ${(err as Error).message}`,
+    };
   }
 }
 

@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/estree": "^1.0.7",
     "@types/node": "^20",
     "@types/node-sass": "^4.11.8",
     "@types/react": "^19",
